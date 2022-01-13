@@ -49,6 +49,19 @@
     <!-- 이미지 파일 추가 -->
     <!-- 카카오 버튼 , 카카오 api 추가하면 연동 -->
 
+    <ImageView
+        android:id="@+id/tigerimage_blur"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:contentDescription="@string/tigerimage_blur"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.538"
+        app:srcCompat="@drawable/tiger_blur" />
+
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/busmanbtn"
         android:layout_width="280dp"
