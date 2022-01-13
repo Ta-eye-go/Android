@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.main.MainActivity">
+
+    <!-- 피그마에서 크기 참조 후 해당px * (160/440) 한 값이 dp입니다.
+    소숫점 첫째짜리까지 표현해줍시다! 버튼 크기는 dp로 통일해 주세요. -->
+
+    <ImageView
+        android:id="@+id/settingBtn"
+        android:layout_width="83.6dp"
+        android:layout_height="83.6dp"
+        android:contentDescription="@string/SettingsButton"
+        android:src="@drawable/setting_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
+        app:layout_constraintVertical_bias="0.966" />
+
+
+    <ImageView
+        android:id="@+id/bookmarkBtn"
+        android:layout_width="83.6dp"
+        android:layout_height="83.6dp"
+        android:contentDescription="@string/BookmarkButton"
+        android:src="@drawable/star_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
+        app:layout_constraintVertical_bias="0.966" />
+
+    <ImageView
+        android:id="@+id/bookBusBtn"
+        android:layout_width="236.4dp"
+        android:layout_height="236.4dp"
+        android:contentDescription="@string/BookBusButton"
+        android:src="@drawable/book_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_width="280.7dp"
+        android:layout_height="78.5dp"
+        android:text="현재 정류장&#10; 인천대정문&#10; (송도더샾마스터뷰 방면)"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:textColor="@color/yellow"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/refreshBtn"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.433"
+        app:layout_constraintVertical_bias="0.128" />
+
+    <ImageView
+        android:id="@+id/refreshBtn"
+        android:layout_width="41.1dp"
+        android:layout_height="41.1dp"
+        android:contentDescription="@string/RefreshButton"
+        android:src="@drawable/refresh_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.902"
+        app:layout_constraintVertical_bias="0.145" />
+
+    <ImageView
+        android:id="@+id/currentLocationBox"
+        android:layout_width="345.1dp"
+        android:layout_height="105.1dp"
+        android:src="@drawable/letterbox_yellow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.111" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

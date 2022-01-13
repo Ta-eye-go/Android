@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".ui.bookbus.ChatbotMain">
+
+
+    <LinearLayout
+        android:id="@+id/chatting_layout"
+        android:layout_width="200dp"
+        android:layout_height="62.33dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="92dp"
+        android:layout_marginBottom="41dp"
+        android:background="@drawable/chatbox"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/mic_btn"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="77dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/microphone_yellow"
+            android:padding="30dp" />
+
+        <Button
+            android:id="@+id/text_chat_btn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/keyboard_white"
+            android:backgroundTint="@color/white"
+            android:padding="15dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/chat_menu"
+        android:layout_marginTop="51dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:background="@color/black"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/back_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="0dp"
+            android:background="@drawable/arrow"
+            android:backgroundTint="@color/white" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:text="예약 하기"
+            android:textSize="20sp"
+            android:layout_marginStart="130dp"
+            android:layout_marginLeft="130dp"
+            android:textColor="@color/white"
+            />
+
+    </LinearLayout>
+
+</RelativeLayout>
