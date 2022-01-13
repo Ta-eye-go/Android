@@ -4,9 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.ui.settings.Settings
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMain
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
+import com.code_23.ta_eye_go.ui.settings.Settings
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
