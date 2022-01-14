@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Ta_eye_go">
         <activity
+            android:name=".ui.login.Login_member"
+            android:exported="false" />
+        <activity
             android:name=".ui.login.Login_email"
             android:exported="false" />
         <activity

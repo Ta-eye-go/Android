@@ -62,13 +62,13 @@
         app:srcCompat="@drawable/tiger_blur" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/busmanbtn"
+        android:id="@+id/bus_btn"
         android:layout_width="280dp"
         android:layout_height="55dp"
         android:layout_marginTop="572dp"
         android:background="@drawable/login_button_shape"
         android:gravity="center"
-        android:text="@string/busmanbtn"
+        android:text="@string/bus_btn"
         android:textAlignment="center"
         android:textColor="@color/yellow"
         android:textSize="28sp"
@@ -79,7 +79,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/emailbtn"
+        android:id="@+id/email_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="636dp"
