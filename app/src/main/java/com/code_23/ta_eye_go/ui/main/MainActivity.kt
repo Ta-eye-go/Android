@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMain
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
+import com.code_23.ta_eye_go.ui.login.LoginMain
 import com.code_23.ta_eye_go.ui.settings.Settings
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,8 +30,10 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, BookmarkList::class.java)
             startActivity(intent)
         }
-        // 현 위치 새로고침
+        // 현 위치 새로고침 ....여기에 loginmain 넣어서 실행시켜봄 ㅠㅠ 안된다
         refreshBtn.setOnClickListener {
+            val intent = Intent(this, LoginMain::class.java)
+            startActivity(intent)
         }
 
     }
