@@ -13,4 +13,5 @@
     <string name="password">비밀번호</string>
     <string name="login">로그인</string>
     <string name="membership">회원가입</string>
+    <string name="email_hint">taeyego@gmail.com</string>
 </resources>
