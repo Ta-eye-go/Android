@@ -21,7 +21,8 @@
         <include
             android:id="@+id/chat_menu"
             layout="@layout/menu_bar"
-            app:menuText="@{`예약 하기`}" />
+            app:menuText="@{`예약 하기`}"/>
+            <!-- 왜 안될까요~? ㅠㅠ-->
 
         <LinearLayout
             android:id="@+id/chatting_text_space"
