@@ -46,7 +46,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- 이미지 파일 추가 -->
     <!-- 카카오 버튼 , 카카오 api 추가하면 연동 -->
 
     <ImageView
