@@ -6,7 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
-        tools:context=".ui.bookbus.Chatbot_typing">
+        tools:context=".ui.bookbus.Chatbot_typing"
+        android:imeActionLabel="Done">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_messages"
@@ -16,7 +18,8 @@
             android:layout_below="@id/chat_menu"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="13dp"
-            tools:itemCount="10" />
+            tools:itemCount="20"
+            tools:listitem="@layout/message_item"/>
 
         <include
             android:id="@+id/chat_menu"
@@ -49,13 +52,21 @@
                 android:id="@+id/mic_btn"
                 android:layout_width="10dp"
                 android:layout_height="30dp"
-                android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/microphone_yellow"
                 android:backgroundTint="@color/black"
                 android:textColor="@android:color/white" />
 
+<!--            <EditText-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:id="@+id/keyboard_send_btn"-->
+<!--                android:singleLine="true"-->
+<!--                android:imeOptions="actionSend" />-->
+
         </LinearLayout>
+
     </RelativeLayout>
 </layout>

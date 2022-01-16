@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "374205040906",
+    "firebase_url": "https://ta-eye-go-jdoi-default-rtdb.firebaseio.com",
+    "project_id": "ta-eye-go-jdoi",
+    "storage_bucket": "ta-eye-go-jdoi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374205040906:android:0a168b67a3066e5d0f12f3",
+        "android_client_info": {
+          "package_name": "com.code_23.ta_eye_go"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374205040906-4p9ab1ickbfthp845v335gjfoodnsh0r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbvV2Cqk5gttlKDQDViiDhQvyx8q_Otek"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374205040906-4p9ab1ickbfthp845v335gjfoodnsh0r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

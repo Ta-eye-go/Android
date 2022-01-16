@@ -18,9 +18,9 @@
         android:src="@drawable/setting_yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.073"
         app:layout_constraintVertical_bias="0.966" />
 
 
@@ -32,9 +32,9 @@
         android:src="@drawable/star_yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.917"
         app:layout_constraintVertical_bias="0.966" />
 
     <ImageView
@@ -48,45 +48,41 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:layout_width="280.7dp"
-        android:layout_height="78.5dp"
-        android:text="현재 정류장&#10; 인천대정문&#10; (송도더샾마스터뷰 방면)"
-        android:textAlignment="center"
-        android:gravity="center"
-        android:textColor="@color/yellow"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/refreshBtn"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.433"
-        app:layout_constraintVertical_bias="0.128" />
 
-    <ImageView
-        android:id="@+id/refreshBtn"
-        android:layout_width="41.1dp"
-        android:layout_height="41.1dp"
-        android:contentDescription="@string/RefreshButton"
-        android:src="@drawable/refresh_yellow"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHorizontal_bias="0.902"
-        app:layout_constraintVertical_bias="0.145" />
-
-    <ImageView
+    <RelativeLayout
         android:id="@+id/currentLocationBox"
         android:layout_width="345.1dp"
         android:layout_height="105.1dp"
-        android:src="@drawable/letterbox_yellow"
+        android:background="@drawable/letterbox_yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.111" />
+        app:layout_constraintVertical_bias="0.111" >
+
+        <TextView
+            android:id="@+id/currentLocationText"
+            android:layout_width="280.7dp"
+            android:layout_height="78.5dp"
+            android:autoSizeTextType="uniform"
+            android:gravity="center"
+            android:layout_margin="15dp"
+            android:text="현재 정류장&#10; 인천대정문&#10; (송도더샾마스터뷰 23단지 방면)"
+            android:textAlignment="center"
+            android:textColor="@color/yellow"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/refreshBtn"
+            android:layout_alignParentEnd="true"
+            android:layout_width="41.1dp"
+            android:layout_height="41.1dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="30dp"
+            android:contentDescription="@string/RefreshButton"
+            android:src="@drawable/refresh_yellow"
+            app:layout_constraintTop_toTopOf="parent" />
+    </RelativeLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

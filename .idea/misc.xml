@@ -10,20 +10,25 @@
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/chatbox.xml" value="0.12280701754385964" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/chattingspace.xml" value="0.12280701754385964" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/letterbox_yellow.xml" value="0.12280701754385964" />
-        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_bookbus.xml" value="0.264" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_bookbus.xml" value="0.136" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_bookbus_typing.xml" value="0.2" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_bookbus_voice.xml" value="0.10432733504712939" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_bookmark.xml" value="0.13496376811594202" />
-        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_login_email.xml" value="0.1" />
-        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_login_main.xml" value="0.1" />
-        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_main.xml" value="0.12259371833839919" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_login_email.xml" value="0.176" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_login_main.xml" value="0.2" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_main.xml" value="0.4" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/activity_settings.xml" value="0.1036846615252785" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/menu_bar.xml" value="0.2" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/message_bot.xml" value="0.4" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/message_item.xml" value="0.1" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/message_test.xml" value="0.264" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/message_usr.xml" value="0.4" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/msg_test.xml" value="0.10964912280701754" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/test.xml" value="0.12681159420289856" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/testie.xml" value="0.18596491228070175" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/typing_space.xml" value="0.176" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/voice_space.xml" value="0.128" />
       </map>
     </option>
   </component>
