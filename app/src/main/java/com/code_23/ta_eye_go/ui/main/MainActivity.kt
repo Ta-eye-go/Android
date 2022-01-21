@@ -30,10 +30,9 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, BookmarkList::class.java)
             startActivity(intent)
         }
-        // 현 위치 새로고침 ....여기에 loginmain 넣어서 실행시켜봄 ㅠㅠ 안된다
+        // 현 위치 새로고침
         refreshBtn.setOnClickListener {
-            val intent = Intent(this, LoginMain::class.java)
-            startActivity(intent)
+
         }
 
     }

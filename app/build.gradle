@@ -39,6 +39,14 @@ android {
     dataBinding {
         enabled = true
     }
+
+    buildFeatures {
+        viewBinding = true
+    }
+
+//    viewBinding{
+//        enabled = true
+//    }
 }
 dependencies {
     implementation 'androidx.core:core-ktx:1.7.0'
@@ -50,6 +58,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
     implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-auth-ktx'
+    //implementation 'com.googele.firebase:firebase-auth:19.2.0'
     implementation "androidx.core:core-ktx:+"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

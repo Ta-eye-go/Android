@@ -25,47 +25,47 @@
         android:id="@+id/title_eng"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="148dp"
+        android:layout_marginTop="-10dp"
         android:text="@string/app_name"
         android:textColor="@color/yellow"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <TextView
         android:id="@+id/title_ex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="3dp"
         android:text="@string/title_ex"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/title_eng" />
 
     <!-- 카카오 버튼 , 카카오 api 추가하면 연동 -->
 
-    <ImageView
-        android:id="@+id/tigerimage_blur"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:contentDescription="@string/tigerimage_blur"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.538"
-        app:srcCompat="@drawable/tiger_blur" />
+<!--    <ImageView-->
+<!--        android:id="@+id/tigerimage_blur"-->
+<!--        android:layout_width="300dp"-->
+<!--        android:layout_height="300dp"-->
+<!--        android:layout_marginTop="-200dp"-->
+<!--        android:contentDescription="@string/tigerimage_blur"-->
+<!--        app:layout_constraintBottom_toTopOf="@+id/bus_btn"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.495"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/title_ex"-->
+<!--        app:srcCompat="@drawable/tiger_blur" />-->
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bus_btn"
         android:layout_width="280dp"
         android:layout_height="55dp"
-        android:layout_marginTop="572dp"
+        android:layout_marginTop="500dp"
         android:background="@drawable/login_button_shape"
         android:gravity="center"
         android:text="@string/bus_btn"
@@ -82,12 +82,12 @@
         android:id="@+id/email_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="636dp"
+        android:layout_marginTop="17dp"
         android:text="@string/email_login"
         android:textColor="@color/white"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bus_btn" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

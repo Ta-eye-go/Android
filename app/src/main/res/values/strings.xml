@@ -17,4 +17,11 @@
     <string name="join">가입하기</string>
     <string name="email_hint">taeyego@gmail.com</string>
     <string name="before">이전 페이지로 돌아가기</string>
+    <string name="dog">안내견</string>
+    <string name="dog_select">안내견 견주라면 on을 눌러주세요</string>
+    <string name="thema">테마 선택</string>
+    <string name="yellow">노랑</string>
+    <string name="blue">파랑</string>
+    <string name="explain">간단 사용 설명서</string>
+    <string name="logout">로그아웃</string>
 </resources>
