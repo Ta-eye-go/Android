@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/title_eng" />
 
     <TextView
-        android:id="@+id/email"
+        android:id="@+id/tv_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="65dp"
@@ -61,7 +61,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/email_hint"
+        android:id="@+id/email"
         android:layout_width="293dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
@@ -79,10 +79,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.55"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 
     <TextView
-        android:id="@+id/password"
+        android:id="@+id/tv_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="65dp"
@@ -93,11 +93,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/email_hint" />
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
 
     <EditText
-        android:id="@+id/password_hint"
+        android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="45dp"
         android:layout_marginTop="50dp"
@@ -110,9 +110,9 @@
         android:textColorHint="@color/grey"
         android:textSize="18sp"
         android:padding="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/email_hint"
-        app:layout_constraintStart_toStartOf="@+id/email_hint"
-        app:layout_constraintTop_toBottomOf="@+id/email_hint" />
+        app:layout_constraintEnd_toEndOf="@+id/email"
+        app:layout_constraintStart_toStartOf="@+id/email"
+        app:layout_constraintTop_toBottomOf="@+id/email" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_btn"

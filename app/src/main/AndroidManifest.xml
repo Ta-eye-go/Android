@@ -14,7 +14,14 @@
         android:theme="@style/Theme.Ta_eye_go">
 
         <activity
-            android:name=".ui.main.MainActivity"/>
+            android:name=".ui.main.MainActivity"
+            android:exported="true"/>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
         <activity android:name=".ui.settings.Settings" />
         <activity android:name=".ui.bookbus.ChatbotMain" />
         <activity android:name=".ui.bookbus.Chatbot_typing" />

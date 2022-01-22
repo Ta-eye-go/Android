@@ -54,6 +54,7 @@ class LoginMember : AppCompatActivity() {
                                 Log.d("LoginMemberActivity", "createUserWithEmail:success")
                                 val user: FirebaseUser? = mAuth.getCurrentUser()
                                 updateUI(user)
+                                finish()
                             } else {
                                 Log.w(
                                     "LoginMemberActivity",
@@ -71,6 +72,7 @@ class LoginMember : AppCompatActivity() {
         }
     }
 
+    //정보 업데이트 되면 main화면 호출
     private fun updateUI(user: FirebaseUser?) {
         if (user != null) {
             val intent: Intent = Intent(this, MainActivity::class.java)
@@ -78,5 +80,22 @@ class LoginMember : AppCompatActivity() {
             finish()
         }
     }
+
+
+    //필요할때 쓸 수 있을 것 같아서 남겨둠 (로그인 되면 ui 새로고침)
+//    override fun onStart() {
+//        super.onStart()
+//        //check if user is signed in (non-null) and update UI
+//        var currentUser = mAuth!!.currentUser
+//        updateUI(currentUser)
+//    }
+//
+//    private fun updateUI(currentUser: FirebaseUser?) {
+//        if (currentUser == null) {
+//            val intent: Intent = Intent(this, MainActivity::class.java)
+//            startActivity(intent)
+//            finish()
+//        }
+//    }
 }
 

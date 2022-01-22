@@ -6,11 +6,14 @@ import android.os.Bundle
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMain
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
-import com.code_23.ta_eye_go.ui.login.LoginMain
+import com.code_23.ta_eye_go.ui.login.LoginEmail
 import com.code_23.ta_eye_go.ui.settings.Settings
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         refreshBtn.setOnClickListener {
 
         }
-
     }
+
+
 }
