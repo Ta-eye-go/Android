@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
+
+        <include
+            android:id="@+id/chat_menu"
+            layout="@layout/menu_bar"
+            app:menuText="@{`버스 탑승 예정`}" />
+
+        <RelativeLayout
+            android:id="@+id/currentLocationBox"
+            android:layout_width="345.1dp"
+            android:layout_height="100.9dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="122.5dp"
+            android:background="@drawable/letterbox_yellow"
+            android:gravity="center">
+
+            <TextView
+                android:id="@+id/currentLocationText"
+                android:layout_width="317.1dp"
+                android:layout_height="70.5dp"
+                android:autoSizeTextType="uniform"
+                android:text="1 정거장 전&#10; 3분 후 도착 예정입니다."
+                android:textAlignment="center"
+                android:textColor="@color/yellow"
+                android:textSize="16sp" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/cancel_button"
+            android:layout_width="127.3dp"
+            android:layout_height="54.5dp"
+            android:layout_below="@+id/currentLocationBox"
+            android:background="@drawable/text_bar"
+            android:layout_marginLeft="238.2dp"
+            android:backgroundTint="@color/red"
+            android:layout_marginTop="30dp"
+            android:text="예약 취소"
+            android:textSize="22sp"
+            android:textColor="@color/white"/>
+
+        <RelativeLayout
+            android:id="@+id/currentStation_bar"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cancel_button"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp">
+
+            <TextView
+                android:id="@+id/currentStation_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="출발 정류장"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="345.1dp"
+                android:layout_height="90dp"
+                android:layout_below="@+id/currentStation_text"
+                android:layout_marginTop="0dp"
+                android:autoSizeMaxTextSize="40sp"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/text_bar"
+                android:gravity="center"
+                android:text="인천대정문"
+                android:textColor="@color/yellow" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/busNum_bar"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/currentStation_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/busNum_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="버스 번호"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="345.1dp"
+                android:layout_height="90dp"
+                android:layout_below="@+id/busNum_text"
+                android:layout_marginTop="0dp"
+                android:autoSizeTextType="uniform"
+                android:background="@drawable/text_bar"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="@color/yellow"
+                android:autoSizeMaxTextSize="40sp"/>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/destination_bar"
+            android:layout_width="343dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/busNum_bar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp">
+
+            <TextView
+                android:id="@+id/destination_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="도착 정류장"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+            <TextView
+                android:layout_width="345.1dp"
+                android:layout_height="90dp"
+                android:layout_below="@+id/destination_text"
+                android:layout_marginTop="0dp"
+                android:background="@drawable/text_bar"
+                android:autoSizeTextType="uniform"
+                android:text="동막역(1번출구)"
+                android:gravity="center"
+                android:textColor="@color/yellow"
+                android:autoSizeMaxTextSize="40sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

@@ -74,6 +74,9 @@ dependencies {
 
     implementation "com.kakao.sdk:v2-user:2.8.4" // 카카오 로그인
     implementation group: 'com.kakao.sdk', name: 'usermgmt', version: '1.30.7'// 카카오 로그인
+
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
 }
 //repositories {
 //    mavenCentral()
