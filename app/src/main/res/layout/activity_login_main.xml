@@ -46,26 +46,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title_eng" />
 
-    <!-- 카카오 버튼 , 카카오 api 추가하면 연동 -->
+    <ImageView
+        android:id="@+id/tiger_blur"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="-20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/tiger_blur" />
 
-<!--    <ImageView-->
-<!--        android:id="@+id/tigerimage_blur"-->
-<!--        android:layout_width="300dp"-->
-<!--        android:layout_height="300dp"-->
-<!--        android:layout_marginTop="-200dp"-->
-<!--        android:contentDescription="@string/tigerimage_blur"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/bus_btn"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.495"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toBottomOf="@+id/title_ex"-->
-<!--        app:srcCompat="@drawable/tiger_blur" />-->
+    <ImageButton
+        android:id="@+id/kakao_login_button"
+        android:layout_width="0dp"
+        android:layout_height="55dp"
+        android:layout_marginBottom="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/kakao_login_medium_wide"
+        app:layout_constraintBottom_toTopOf="@+id/bus_btn"
+        app:layout_constraintEnd_toEndOf="@+id/bus_btn"
+        app:layout_constraintStart_toStartOf="@+id/bus_btn"
+        android:contentDescription="@string/tigerimage_blur"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bus_btn"
         android:layout_width="280dp"
         android:layout_height="55dp"
-        android:layout_marginTop="500dp"
+        android:layout_marginTop="564dp"
         android:background="@drawable/login_button_shape"
         android:gravity="center"
         android:text="@string/bus_btn"

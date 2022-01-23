@@ -6,12 +6,30 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
+        android:name=".ui.login.GlobalApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ta_eye_go">
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="f9d97c48eaa084a79506e93936c53d33" /> <!--네이티브 앱 키 설정-->
+
+        <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="kakaof9d97c48eaa084a79506e93936c53d33" />
+            </intent-filter>
+        </activity><!-- 카카오톡 sdk 로그인 개발환경 함수-->
 
         <activity
             android:name=".ui.main.MainActivity"

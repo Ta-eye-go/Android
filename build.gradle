@@ -4,6 +4,8 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        //카카오 SDK 레포지토리 설정
+        maven { url 'https://devrepo.kakao.com/nexus/content/groups/public/'}
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.4'
@@ -15,13 +17,14 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-
-allprojects {
-    repositories {
-        // Check that you have the following line (if not, add it):
-        google()  // Google's Maven repository
-    }
-}
+//Android studio Arctic Fox 버전 이후 gradle allprojects 제거 -> settings.gradle
+//참고 : https://stackguides.com/questions/69733708/build-was-configured-to-prefer-settings-repositories-over-project-repositories-b
+//allprojects {
+//    repositories {
+//        // Check that you have the following line (if not, add it):
+//        google()  // Google's Maven repository
+//    }
+//}
 
 task clean(type: Delete) {
     delete rootProject.buildDir
