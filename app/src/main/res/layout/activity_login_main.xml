@@ -50,7 +50,7 @@
         android:id="@+id/tiger_blur"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

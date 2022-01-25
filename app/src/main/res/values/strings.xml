@@ -24,4 +24,6 @@
     <string name="blue">파랑</string>
     <string name="explain">간단 사용 설명서</string>
     <string name="logout">로그아웃</string>
+    <string name="next_page">NextPage</string>
+    <string name="previous_page">previous_page</string>
 </resources>

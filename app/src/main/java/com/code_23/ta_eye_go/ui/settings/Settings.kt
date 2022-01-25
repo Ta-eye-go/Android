@@ -3,7 +3,6 @@ package com.code_23.ta_eye_go.ui.settings
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
@@ -30,5 +29,10 @@ class Settings : AppCompatActivity(){
             }
         }
 
+        //간단 사용 설명서
+        text_guide.setOnClickListener {
+                val intent = Intent(this, Guide1::class.java)
+                startActivity(intent)
+        }
     }
 }
