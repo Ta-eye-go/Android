@@ -37,13 +37,13 @@
             android:layout_width="127.3dp"
             android:layout_height="54.5dp"
             android:layout_below="@+id/currentLocationBox"
-            android:background="@drawable/text_bar"
             android:layout_marginLeft="238.2dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/text_bar"
             android:backgroundTint="@color/red"
-            android:layout_marginTop="30dp"
             android:text="예약 취소"
-            android:textSize="22sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="22sp" />
 
         <RelativeLayout
             android:id="@+id/currentStation_bar"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/cancel_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp">
+            android:layout_marginTop="20dp">
 
             <TextView
                 android:id="@+id/currentStation_text"

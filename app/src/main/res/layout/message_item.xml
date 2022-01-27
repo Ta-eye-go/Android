@@ -33,9 +33,12 @@
 
     <ImageView
         android:id="@+id/bot_profile"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
-        android:layout_margin="10dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="-5dp"
+        android:layout_marginBottom="10dp"
         android:src="@drawable/chatbot_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -43,7 +46,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="60dp"
         android:layout_marginTop="18dp"
         app:layout_constraintStart_toEndOf="@id/bot_profile"
         app:layout_constraintTop_toTopOf="@id/bot_profile">
@@ -55,10 +58,10 @@
             android:layout_marginTop="3dp"
             android:background="@drawable/letterbox_yellow"
             android:backgroundTint="@color/white"
+            android:maxWidth="250dp"
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp"
             android:text="Super ultra mega awesome long message which is going to help us take over the world."
-            android:maxWidth="250dp"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -70,10 +73,10 @@
         android:id="@+id/bot_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="60dp"
         android:text="타이고"
-        android:textSize="16sp"
         android:textColor="@color/white"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/bot_profile" />
 
 </RelativeLayout>

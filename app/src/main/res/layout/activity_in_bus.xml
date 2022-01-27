@@ -15,7 +15,7 @@
         <RelativeLayout
             android:id="@+id/currentStation_box"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="160dp"
             android:layout_marginTop="120dp"
             android:background="@drawable/text_bar_2">
 
@@ -47,7 +47,7 @@
         <RelativeLayout
             android:id="@+id/nextStation_box"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="160dp"
             android:layout_below="@+id/currentStation_box"
             android:layout_marginTop="0dp"
             android:background="@drawable/text_bar_2" >
@@ -80,10 +80,10 @@
         <RelativeLayout
             android:id="@+id/numOfStations_box"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="160dp"
             android:layout_below="@+id/nextStation_box"
             android:layout_marginTop="0dp"
-            android:background="@drawable/text_bar_2" >
+            android:background="@drawable/text_bar_2">
 
             <TextView
                 android:id="@+id/numOfStations"
@@ -99,12 +99,12 @@
                 android:id="@+id/numOfStations_text"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
-                android:layout_marginBottom="20dp"
                 android:layout_below="@+id/numOfStations"
                 android:layout_centerHorizontal="true"
-                android:gravity="center"
+                android:layout_marginBottom="20dp"
                 android:autoSizeMaxTextSize="40sp"
                 android:autoSizeTextType="uniform"
+                android:gravity="center"
                 android:text="6 정류장"
                 android:textColor="@color/yellow" />
 
@@ -130,8 +130,8 @@
             android:background="@drawable/circle"
             android:backgroundTint="@color/red"
             android:text="도중하차"
-            android:textSize="22sp"
-            android:textColor="@color/white"/>
+            android:textColor="@color/white"
+            android:textSize="22sp" />
 
     </RelativeLayout>
 </layout>
