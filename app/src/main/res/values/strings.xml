@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">Ta_eye_go</string>
-    <string name="SettingsButton">설정 버튼</string>
-    <string name="BookmarkButton">즐겨찾기 버튼</string>
-    <string name="RefreshButton">현재 정류장 새로고침 버튼</string>
-    <string name="BookBusButton">예약 버튼</string>
+    <string name="SettingsButton">설정</string>
+    <string name="BookmarkButton">즐겨찾기</string>
+    <string name="RefreshButton">현재 정류장 새로고침</string>
+    <string name="BookBusButton">예약</string>
     <string name="title">타이고</string>
     <string name="title_ex">시각장애인용 버스 승하차 예약 어플</string>
     <string name="bus_btn">기사용</string>
