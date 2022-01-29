@@ -3,6 +3,7 @@ package com.code_23.ta_eye_go.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -20,7 +21,6 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_login_member.*
 
 class LoginMember : AppCompatActivity() {
-
     lateinit var binding: ActivityLoginMemberBinding
     lateinit var mAuth: FirebaseAuth
 
@@ -46,13 +46,31 @@ class LoginMember : AppCompatActivity() {
             binding.memberBtn -> {
                 val email = binding.email.text.toString()
                 val password = binding.password.text.toString()
+                val password2 = binding.password2.text.toString()
 
-                mAuth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this,
-                        OnCompleteListener<AuthResult?> { task ->
+
+                if(email.isEmpty()){
+                    Toast.makeText(this, "이메일을 채워주세요.", Toast.LENGTH_SHORT).show()
+                }
+                else if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    Toast.makeText(this, "이메일 형식이 아닙니다..", Toast.LENGTH_SHORT).show()
+                }
+                else if(password.isEmpty()){
+                    Toast.makeText(this, "비밀번호를 채워주세요.", Toast.LENGTH_SHORT).show()
+                }
+                else if(password.length < 6){
+                    Toast.makeText(this, "비밀번호 6자 이상 필요", Toast.LENGTH_SHORT).show()
+                }
+                else if(password != password2){
+                    Toast.makeText(this, "비밀번호 불일치.", Toast.LENGTH_SHORT).show()
+                }
+
+                else {
+                    mAuth.createUserWithEmailAndPassword(email, password)
+                        .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 Log.d("LoginMemberActivity", "createUserWithEmail:success")
-                                val user: FirebaseUser? = mAuth.getCurrentUser()
+                                val user: FirebaseUser? = mAuth.currentUser
                                 updateUI(user)
                                 finish()
                             } else {
@@ -67,7 +85,8 @@ class LoginMember : AppCompatActivity() {
                                 ).show()
                                 updateUI(null)
                             }
-                        })
+                        }
+                }
             }
         }
     }

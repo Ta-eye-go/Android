@@ -49,6 +49,7 @@ android {
 //    }
 }
 dependencies {
+
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:1.4.0'
@@ -67,6 +68,8 @@ dependencies {
     // firebase storage
     // Import the BoM for the Firebase platform
     implementation platform('com.google.firebase:firebase-bom:29.0.3')
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
+
 
     // Declare the dependency for the Cloud Storage library
     // When using the BoM, you don't specify versions in Firebase library dependencies
