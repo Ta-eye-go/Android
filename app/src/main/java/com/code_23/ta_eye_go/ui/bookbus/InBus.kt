@@ -8,6 +8,7 @@ import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_in_bus.*
 import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.BufferedReader
@@ -39,7 +40,7 @@ class InBus : AppCompatActivity() {
     // 도착 여부 확인용
     var arrive = false
 
-    // private val key = "Ee5WLqN4iRCKuFUsxlAF1P9anyOX5vH%2BOFG2%2BYM%2BcEoNQOg9emMEyyKM37eAmmVnl1ZxgTalHHL90VNl1B1zlg%3D%3D"
+    // private val key = "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
     private val key = "NbREnDA1nV3nLBWbv7EXWntBQT%2BoyKeMVAPC7dGVUYJu8zgIV%2FHzLylOStyuhH%2FjTSuC3Nj0pjTC6sCV9jkY%2Fg%3D%3D"
     private val address_myBusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
     private val address_getNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=" //노선별경유정류소목록조회
@@ -50,8 +51,8 @@ class InBus : AppCompatActivity() {
 
         refreshBtn.setOnClickListener {
             if (!arrive) {
-                GlobalScope.launch {
-                    withContext(Dispatchers.Main){
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Main){
                         val thread = NetworkThread()
                         thread.start()
                         thread.join()

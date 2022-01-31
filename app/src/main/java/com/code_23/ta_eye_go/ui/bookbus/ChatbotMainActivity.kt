@@ -10,25 +10,23 @@ import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.data.Message
-import com.code_23.ta_eye_go.util.BotResponse
-import com.code_23.ta_eye_go.util.Constants
+import com.code_23.ta_eye_go.data.ChatMessage
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.dialogflow.v2.*
 import kotlinx.android.synthetic.main.activity_bookbus.*
-import kotlinx.android.synthetic.main.activity_chatbot_main.*
 import kotlinx.coroutines.*
 import java.util.*
-//ChatbotMainActivity
+
 class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private val RQ_SPEECH_REC = 102 // 음성 디코드?
 
     private var tts: TextToSpeech? = null    // Variable for TextToSpeech
-
-    private var messageList: ArrayList<ChatMessage> = ArrayList()
+    var messageList = mutableListOf<ChatMessage>()
+    // private var messageList: ArrayList<ChatMessage> = ArrayList()
 
     //dialogFlow
     private var sessionsClient: SessionsClient? = null
@@ -39,26 +37,33 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_chatbot_main)
+        setContentView(R.layout.activity_bookbus)
 
         //setting adapter to recyclerview
-        chatAdapter = ChatAdapter(this, messageList)
-        chatView.adapter = chatAdapter
+        // chatAdapter = ChatAdapter(this, messageList)
+        chatAdapter = ChatAdapter(this)
+        rv_messages.adapter = chatAdapter
+        rv_messages.layoutManager = LinearLayoutManager(applicationContext)
 
         //onclick listener to update the list and call dialogflow
         // 음성데이터 입력 (이것만 실행!)
-        mic_btn2.setOnClickListener {
+        mic_btn.setOnClickListener {
             askSpeechInput()
         }
-//        GlobalScope.launch {
-//            val greetingMessage = "어흥! 승차 예약을 원하시면 현재 위치가 어디야? 라고 말해보세요!"
-//            delay(1000)
-//            withContext(Dispatchers.Main) {
-//                addMessageToList(greetingMessage, true)
-//            }
-//        }
+
         // Initialize the Text To Speech
         tts = TextToSpeech(this, this)
+
+        // 현재 정류장 확인하기
+        val currentStation = intent.getStringExtra("currentStation")
+        GlobalScope.launch {
+            val currentSttnChecker = "현재 정류장은 ${currentStation} 입니다."
+            delay(1000)
+            withContext(Dispatchers.Main) {
+                addMessageToList(currentSttnChecker, true)
+                speakOut(currentSttnChecker)
+            }
+        }
 
         /*// 키보드 입력
         btnSend.setOnClickListener {
@@ -74,6 +79,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         //initialize bot config
         setUpBot()
     }
+
 
     // 음성 입력 후 자연어처리
     private fun askSpeechInput() {
@@ -126,8 +132,9 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     // handles UI changes
     private fun addMessageToList(message: String, isReceived: Boolean) {
         messageList.add(ChatMessage(message, isReceived))   // messageList에 추가해주고
+        chatAdapter.insertMessage(ChatMessage(message, isReceived))
         chatAdapter.notifyDataSetChanged()  // chatAdapter의 리스트의 크기와 아이템이 둘 다 변경
-        chatView.layoutManager?.scrollToPosition(messageList.size - 1)
+        rv_messages.scrollToPosition(messageList.size - 1)
     }
 
     // initiates the dialogflow

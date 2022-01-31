@@ -8,13 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.ui.bookbus.ChatbotMain
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMainActivity
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.Main
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
@@ -42,13 +43,11 @@ class MainActivity : AppCompatActivity() {
 
         initVariables()
         fetchLocation()
-        val thread = NetworkThread()
-        thread.start()
-        thread.join()
 
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
-            val intent = Intent(this, ChatbotMain::class.java)
+            val intent = Intent(this, ChatbotMainActivity::class.java)
+            intent.putExtra("currentStation", currentStation)
             startActivity(intent)
         }
         // 설정 창 이동
@@ -65,29 +64,30 @@ class MainActivity : AppCompatActivity() {
         refreshBtn.setOnClickListener {
             initVariables()
             fetchLocation()
-            val thread = NetworkThread()
-            thread.start()
-            thread.join()
+            fetchCurrentStaion()
         }
-        // Dialogflow
-        btn_chat.setOnClickListener {
-            val intent = Intent(this, ChatbotMainActivity::class.java)
-            startActivity(intent)
-        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val thread = NetworkThread()
+        thread.start()
+        thread.join()
     }
 
     private fun initVariables() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
+    private fun fetchCurrentStaion() {
+        val thread = NetworkThread()
+        thread.start()
+        thread.join()
+    }
+
     private fun fetchLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -109,8 +109,7 @@ class MainActivity : AppCompatActivity() {
     @SuppressLint("SetTextI18n")
     inner class NetworkThread : Thread() {
         override fun run() {
-            val urlAddress: String? =
-                "${address}${key}&gpsLati=${lati}&gpsLong=${long}&_type=json"
+            val urlAddress = "${address}${key}&gpsLati=${lati}&gpsLong=${long}&_type=json"
 
             try {
                 val url = URL(urlAddress)
@@ -119,12 +118,11 @@ class MainActivity : AppCompatActivity() {
                 val isr = InputStreamReader(input)
                 val br = BufferedReader(isr)
 
-                var str: String? = null
+                var str: String?
                 val buf = StringBuffer()
 
                 do {
                     str = br.readLine()
-
                     if (str != null) {
                         buf.append(str)
                     }
