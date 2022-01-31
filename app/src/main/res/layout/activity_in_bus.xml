@@ -120,6 +120,7 @@
             android:layout_marginLeft="10dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/getoffBtn"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/numOfStations_box"

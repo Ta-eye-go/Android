@@ -15,7 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ta_eye_go"
-        android:networkSecurityConfig="@xml/network_config">
+        android:networkSecurityConfig="@xml/network_config"
+        android:usesCleartextTraffic="true" >
         <activity
             android:name=".ui.settings.Guide3"
             android:exported="false" />
@@ -55,6 +56,7 @@
         <activity android:name=".ui.bookbus.Chatbot_typing" />
         <activity android:name=".ui.bookmark.BookmarkList" />
         <activity android:name=".ui.bookbus.AfterReservation"/>
+        <activity android:name=".ui.bookbus.InBus"/>
         <activity
             android:name=".ui.login.LoginMain"
             android:exported="true">

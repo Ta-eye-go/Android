@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
+import com.code_23.ta_eye_go.ui.bookbus.InBus
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.login.LoginMain
 import com.kakao.sdk.user.UserApiClient
@@ -37,9 +38,13 @@ class Settings : AppCompatActivity(){
                 startActivity(intent)
         }
 
-        // 예약 테스트 용 입니다. 무시해주세용
+        // 예약 테스트 용 입니다. 무시해주세요!!
         btn_yellow.setOnClickListener {
             val intent = Intent(this, AfterReservation::class.java)
+            startActivity(intent)
+        }
+        btn_blue.setOnClickListener {
+            val intent = Intent(this, InBus::class.java)
             startActivity(intent)
         }
     }
