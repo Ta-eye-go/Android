@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.code_23.ta_eye_go">
+
     <!-- 유저 권한 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -56,7 +57,7 @@
         <activity android:name=".ui.bookbus.Chatbot_typing" />
         <activity android:name=".ui.bookmark.BookmarkList" />
         <activity android:name=".ui.bookbus.AfterReservation"/>
-        <activity android:name=".ui.bookbus.InBus"/>
+        <activity android:name=".ui.bookbus.ChatbotMainActivity"/>
         <activity
             android:name=".ui.login.LoginMain"
             android:exported="true">

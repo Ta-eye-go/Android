@@ -22,19 +22,28 @@
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/message_item.xml" value="0.4" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/layout/test.xml" value="0.2" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/xml/bus_stations.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Ta_eye_go4/app/src/main/res/layout/activity_bookbus.xml" value="0.1933876811594203" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Ta_eye_go4/app/src/main/res/layout/activity_chatbot_main.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Ta_eye_go4/app/src/main/res/layout/adapter_message_one.xml" value="0.182518115942029" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Ta_eye_go4/app/src/main/res/layout/message_item.xml" value="0.182518115942029" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/bg_chat_receive.xml" value="0.240625" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/bg_chat_send.xml" value="0.240625" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/blank_shape.xml" value="0.12395833333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/border_outline.xml" value="0.24427083333333333" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/login_button_shape.xml" value="0.12395833333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/tiger_blur.xml" value="0.12395833333333334" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookbus.xml" value="0.334913112164297" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookbus_typing.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookmark.xml" value="0.10866261398176291" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_chatbot_main.xml" value="0.11865942028985507" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_login_email.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_login_main.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_login_member.xml" value="0.264" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_main.xml" value="0.152" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_register_main.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_settings.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/adapter_message_one.xml" value="0.11865942028985507" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/menu_bar.xml" value="0.10866261398176291" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/message_item.xml" value="0.10866261398176291" />
       </map>

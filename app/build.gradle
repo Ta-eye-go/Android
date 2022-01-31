@@ -9,6 +9,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdk 31
+    buildToolsVersion "29.0.2"
 
     defaultConfig {
         applicationId "com.code_23.ta_eye_go"
@@ -16,7 +17,6 @@ android {
         targetSdk 32
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -25,6 +25,18 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
     }
 
     compileOptions {
@@ -85,6 +97,20 @@ dependencies {
     implementation 'com.tickaroo.tikxml:core:0.8.13'
     implementation 'com.tickaroo.tikxml:retrofit-converter:0.8.13'
     kapt 'com.tickaroo.tikxml:processor:0.8.13'
+
+    //dialogFlow
+    implementation 'com.google.cloud:google-cloud-dialogflow:2.1.0'
+    implementation 'io.grpc:grpc-okhttp:1.30.0'
+
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
+
+    // DialogFlow SDK depencies
+    implementation 'ai.api:sdk:2.0.7@aar'
+    implementation 'ai.api:libai:1.6.12'
+    /*// Java v2
+    implementation 'com.google.cloud:google-cloud-dialogflow:0.67.0-alpha'
+    implementation 'io.grpc:grpc-okhttp:1.15.1'*/
+
 }
 //repositories {
 //    mavenCentral()

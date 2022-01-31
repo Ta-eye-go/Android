@@ -9,6 +9,7 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMain
+import com.code_23.ta_eye_go.ui.bookbus.ChatbotMainActivity
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -67,6 +68,11 @@ class MainActivity : AppCompatActivity() {
             val thread = NetworkThread()
             thread.start()
             thread.join()
+        }
+        // Dialogflow
+        btn_chat.setOnClickListener {
+            val intent = Intent(this, ChatbotMainActivity::class.java)
+            startActivity(intent)
         }
     }
 

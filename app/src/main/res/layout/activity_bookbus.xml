@@ -17,7 +17,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="13dp"
             tools:itemCount="20"
-            tools:listitem="@layout/message_item"/>
+            tools:listitem="@layout/message_item" />
 
         <include
             android:id="@+id/chat_menu"
