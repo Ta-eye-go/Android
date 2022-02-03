@@ -109,16 +109,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         val recognizedText = it[0]  // 정확도가 높은 텍스트를 recognizedText 넣음
                         if (recognizedText.isNotEmpty()) { // 데이터를 입력했으면
                             addMessageToList(recognizedText, false)
-//                            GlobalScope.launch {
-//                                //Fake response delay
-//                                delay(1000) // 1000ms 후에 다음을 실행
-//                                withContext(Dispatchers.Main) {
-//                                    //Gets the response
-//                                    val response = BotResponse.basicResponses(recognizedText)  // "현재 정류장은 $result 입니다!" 받아옴
-//                                    sendMessageToBot(response)
-//                                }
-//                            }
-                            sendMessageToBot(recognizedText)    // sendMessage -> addMessageToList 변경됨
+                            sendMessageToBot(recognizedText)
                         } else {
                             Toast.makeText(this@ChatbotMainActivity, "다시 말씀해주세요!", Toast.LENGTH_SHORT).show()
                         }

@@ -53,8 +53,6 @@
         <!-- </intent-filter> -->
         <!-- </activity> -->
         <activity android:name=".ui.settings.Settings" />
-        <activity android:name=".ui.bookbus.ChatbotMain" />
-        <activity android:name=".ui.bookbus.Chatbot_typing" />
         <activity android:name=".ui.bookmark.BookmarkList" />
         <activity android:name=".ui.bookbus.AfterReservation"/>
         <activity android:name=".ui.bookbus.ChatbotMainActivity"/>

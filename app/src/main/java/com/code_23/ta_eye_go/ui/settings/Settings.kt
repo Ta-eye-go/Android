@@ -10,6 +10,9 @@ import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
 import com.code_23.ta_eye_go.ui.bookbus.InBus
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.login.LoginMain
+import com.code_23.ta_eye_go.ui.main.MainActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_settings.*
 
@@ -20,6 +23,7 @@ class Settings : AppCompatActivity(){
 
         //로그아웃 눌렀을때 로그아웃+팝업, 로그인 화면으로 전환
         text_logout.setOnClickListener {
+            Firebase.auth.signOut() // 구글 로그아웃
             UserApiClient.instance.logout { error ->
                 if (error != null) {
                     Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
@@ -30,6 +34,9 @@ class Settings : AppCompatActivity(){
                 startActivity(intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
             }
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         //간단 사용 설명서

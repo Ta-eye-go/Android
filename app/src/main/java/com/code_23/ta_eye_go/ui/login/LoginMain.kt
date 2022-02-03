@@ -9,6 +9,18 @@ import android.widget.ImageButton
 import android.widget.Toast
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
+import com.code_23.ta_eye_go.ui.settings.Settings
+import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.SignInButton
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.common.model.ClientError
@@ -18,19 +30,23 @@ import kotlinx.android.synthetic.main.activity_login_main.*
 import kotlinx.android.synthetic.main.activity_main.*
 
 class LoginMain : AppCompatActivity() {
+    // firebase 인증을 위한 변수
+    var auth : FirebaseAuth ? = null
+    // 구글 로그인 연동에 필요한 변수
+    var googleSignInClient : GoogleSignInClient ? = null
+    var GOOGLE_LOGIN_CODE = 9001
+    //var callbackManager: CallbackManager? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_main)
+
+        auth = FirebaseAuth.getInstance()   // firebaseauth를 사용하기 위한 인스턴스 get
 
         //hash key 받는 함수, logcat에서 Hash 검색해서 찾기 필요
         //val keyHash = Utility.getKeyHash(this)
         //Log.d("Hash", keyHash)
 
-        //이메일로 로그인하기
-        email_btn.setOnClickListener {
-            val intent = Intent(this, LoginEmail::class.java)
-            startActivity(intent)
-        }
         // 아직 기사용 화면은 없어서 메인화면으로 이동되게 만들어뒀음
         bus_btn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
@@ -98,5 +114,57 @@ class LoginMain : AppCompatActivity() {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
+        //var google_sign_in_button = findViewById<SignInButton>(R.id.google_sign_in_button)
+
+        google_sign_in_button.setOnClickListener {
+            googleLogin()
+        }
+        // 구글 로그인을 위해 구성되어야 하는 코드 (Id, Email request)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+        // googleSignInClient : 구글 로그인을 관리하는 클래스
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+    }
+
+    fun googleLogin() {
+        var signInIntent = googleSignInClient?.signInIntent
+        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == GOOGLE_LOGIN_CODE) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                val account = task.getResult(ApiException::class.java)!!
+                Log.d(TAG, "firebaseAuthWithGoogle:" + account.id)
+                firebaseAuthWithGoogle(account.idToken!!)
+            } catch (e: ApiException) {
+                // Google Sign In failed, update UI appropriately
+                Log.w(TAG, "Google sign in failed", e)
+            }
+        }
+    }
+    private fun firebaseAuthWithGoogle(idToken: String) {
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        auth!!.signInWithCredential(credential)
+            .addOnCompleteListener(this) { task ->
+                if (task.isSuccessful) {
+                    // Sign in success, update UI with the signed-in user's information
+                    val user = auth?.currentUser
+                    Toast.makeText(this,"로그인 성공", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    //updateUI(user)
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Toast.makeText(this,"로그인 실패", Toast.LENGTH_SHORT).show()
+                    //updateUI(null)
+                }
+            }
     }
 }
