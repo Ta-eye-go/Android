@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
-
+    android:background="@drawable/background"
+    tools:context=".ui.bookmark.BookmarkEditList">
 
     <!--    <include-->
     <!--        android:id="@+id/chat_menu"-->
@@ -35,29 +35,43 @@
         app:layout_constraintTop_toBottomOf="@+id/bookmark_Btn"
         app:srcCompat="@drawable/background_line" />
 
+    <TextView
+        android:id="@+id/menu_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:gravity="center"
+        android:text="목록 편집"
+        android:textColor="@color/white"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/background_line" />
+
     <ImageView
-        android:id="@+id/bookmark_1"
+        android:id="@+id/list1"
         android:layout_width="322dp"
         android:layout_height="139dp"
-        android:layout_marginTop="200dp"
-        android:contentDescription="@string/bookmark_rectangle"
         android:scaleType="centerInside"
+        android:layout_marginTop="200dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/background_line"
-        app:srcCompat="@drawable/bookmark_rectangle" />
+        app:srcCompat="@drawable/bookmark_rectangle"
+        android:contentDescription="@string/bookmark_rectangle" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="322dp"
         android:layout_height="130dp"
-        app:layout_constraintBottom_toBottomOf="@+id/bookmark_1"
+        app:layout_constraintBottom_toBottomOf="@+id/list1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bookmark_1"
+        app:layout_constraintTop_toTopOf="@+id/list1"
         app:layout_constraintVertical_bias="0.0">
 
         <ImageView
-            android:id="@+id/star"
+            android:id="@+id/select"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="26dp"
@@ -65,7 +79,7 @@
             app:layout_constraintHorizontal_bias="0.037"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/star_yellow"
+            app:srcCompat="@drawable/check_box"
             android:contentDescription="@string/star" />
 
         <ImageView
@@ -88,28 +102,27 @@
             android:text="8"
             android:textColor="@color/white"
             android:textSize="24sp"
-            app:layout_constraintEnd_toStartOf="@+id/line"
+            app:layout_constraintEnd_toStartOf="@+id/division"
             app:layout_constraintHorizontal_bias="0.739"
-            app:layout_constraintStart_toEndOf="@+id/star"
+            app:layout_constraintStart_toEndOf="@+id/select"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/line"
+            android:id="@+id/division"
             android:layout_width="15dp"
             android:layout_height="25dp"
             android:layout_marginTop="28dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.127"
-            app:layout_constraintStart_toEndOf="@+id/star"
+            app:layout_constraintStart_toEndOf="@+id/select"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/division"
-            android:contentDescription="구분선" />
+            android:contentDescription="@string/division_line" />
 
         <TextView
-            android:id="@+id/bookmark_name"
+            android:id="@+id/bus_star_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="-5dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="신나는 하굣길"
@@ -117,7 +130,7 @@
             android:textSize="17sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.103"
-            app:layout_constraintStart_toEndOf="@+id/line"
+            app:layout_constraintStart_toEndOf="@+id/division"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -158,5 +171,45 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_select"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="13dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_button_shape"
+            android:text="전체 선택"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="13dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/login_button_shape"
+            android:backgroundTint="@color/red"
+            android:text="삭제"
+            android:textColor="@color/white"
+            android:textSize="25sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

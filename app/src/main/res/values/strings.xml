@@ -26,4 +26,11 @@
     <string name="logout">로그아웃</string>
     <string name="next_page">NextPage</string>
     <string name="previous_page">previous_page</string>
+    <string name="bookmark_rectangle">사각형</string>
+    <string name="menu">menu</string>
+    <string name="star">star</string>
+    <string name="arrow">화살표</string>
+    <string name="background_line">background_line</string>
+    <string name="division_line">구분선</string>
+    <string name="bus">bus</string>
 </resources>

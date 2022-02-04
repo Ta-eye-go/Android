@@ -10,20 +10,18 @@ import kotlinx.android.synthetic.main.activity_guide2.next_page
 class Guide2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_guide1)
+        setContentView(R.layout.activity_guide2)
 
-        //<누르면 이전페이지 이동
-        previous_page.setOnClickListener {
-            val intent = Intent(this, Guide1::class.java)
-            startActivity(intent)
-            //overridePendingTransition(0, 0)
-        }
-
-        //>누르면 다음페이지 이동
+        // >누를시에 다음페이지로 이동
         next_page.setOnClickListener {
             val intent = Intent(this, Guide3::class.java)
             startActivity(intent)
-            //overridePendingTransition(0, 0)
+        }
+
+        // <누를시에 이전페이지로 이동
+        previous_page.setOnClickListener {
+            val intent = Intent(this, Guide1::class.java)
+            startActivity(intent)
         }
     }
 }

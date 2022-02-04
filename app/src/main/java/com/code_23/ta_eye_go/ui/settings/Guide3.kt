@@ -11,7 +11,7 @@ class Guide3 : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_guide3)
 
-        //<누르면 이전페이지 이동
+        // <누를시에 이전페이지로 이동
         previous_page.setOnClickListener {
             val intent = Intent(this, Guide2::class.java)
             startActivity(intent)

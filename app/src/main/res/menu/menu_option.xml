@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--context 메뉴 생성-->
+    <item
+        android:id="@+id/menu_edit_list"
+        android:title="목록 편집"/>
+
+    <item
+        android:id="@+id/menu_edit_name"
+        android:title="별칭 수정"/>
+
+    <item
+        android:id="@+id/menu_delete_list"
+        android:title="삭제"/>
+</menu>
