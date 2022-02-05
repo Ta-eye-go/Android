@@ -33,4 +33,6 @@
     <string name="background_line">background_line</string>
     <string name="division_line">구분선</string>
     <string name="bus">bus</string>
+    <string name="with_guide_dog">안내견 있음</string>
+    <string name="taeyego_bot">타이고</string>
 </resources>

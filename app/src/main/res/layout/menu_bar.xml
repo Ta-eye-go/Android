@@ -8,15 +8,15 @@
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginTop="51dp"
         android:background="@color/black">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/back_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="10dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/arrow"
             android:backgroundTint="@color/white" />
@@ -26,6 +26,7 @@
             android:layout_height="fill_parent"
             android:layout_centerHorizontal="true"
             android:text="@{menuText}"
+            android:gravity="center"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>

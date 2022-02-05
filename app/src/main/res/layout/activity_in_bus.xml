@@ -36,8 +36,8 @@
                 android:layout_below="@+id/currentStation"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
-                android:autoSizeMaxTextSize="50sp"
-                android:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="50sp"
+                app:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:text="해양경찰청"
                 android:textColor="@color/yellow" />
@@ -69,8 +69,8 @@
                 android:layout_below="@+id/nextStation"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
-                android:autoSizeMaxTextSize="50sp"
-                android:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="50sp"
+                app:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:text="송도풍림아이원2단지"
                 android:textColor="@color/yellow" />
@@ -102,8 +102,8 @@
                 android:layout_below="@+id/numOfStations"
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="20dp"
-                android:autoSizeMaxTextSize="50sp"
-                android:autoSizeTextType="uniform"
+                app:autoSizeMaxTextSize="50sp"
+                app:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:text="6 정류장"
                 android:textColor="@color/yellow" />
@@ -117,7 +117,7 @@
             android:src="@drawable/refresh_yellow"
             android:layout_below="@id/numOfStations_box"
             android:layout_marginTop="30dp"
-            android:layout_marginLeft="10dp"/>
+            android:layout_marginStart="10dp"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/getoffBtn"
