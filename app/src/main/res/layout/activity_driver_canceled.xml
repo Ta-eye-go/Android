@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.driver.Driver_main">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/background">
+
+        <TextView
+            android:id="@+id/alert_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="80dp"
+            android:text="예약 취소"
+            android:textColor="@color/red"
+            android:textSize="50sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:id="@+id/content_field"
+            android:layout_width="350dp"
+            android:layout_height="600dp"
+            android:layout_below="@+id/alert_cancel"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/booker_list">
+
+            <ImageView
+                android:id="@+id/alert_bell"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="50dp"
+                android:src="@drawable/alert" />
+
+            <TextView
+                android:id="@+id/alert_cancel_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/alert_bell"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="15dp"
+                android:text="예약 취소 알림"
+                android:textColor="@color/yellow"
+                android:textSize="28sp" />
+
+            <TextView
+                android:id="@+id/start_station"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_below="@+id/alert_cancel_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                app:autoSizeMaxTextSize="50sp"
+                app:autoSizeTextType="uniform"
+                android:gravity="center"
+                android:text="인천대정문"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/reservation_canceled"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/start_station"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="정류장에서의 예약이&#10; 취소되었습니다."
+                android:textColor="@color/white"
+                android:textSize="25sp" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</layout>

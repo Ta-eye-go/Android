@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         refreshBtn.setOnClickListener {
             initVariables()
             fetchLocation()
-            fetchCurrentStaion()
+            fetchCurrentStation()
         }
     }
 
@@ -104,7 +104,7 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
-    private fun fetchCurrentStaion() {
+    private fun fetchCurrentStation() {
         val thread = NetworkThread()
         thread.start()
         thread.join()

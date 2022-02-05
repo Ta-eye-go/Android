@@ -65,6 +65,8 @@
         <activity android:name=".ui.bookmark.BookmarkList" />
         <activity android:name=".ui.bookbus.AfterReservation" />
         <activity android:name=".ui.bookbus.ChatbotMainActivity" />
+        <activity android:name=".ui.driver.Driver_main"/>
+        <activity android:name=".ui.bookbus.InBus"/>
         <activity
             android:name=".ui.login.LoginMain"
             android:exported="true">

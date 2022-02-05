@@ -16,7 +16,7 @@
             android:id="@+id/back_btn"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/arrow"
             android:backgroundTint="@color/white" />
@@ -25,7 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:layout_centerHorizontal="true"
-            android:text="@{menuText == null ? `Default Title` : menuText}"
+            android:text="@{menuText}"
             android:textColor="@color/white"
             android:textSize="20sp" />
     </RelativeLayout>

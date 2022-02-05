@@ -7,8 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
-import com.code_23.ta_eye_go.ui.bookbus.InBus
-import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
+import com.code_23.ta_eye_go.ui.driver.Driver_main
 import com.code_23.ta_eye_go.ui.login.LoginMain
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.firebase.auth.ktx.auth
@@ -51,7 +50,7 @@ class Settings : AppCompatActivity(){
             startActivity(intent)
         }
         btn_blue.setOnClickListener {
-            val intent = Intent(this, InBus::class.java)
+            val intent = Intent(this, Driver_main::class.java)
             startActivity(intent)
         }
     }
