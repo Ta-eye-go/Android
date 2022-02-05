@@ -18,6 +18,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.SignInButton
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -26,6 +27,7 @@ import com.kakao.sdk.common.model.AuthErrorCause
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.util.helper.Utility
 import kotlinx.android.synthetic.main.activity_login_main.*
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -44,8 +46,8 @@ class LoginMain : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()   // firebaseauth를 사용하기 위한 인스턴스 get
 
         //hash key 받는 함수, logcat에서 Hash 검색해서 찾기 필요
-        //val keyHash = Utility.getKeyHash(this)
-        //Log.d("Hash", keyHash)
+        val keyHash = Utility.getKeyHash(this)
+        Log.d("Hash", keyHash)
 
         // 아직 기사용 화면은 없어서 메인화면으로 이동되게 만들어뒀음
         bus_btn.setOnClickListener {
@@ -132,6 +134,7 @@ class LoginMain : AppCompatActivity() {
         var signInIntent = googleSignInClient?.signInIntent
         startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -166,5 +169,19 @@ class LoginMain : AppCompatActivity() {
                     //updateUI(null)
                 }
             }
+    }
+    //자동 로그인 설정
+    fun moveMainPage(user: FirebaseUser?) {
+        // User is signed in
+        if (user != null) {
+            Toast.makeText(this, getString(R.string.signin_complete), Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+        }
+    }
+    override fun onStart() {
+        super.onStart()
+        //자동 로그인 설정
+        moveMainPage(auth?.currentUser)
     }
 }
