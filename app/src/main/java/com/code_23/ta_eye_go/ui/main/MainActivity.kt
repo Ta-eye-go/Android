@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.databinding.ActivityMainBinding
@@ -35,8 +36,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var lati: Double? = null
     private var long: Double? = null
-    var currentStation: String? = "정류장 불러오기 오류"
-    var sttnNo: String? = "버스 번호 오류"
+    var currentStation: String? = null
+
+    // 정류장 id
+    var sttnId: String? = null
+
+    var sttnNo: String? = "새로고침을 눌러주세요"
     private val key =
         "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
     private val address =
@@ -65,7 +70,6 @@ class MainActivity : AppCompatActivity() {
             }
         })*/
 
-
         initVariables()
         fetchLocation()
 
@@ -87,40 +91,44 @@ class MainActivity : AppCompatActivity() {
         }
         // 현 위치 새로고침
         refreshBtn.setOnClickListener {
-            initVariables()
             fetchLocation()
             fetchCurrentStation()
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        fetchLocation()
+    }
+
     override fun onResume() {
         super.onResume()
-        val thread = NetworkThread()
-        thread.start()
-        thread.join()
+        fetchCurrentStation()
     }
 
     private fun initVariables() {
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun fetchCurrentStation() {
-        val thread = NetworkThread()
-        thread.start()
-        thread.join()
+        if (lati != null && long != null) {
+            val thread = NetworkThread()
+            thread.start()
+            thread.join()
+        }
+        else {
+            fetchLocation()
+            currentStation = "정류장 불러오기 오류"
+        }
+        currentLocationText.text = "현재 정류장\n ${currentStation}\n (${sttnNo})"
     }
 
     private fun fetchLocation() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),101)
             return
         }
 
@@ -131,7 +139,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     inner class NetworkThread : Thread() {
         override fun run() {
             val urlAddress = "${address}${key}&gpsLati=${lati}&gpsLong=${long}&_type=json"
@@ -160,15 +167,14 @@ class MainActivity : AppCompatActivity() {
                 val iObject = item.getJSONObject(0)
                 currentStation = iObject.getString("nodenm")
                 sttnNo = iObject.getString("nodeno")
+                sttnId = iObject.getString("nodeid")
 
-                currentLocationText.text = "현재 정류장\n ${currentStation}\n (${sttnNo})"
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
             } catch (e: IOException) {
                 e.printStackTrace()
             } catch (e: JSONException) {
                 e.printStackTrace()
-                currentLocationText.text = "현재 정류장\n 새로고침 오류"
             }
         }
     }

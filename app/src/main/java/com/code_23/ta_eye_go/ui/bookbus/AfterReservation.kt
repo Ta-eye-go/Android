@@ -2,6 +2,7 @@ package com.code_23.ta_eye_go.ui.bookbus
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
@@ -72,6 +73,11 @@ class AfterReservation : AppCompatActivity(){
                 }
             }
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        Log.d("life_cycle","onStop")
     }
 
     private fun reservationStatus() {

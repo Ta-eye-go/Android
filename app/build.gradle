@@ -97,12 +97,18 @@ dependencies {
     implementation 'com.google.cloud:google-cloud-dialogflow:2.1.0'
     implementation 'io.grpc:grpc-okhttp:1.30.0'
 
+    implementation('com.google.api.grpc:proto-google-common-protos:1.18.0')
+    implementation('com.google.protobuf:protobuf-java:3.12.2')
+
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
     // DialogFlow SDK depencies
     implementation 'ai.api:sdk:2.0.7@aar'
     implementation 'ai.api:libai:1.6.12'
 }
+configurations.implementation.exclude(group: 'com.google.firebase', module: 'protolite-well-known-types')
+configurations.implementation.exclude(group: 'com.google.protobuf', module: 'protobuf-javalite')
+
 //repositories {
 //    mavenCentral()
 //}
