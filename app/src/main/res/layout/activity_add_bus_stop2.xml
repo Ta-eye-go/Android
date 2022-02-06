@@ -82,8 +82,7 @@
 
         <include
             android:id="@+id/new_bus_stop_menu"
-            layout="@layout/menu_bar"
-            app:menuText="@{`즐겨찾기 신규추가`}" />
+            layout="@layout/menu_bar" />
 
     </RelativeLayout>
 

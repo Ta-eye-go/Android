@@ -9,9 +9,8 @@
         android:background="@drawable/background">
 
         <include
-            android:id="@+id/chat_menu"
-            layout="@layout/menu_bar"
-            app:menuText="@{`버스 탑승 예정`}" />
+            android:id="@+id/menu"
+            layout="@layout/menu_bar" />
 
         <RelativeLayout
             android:id="@+id/currentLocationBox"

@@ -55,12 +55,12 @@
                 android:layout_below="@+id/alert_getoff_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                app:autoSizeMaxTextSize="50sp"
-                app:autoSizeTextType="uniform"
                 android:gravity="center"
                 android:text="동막역(1번출구)"
                 android:textColor="@color/white"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                app:autoSizeMaxTextSize="50sp"
+                app:autoSizeTextType="uniform" />
 
             <TextView
                 android:id="@+id/three_sttn_left"

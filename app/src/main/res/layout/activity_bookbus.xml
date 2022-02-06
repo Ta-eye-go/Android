@@ -3,12 +3,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <data>
-        <variable
-            name="menuText"
-            type="String" />
-    </data>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -28,8 +22,7 @@
 
         <include
             layout="@layout/menu_bar"
-            android:id="@+id/chat_menu"
-            app:menuText="@{`설정`}" />
+            android:id="@+id/chat_menu" />
 
         <RelativeLayout
             android:id="@+id/mic_btn"
@@ -42,7 +35,7 @@
             android:background="@drawable/chatbox"
             android:orientation="horizontal">
 
-            <Button
+            <ImageView
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_centerInParent="true"

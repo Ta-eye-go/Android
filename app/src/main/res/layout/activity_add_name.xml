@@ -14,7 +14,7 @@
         <include
             layout="@layout/menu_bar"
             android:id="@+id/new_name_menu"
-            app:menuText="@{`별칭 설정`}"/>
+            />
 
         <LinearLayout
             android:layout_width="match_parent"

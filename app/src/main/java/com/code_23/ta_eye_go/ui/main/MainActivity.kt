@@ -15,6 +15,7 @@ import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
@@ -46,6 +47,9 @@ class MainActivity : AppCompatActivity() {
         "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
     private val address =
         "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
+
+    // 뒤로가기
+    var mBackWait:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,11 +98,17 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             fetchCurrentStation()
         }
+
     }
 
-    override fun onStart() {
-        super.onStart()
-        fetchLocation()
+    // 뒤로 가기 버튼 종료 액션
+    override fun onBackPressed() {
+        if(System.currentTimeMillis() - mBackWait >= 2000 ) {
+            mBackWait = System.currentTimeMillis()
+            Toast.makeText(applicationContext, "뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show()
+        } else {
+            finish()
+        }
     }
 
     override fun onResume() {

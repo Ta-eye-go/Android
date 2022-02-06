@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import kotlinx.android.synthetic.main.activity_bookmark.*
+import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class BookmarkList : AppCompatActivity(){
 
@@ -18,6 +19,7 @@ class BookmarkList : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark)
+        bookmark_menu.menu_text.text = "즐겨찾기"
 
         // + -> 신규추가 버튼 누를시 이동
         NewBtn.setOnClickListener {

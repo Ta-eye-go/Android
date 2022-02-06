@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
+import com.code_23.ta_eye_go.ui.bookbus.InBus
 import com.code_23.ta_eye_go.ui.driver.Driver_main
 import com.code_23.ta_eye_go.ui.login.LoginMain
 import com.code_23.ta_eye_go.ui.main.MainActivity
@@ -17,7 +18,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.activity_settings.menu
+import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class Settings : AppCompatActivity(){
 
@@ -28,6 +32,7 @@ class Settings : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        menu.menu_text.text = "설정"
 
         // 구글 로그아웃을 위해 로그인 세션 가져오기
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -84,7 +89,7 @@ class Settings : AppCompatActivity(){
             startActivity(intent)
         }
         btn_blue.setOnClickListener {
-            val intent = Intent(this, Driver_main::class.java)
+            val intent = Intent(this, InBus::class.java)
             startActivity(intent)
         }
     }

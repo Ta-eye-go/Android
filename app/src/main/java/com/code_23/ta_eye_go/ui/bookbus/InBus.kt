@@ -20,10 +20,12 @@ import java.net.URL
 class InBus : AppCompatActivity() {
 
     // 참고 : 경유 정류장을 지날 때는 버스 위치가 안뜸
+    //        출발 정류장에 버스가 없는 경우 실행이 안될 수 있으니 테스트 시 유의 바람
+    //        실시간 적용을 아직 안한 상태 (적용 예정) => 도착 후에 새로고침 한 번 더 눌러줘야 제대로 작동합니다!
 
     // 이전 단계에서 받아와야 하는 변수들(4개)
-    private val startSttnID : String = "GGB229001581" // 출발 정류장 id
-    private val endSttnID : String = "GGB229000556" // 도착 정류장 id
+    private val startSttnID : String = "GGB229000509" // 출발 정류장 id
+    private val endSttnID : String = "GGB229000585" // 도착 정류장 id
     private val routeId : String = "GGB229000042" // 탑승 버스의 노선 번호
     private val citycode : Int = 31200 // 도시코드 (인천 : 23)
     // private val startSttnNm : String? = "가람마을3.4.6단지"
@@ -49,6 +51,14 @@ class InBus : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_in_bus)
 
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Main){
+                val thread = NetworkThread()
+                thread.start()
+                thread.join()
+            }
+        }
+
         refreshBtn.setOnClickListener {
             if (!arrive) {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -58,19 +68,29 @@ class InBus : AppCompatActivity() {
                         thread.join()
                     }
                 }
+                if (arrive) {
+                    // TODO : 버스 도착 후 처리
+                    Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
-            if (arrive) {
+            if (arrive) { // TODO : 버스 도착 후 처리2
                 Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
+                finish()
             }
         }
 
         getoffBtn.setOnClickListener {
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
     }
+
 
     private fun parcing1(urlAddress: String?) : StringBuffer {
         val url = URL(urlAddress)
@@ -142,7 +162,7 @@ class InBus : AppCompatActivity() {
                     val response = jsonObject.getJSONObject("response").getJSONObject("body")
                         .getJSONObject("items")
                     val item = response.getJSONArray("item")
-                    for (i in 0..item.length() - 1) {
+                    for (i in 0 until item.length()) {
                         val iObject = item.getJSONObject(i)
                         if (iObject.getString("vehicleno") == "${vehicleNo}") {
                             nodeord = iObject.getInt("nodeord")
@@ -246,10 +266,10 @@ class InBus : AppCompatActivity() {
             if(endNodeord == null) numOfStations_text.text = "오류 발생"
             else {
                 leftSttnCnt = endNodeord!! - nodeord!!
-                if (leftSttnCnt <= 0) {
+                if (leftSttnCnt <= 0) { // 남은 정류장이 0 이하가 되면
                     arrive = true
                 }
-                numOfStations_text.text = "${leftSttnCnt} 정류장"
+                numOfStations_text.text = "$leftSttnCnt 정류장"
             }
         }
     }

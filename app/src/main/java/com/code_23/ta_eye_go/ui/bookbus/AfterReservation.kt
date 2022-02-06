@@ -8,6 +8,7 @@ import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_after_reservation.currentLocationText
+import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 import org.json.JSONException
@@ -45,6 +46,7 @@ class AfterReservation : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_after_reservation)
+        menu.menu_text.text = "버스 탑승 예정"
 
         cancel_button.setOnClickListener {
             // 화면 이동만 일단 해둠...
@@ -65,9 +67,15 @@ class AfterReservation : AppCompatActivity(){
                         thread.start()
                         thread.join()
                     }
+                    if (arrive) {
+                        // TODO : 탑승 완료 후 처리 1
+                        currentLocationText.text = "탑승이 완료되었습니다."
+                        break
+                    }
                     delay(20000) // 20초 기다리기
                 }
                 if (arrive) {
+                    // TODO : 탑승 완료 후 처리 2
                     currentLocationText.text = "탑승이 완료되었습니다."
                     break
                 }
@@ -194,7 +202,12 @@ class AfterReservation : AppCompatActivity(){
                         }
                     }
                 }
-                currentLocationText.text = "${prevSttnCnt} 정거장 전\n ${arrTime?.div(60)} 분 후 도착 예정입니다."
+                if (arrTime!! < 60) { // 도착 예정 시간 1분 미만 시
+                    currentLocationText.text = "${prevSttnCnt} 정거장 전\n 잠시 후 도착 예정입니다."
+                }
+                else {
+                    currentLocationText.text = "${prevSttnCnt} 정거장 전\n ${arrTime?.div(60)} 분 후 도착 예정입니다."
+                }
 
             } catch (e: MalformedURLException) {
                 e.printStackTrace()

@@ -12,8 +12,7 @@
 
         <include
             android:id="@+id/bookmark_menu"
-            layout="@layout/menu_bar"
-            app:menuText="@{`즐겨찾기`}"/>
+            layout="@layout/menu_bar" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -11,14 +11,13 @@
 
         <include
             layout="@layout/menu_bar"
-            android:id="@+id/chat_menu"
-            app:menuText="@{`설정`}" />
+            android:id="@+id/menu" />
 
         <RelativeLayout
             android:id="@+id/testdog_bar"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/chat_menu"
+            android:layout_below="@+id/menu"
             android:layout_marginTop="50dp"
             android:layout_centerHorizontal="true">
 

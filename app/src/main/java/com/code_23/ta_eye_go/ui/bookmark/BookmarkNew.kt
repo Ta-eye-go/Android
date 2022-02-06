@@ -12,12 +12,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.code_23.ta_eye_go.R
+import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.*
+import kotlinx.android.synthetic.main.activity_bookmark_new.bookmark_1
+import kotlinx.android.synthetic.main.activity_bookmark_new.bookmark_menu
+import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class BookmarkNew : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark_new)
+        bookmark_menu.menu_text.text = "즐겨찾기"
 
         //신규추가 버튼 눌렀을때, 신규추가 화면 이동
         Newline_Btn.setOnClickListener {

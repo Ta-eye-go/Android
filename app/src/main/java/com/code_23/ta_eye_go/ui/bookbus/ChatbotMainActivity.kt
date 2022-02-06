@@ -18,6 +18,7 @@ import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.dialogflow.v2.*
 import kotlinx.android.synthetic.main.activity_bookbus.*
+import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
 import java.util.*
 
@@ -26,7 +27,6 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 
     private var tts: TextToSpeech? = null    // Variable for TextToSpeech
     var messageList = mutableListOf<ChatMessage>()
-    // private var messageList: ArrayList<ChatMessage> = ArrayList()
 
     //dialogFlow
     private var sessionsClient: SessionsClient? = null
@@ -38,9 +38,9 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookbus)
+        chat_menu.menu_text.text = "예약 하기"
 
         //setting adapter to recyclerview
-        // chatAdapter = ChatAdapter(this, messageList)
         chatAdapter = ChatAdapter(this)
         rv_messages.adapter = chatAdapter
         rv_messages.layoutManager = LinearLayoutManager(applicationContext)

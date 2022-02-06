@@ -11,12 +11,15 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.code_23.ta_eye_go.R
+import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_bookmark_edit_list.*
+import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class BookmarkEditList : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark_edit_list)
+        bookmark_menu.menu_text.text = "즐겨찾기"
 
         //삭제 버튼 눌렀을때 실행
         btn_delete.setOnClickListener {
