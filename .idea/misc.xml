@@ -54,18 +54,32 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Ta_eye_go5/app/src/main/res/layout/activity_driver_reservation.xml" value="0.11865942028985507" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Ta_eye_go5/app/src/main/res/layout/bookers_item.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/blank_shape.xml" value="0.12395833333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/bookmark_cirlce.xml" value="0.11944444444444445" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/ic_launcher_background.xml" value="0.26979166666666665" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/login_button_shape.xml" value="0.12395833333333334" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/menu.xml" value="0.11944444444444445" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/plus_yellow_blur.xml" value="0.11944444444444445" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/search_box.xml" value="0.11944444444444445" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/drawable/tiger_blur.xml" value="0.12395833333333334" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookbus.xml" value="0.334913112164297" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_add_bus.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_add_bus_stop.xml" value="0.152" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_add_bus_stop2.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_add_name.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookbus.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookbus_typing.xml" value="0.264" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookmark.xml" value="0.10866261398176291" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookmark.xml" value="0.6" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookmark_delete.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookmark_edit_list.xml" value="0.10400000000000001" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookmark_edit_name.xml" value="0.264" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_bookmark_new.xml" value="0.16" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_login_email.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_login_main.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_login_member.xml" value="0.264" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_main.xml" value="0.152" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_register_main.xml" value="0.176" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/activity_settings.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/bus_item.xml" value="0.2" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/bus_stop_item.xml" value="0.136" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/menu_bar.xml" value="0.10866261398176291" />
         <entry key="..\:/Users/user/AndroidStudioProjects/android/app/src/main/res/layout/message_item.xml" value="0.10866261398176291" />
       </map>

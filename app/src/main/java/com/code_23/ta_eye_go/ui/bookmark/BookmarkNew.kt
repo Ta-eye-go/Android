@@ -1,5 +1,6 @@
 package com.code_23.ta_eye_go.ui.bookmark
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -11,15 +12,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.code_23.ta_eye_go.R
-import kotlinx.android.synthetic.main.activity_bookmark_delete.*
+import kotlinx.android.synthetic.main.activity_bookmark_new.*
 
-class BookmarkDelete : AppCompatActivity() {
+class BookmarkNew : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_bookmark_delete)
+        setContentView(R.layout.activity_bookmark_new)
 
-        //삭제 버튼 눌렀을때 실행
-        btn_delete.setOnClickListener {
+        //신규추가 버튼 눌렀을때, 신규추가 화면 이동
+        Newline_Btn.setOnClickListener {
+            val intent = Intent(this, AddBusStop::class.java)
+            startActivity(intent)
+        }
+
+        // 최근 이용 경로 눌렀을때, 즐겨찾기 확인 팝업창 띄워줌
+        bookmark_1.setOnClickListener {
             showSettingPopup()
         }
     }
@@ -33,9 +40,9 @@ class BookmarkDelete : AppCompatActivity() {
 
         //팝업창 제목과 이름
         val textView: TextView = view.findViewById(R.id.textView)
-        textView.text="<즐겨찾기 삭제>"
-        val textView2:TextView = view.findViewById(R.id.textView2)
-        textView2.text = "삭제하시겠습니까?"
+        textView.text="<즐겨찾기 확인>"
+        val textView2: TextView = view.findViewById(R.id.textView2)
+        textView2.text = "추가하시겠습니까?"
 
         //팝업창 설정
         val alertDialog = AlertDialog.Builder(this)
@@ -44,7 +51,7 @@ class BookmarkDelete : AppCompatActivity() {
         //"예" 눌렀을때 팝업창 띄워주는 형식으로 일단 설정, 삭제되는 액션 안에 넣어주면 됨
         val btn_yes = view.findViewById<Button>(R.id.btn_yes)
         btn_yes.setOnClickListener{
-            Toast.makeText(applicationContext, "삭제되었습니다", Toast.LENGTH_SHORT).show()
+            Toast.makeText(applicationContext, "추가되었습니다", Toast.LENGTH_SHORT).show()
             alertDialog.dismiss()
         }
 

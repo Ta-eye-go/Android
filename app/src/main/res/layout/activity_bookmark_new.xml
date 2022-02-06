@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.bookmark.BookmarkNew">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background">
-
         <include
             android:id="@+id/bookmark_menu"
             layout="@layout/menu_bar"
@@ -19,11 +20,15 @@
             android:layout_marginTop="88dp">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/NewBtn"
+                android:id="@+id/Newline_Btn"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
                 android:layout_marginTop="30dp"
-                android:background="@drawable/plus_yellow"
+                android:background="@drawable/bookmark_cirlce"
+                android:text="신규 추가"
+                android:textColor="@color/yellow"
+                android:textSize="35sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +43,21 @@
                 android:foregroundGravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/NewBtn" />
+                app:layout_constraintTop_toBottomOf="@+id/Newline_Btn" />
+
+            <TextView
+                android:id="@+id/menu_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="최근 이용 경로"
+                android:textColor="@color/yellow"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/background_line" />
 
             <ImageView
                 android:id="@+id/bookmark_1"
@@ -62,7 +81,7 @@
                 app:layout_constraintVertical_bias="0.0">
 
                 <ImageView
-                    android:id="@+id/star"
+                    android:id="@+id/star2"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginTop="25dp"
@@ -72,18 +91,6 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/star_yellow"
                     android:contentDescription="@string/star" />
-
-                <ImageView
-                    android:id="@+id/menu_btn"
-                    android:layout_width="30dp"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="26dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.947"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/menu"
-                    android:contentDescription="@string/menu" />
 
                 <TextView
                     android:id="@+id/bus_number"
@@ -95,7 +102,7 @@
                     android:textSize="24sp"
                     app:layout_constraintEnd_toStartOf="@+id/line"
                     app:layout_constraintHorizontal_bias="0.739"
-                    app:layout_constraintStart_toEndOf="@+id/star"
+                    app:layout_constraintStart_toEndOf="@+id/star2"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
@@ -105,7 +112,7 @@
                     android:layout_marginTop="28dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.127"
-                    app:layout_constraintStart_toEndOf="@+id/star"
+                    app:layout_constraintStart_toEndOf="@+id/star2"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/division"
                     android:contentDescription="구분선" />
@@ -117,7 +124,7 @@
                     android:layout_marginStart="-5dp"
                     android:layout_marginTop="30dp"
                     android:gravity="center"
-                    android:text="신나는 하굣길"
+                    android:text="2021.11.24"
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -130,7 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
-                    android:text="인천대정문"
+                    android:text="동막역(1번출구)"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -155,7 +162,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="80dp"
-                    android:text="동막역(1번출구)"
+                    android:text="인천대정문"
                     android:textColor="@color/white"
                     android:textSize="15sp"
                     app:layout_constraintEnd_toEndOf="parent"

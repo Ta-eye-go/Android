@@ -19,6 +19,13 @@ class BookmarkList : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark)
 
+        // + -> 신규추가 버튼 누를시 이동
+        NewBtn.setOnClickListener {
+            val intent = Intent(this, BookmarkNew::class.java)
+            startActivity(intent)
+        }
+
+        // 메뉴버튼
         menu = findViewById(R.id.menu_btn)
         registerForContextMenu(menu) //컨텍스트 메뉴 사용 view
 
@@ -51,7 +58,7 @@ class BookmarkList : AppCompatActivity(){
                 finish()
             }
             R.id.menu_delete_list -> {
-                startActivity(Intent(this, BookmarkDelete::class.java))
+                startActivity(Intent(this, BookmarkEditList::class.java))
                 finish()
             }
         }

@@ -18,7 +18,19 @@
         android:theme="@style/Theme.Ta_eye_go"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".ui.bookmark.BookmarkDelete"
+            android:name=".ui.bookmark.AddName"
+            android:exported="false" />
+        <activity
+            android:name=".ui.bookmark.AddBusStop2"
+            android:exported="false" />
+        <activity
+            android:name=".ui.bookmark.AddBus"
+            android:exported="false" />
+        <activity
+            android:name=".ui.bookmark.AddBusStop"
+            android:exported="false" />
+        <activity
+            android:name=".ui.bookmark.BookmarkNew"
             android:exported="false" />
         <activity
             android:name=".ui.bookmark.BookmarkEditName"
@@ -65,8 +77,8 @@
         <activity android:name=".ui.bookmark.BookmarkList" />
         <activity android:name=".ui.bookbus.AfterReservation" />
         <activity android:name=".ui.bookbus.ChatbotMainActivity" />
-        <activity android:name=".ui.driver.Driver_main"/>
-        <activity android:name=".ui.bookbus.InBus"/>
+        <activity android:name=".ui.driver.Driver_main" />
+        <activity android:name=".ui.bookbus.InBus" />
         <activity
             android:name=".ui.login.LoginMain"
             android:exported="true">
@@ -76,8 +88,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.login.LoginEmail" />
-        <activity android:name=".ui.login.LoginMember" />
     </application>
 
 </manifest>
