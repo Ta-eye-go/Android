@@ -3,6 +3,7 @@ package com.code_23.ta_eye_go.ui.settings
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
+import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
@@ -21,6 +22,7 @@ import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_settings.menu
+import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class Settings : AppCompatActivity(){
@@ -33,6 +35,7 @@ class Settings : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         menu.menu_text.text = "설정"
+
 
         // 구글 로그아웃을 위해 로그인 세션 가져오기
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

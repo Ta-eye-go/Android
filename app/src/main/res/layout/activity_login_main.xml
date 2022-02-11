@@ -59,19 +59,20 @@
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.496" />
+        app:layout_constraintVertical_bias="0.496"
+        android:contentDescription="@string/tigerimage_blur" />
 
     <ImageButton
         android:id="@+id/kakao_login_button"
-        android:layout_width="0dp"
-        android:layout_height="55dp"
-        android:layout_marginBottom="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginBottom="13dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/kakao_login_medium_wide"
+        android:contentDescription="@string/com_kakao_login_button"
+        android:src="@drawable/ic_kakao_login"
         app:layout_constraintBottom_toTopOf="@+id/bus_btn"
-        app:layout_constraintEnd_toEndOf="@+id/bus_btn"
-        app:layout_constraintStart_toStartOf="@+id/bus_btn"
-        android:contentDescription="@string/tigerimage_blur"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/google_sign_in_button"
@@ -85,19 +86,18 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/bus_btn"
-        android:layout_width="280dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="628dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
         android:background="@drawable/login_button_shape"
         android:gravity="center"
         android:text="@string/bus_btn"
         android:textAlignment="center"
         android:textColor="@color/yellow"
-        android:textSize="28sp"
+        android:textSize="23sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/google_sign_in_button"
+        app:layout_constraintStart_toStartOf="@+id/google_sign_in_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

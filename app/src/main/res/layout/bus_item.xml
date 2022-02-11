@@ -18,8 +18,8 @@
 
             <ImageView
                 android:id="@+id/ic_bus"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
                 android:layout_marginStart="40dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:text="8"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="28sp"
                 android:layout_marginStart="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/ic_bus"
@@ -48,7 +48,8 @@
             android:layout_marginStart="42dp"
             android:text="송도풍림아이원2단지 방면"
             android:textColor="@color/white"
-            android:textSize="11sp" />
+            android:textSize="17sp"
+            android:layout_marginBottom="8dp"/>
 
     </LinearLayout>
 

@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class BookmarkList : AppCompatActivity(){
 
-    private lateinit var menu : ImageView
+    //private lateinit var menu : ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,43 +27,44 @@ class BookmarkList : AppCompatActivity(){
             startActivity(intent)
         }
 
+        // 즐겨찾기 데이터와 연결되면 다시 menu 클릭 리스너 구현
         // 메뉴버튼
-        menu = findViewById(R.id.menu_btn)
-        registerForContextMenu(menu) //컨텍스트 메뉴 사용 view
+//        menu = findViewById(R.id.list)
+//        registerForContextMenu(menu) //컨텍스트 메뉴 사용 view
+//
+//        menu.setOnClickListener {
+//            Toast.makeText(this@BookmarkList, "길게 눌러주세요", Toast.LENGTH_SHORT).show()
+//        }
 
-        menu.setOnClickListener {
-            Toast.makeText(this@BookmarkList, "길게 눌러주세요", Toast.LENGTH_SHORT).show()
-        }
-
-        bookmark_name.text = intent.getStringExtra("Data")
+        //bookmark_item.bookmark_name.text = intent.getStringExtra("Data")
     }
 
-    //onCreateContextMenu 오버라이딩 -> 컨텍스트 메뉴 생성
-    override fun onCreateContextMenu(
-        menu: ContextMenu?,
-        v: View?,
-        menuInfo: ContextMenu.ContextMenuInfo?
-    ) {
-        super.onCreateContextMenu(menu, v, menuInfo)
-        menuInflater.inflate(R.menu.menu_option, menu) //xml 리소스를 프로그래밍하기위해 객체로 변환
-    }
-
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            //각각 선택했을때 할 작업 설정
-            R.id.menu_edit_list -> {
-                startActivity(Intent(this, BookmarkEditList::class.java))
-                finish()
-            }
-            R.id.menu_edit_name -> {
-                startActivity(Intent(this, BookmarkEditName::class.java))
-                finish()
-            }
-            R.id.menu_delete_list -> {
-                startActivity(Intent(this, BookmarkEditList::class.java))
-                finish()
-            }
-        }
-        return super.onContextItemSelected(item)
-    }
+//    //onCreateContextMenu 오버라이딩 -> 컨텍스트 메뉴 생성
+//    override fun onCreateContextMenu(
+//        menu: ContextMenu?,
+//        v: View?,
+//        menuInfo: ContextMenu.ContextMenuInfo?
+//    ) {
+//        super.onCreateContextMenu(menu, v, menuInfo)
+//        menuInflater.inflate(R.menu.menu_option, menu) //xml 리소스를 프로그래밍하기위해 객체로 변환
+//    }
+//
+//    override fun onContextItemSelected(item: MenuItem): Boolean {
+//        when (item.itemId) {
+//            //각각 선택했을때 할 작업 설정
+//            R.id.menu_edit_list -> {
+//                startActivity(Intent(this, BookmarkEditList::class.java))
+//                finish()
+//            }
+//            R.id.menu_edit_name -> {
+//                startActivity(Intent(this, BookmarkEditName::class.java))
+//                finish()
+//            }
+//            R.id.menu_delete_list -> {
+//                startActivity(Intent(this, BookmarkEditList::class.java))
+//                finish()
+//            }
+//        }
+//        return super.onContextItemSelected(item)
+//    }
 }

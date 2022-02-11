@@ -48,7 +48,7 @@
                 android:id="@+id/menu_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="25dp"
                 android:gravity="center"
                 android:text="최근 이용 경로"
                 android:textColor="@color/yellow"
@@ -58,115 +58,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/background_line" />
 
-            <ImageView
-                android:id="@+id/bookmark_1"
-                android:layout_width="322dp"
-                android:layout_height="139dp"
-                android:layout_marginTop="50dp"
-                android:contentDescription="@string/bookmark_rectangle"
-                android:scaleType="centerInside"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/background_line"
-                app:srcCompat="@drawable/bookmark_rectangle" />
-
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="322dp"
-                android:layout_height="130dp"
-                app:layout_constraintBottom_toBottomOf="@+id/bookmark_1"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/bookmark_1"
-                app:layout_constraintVertical_bias="0.0">
+                android:id="@+id/point"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="300dp">
 
-                <ImageView
-                    android:id="@+id/star2"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginTop="25dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.037"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/star_yellow"
-                    android:contentDescription="@string/star" />
-
-                <TextView
-                    android:id="@+id/bus_number"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="24dp"
-                    android:text="8"
-                    android:textColor="@color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintEnd_toStartOf="@+id/line"
-                    app:layout_constraintHorizontal_bias="0.739"
-                    app:layout_constraintStart_toEndOf="@+id/star2"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/line"
-                    android:layout_width="15dp"
-                    android:layout_height="25dp"
-                    android:layout_marginTop="28dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.127"
-                    app:layout_constraintStart_toEndOf="@+id/star2"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/division"
-                    android:contentDescription="구분선" />
-
-                <TextView
-                    android:id="@+id/bookmark_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="-5dp"
-                    android:layout_marginTop="30dp"
-                    android:gravity="center"
-                    android:text="2021.11.24"
-                    android:textColor="@color/white"
-                    android:textSize="17sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.103"
-                    app:layout_constraintStart_toEndOf="@+id/line"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/bus_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
-                    android:text="동막역(1번출구)"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.162"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/arrow"
-                    android:layout_width="30dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="78dp"
-                    android:contentDescription="@string/arrow"
-                    app:layout_constraintEnd_toStartOf="@+id/bus_end"
-                    app:layout_constraintStart_toEndOf="@+id/bus_start"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/book_arrow" />
-
-                <TextView
-                    android:id="@+id/bus_end"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginTop="80dp"
-                    android:text="인천대정문"
-                    android:textColor="@color/white"
-                    android:textSize="15sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/bus_start"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/new_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:layout_below="@+id/point"
+                    android:layout_marginBottom="13dp"
+                    tools:itemCount="10"
+                    tools:listitem="@layout/bookmark_item" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
