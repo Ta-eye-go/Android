@@ -36,7 +36,6 @@ class Settings : AppCompatActivity(){
         setContentView(R.layout.activity_settings)
         menu.menu_text.text = "설정"
 
-
         // 구글 로그아웃을 위해 로그인 세션 가져오기
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
