@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.code_23.ta_eye_go.R
 import kotlinx.android.synthetic.main.activity_add_name.*
-import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 

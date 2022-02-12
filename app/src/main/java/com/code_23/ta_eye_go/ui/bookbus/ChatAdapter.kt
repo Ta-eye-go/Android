@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.message_item.view.*
 // class ChatAdapter(private var activity: Activity, private var messageList: List<ChatMessage>) : RecyclerView.Adapter<ChatViewHolder>() {
 class ChatAdapter(private var activity: Activity) : RecyclerView.Adapter<ChatViewHolder>() {
 
-    var messageList = mutableListOf<ChatMessage>()
+    private var messageList = mutableListOf<ChatMessage>()
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

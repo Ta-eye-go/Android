@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import com.code_23.ta_eye_go.R
-import kotlinx.android.synthetic.main.activity_add_bus_stop.*
 import kotlinx.android.synthetic.main.activity_add_name.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 

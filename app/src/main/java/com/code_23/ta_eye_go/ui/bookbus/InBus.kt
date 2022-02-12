@@ -1,5 +1,6 @@
 package com.code_23.ta_eye_go.ui.bookbus
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -114,6 +115,7 @@ class InBus : AppCompatActivity() {
     }
 
     inner class NetworkThread : Thread() {
+        @SuppressLint("SetTextI18n")
         override fun run() {
             // 탑승한 차량의 위치 정보
             if (vehicleNo == null) { // 탑승한 버스 차량 번호를 모를 때 (처음 돌렸을 경우)
@@ -136,7 +138,7 @@ class InBus : AppCompatActivity() {
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
                             .getJSONObject("items")
                         val item = response.getJSONArray("item")
-                        for (i in 0..item.length() - 1) {
+                        for (i in 0 until item.length()) {
                             val iObject = item.getJSONObject(i)
                             if (iObject.getString("nodeid") == startSttnID) {
                                 vehicleNo = iObject.getString("vehicleno")
@@ -164,7 +166,7 @@ class InBus : AppCompatActivity() {
                     val item = response.getJSONArray("item")
                     for (i in 0 until item.length()) {
                         val iObject = item.getJSONObject(i)
-                        if (iObject.getString("vehicleno") == "${vehicleNo}") {
+                        if (iObject.getString("vehicleno") == "$vehicleNo") {
                             nodeord = iObject.getInt("nodeord")
                             break
                         }
@@ -238,7 +240,7 @@ class InBus : AppCompatActivity() {
                             val response = jsonObject.getJSONObject("response").getJSONObject("body")
                                 .getJSONObject("items")
                             val item = response.getJSONArray("item")
-                            for (i in 0..item.length() - 1) {
+                            for (i in 0 until item.length()) {
                                 val iObject = item.getJSONObject(i)
                                 if (iObject.getString("nodeid") == endSttnID) {
                                     endNodeord = iObject.getInt("nodeord")

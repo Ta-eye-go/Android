@@ -26,7 +26,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private val RQ_SPEECH_REC = 102 // 음성 디코드?
 
     private var tts: TextToSpeech? = null    // Variable for TextToSpeech
-    var messageList = mutableListOf<ChatMessage>()
+    private var messageList = mutableListOf<ChatMessage>()
 
     //dialogFlow
     private var sessionsClient: SessionsClient? = null
@@ -57,7 +57,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         // 현재 정류장 확인하기
         val currentStation = intent.getStringExtra("currentStation")
         GlobalScope.launch {
-            val currentSttnChecker = "현재 정류장은 ${currentStation} 입니다."
+            val currentSttnChecker = "현재 정류장은 $currentStation 입니다."
             delay(1000)
             withContext(Dispatchers.Main) {
                 addMessageToList(currentSttnChecker, true)

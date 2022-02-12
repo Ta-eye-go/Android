@@ -27,14 +27,16 @@ import java.net.URL
 import org.json.JSONObject
 import org.json.JSONException
 import java.io.IOException
+import java.lang.NullPointerException
 import java.net.MalformedURLException
+import kotlin.math.abs
 
 
 class MainActivity : AppCompatActivity() {
 
     val binding by lazy { ActivityMainBinding.inflate(layoutInflater)}
 
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var lati: Double? = null
     private var long: Double? = null
     var currentStation: String? = null
@@ -49,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
 
     // 뒤로가기
-    var mBackWait:Long = 0
+    private var mBackWait:Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,7 +100,6 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             fetchCurrentStation()
         }
-
     }
 
     // 뒤로 가기 버튼 종료 액션
@@ -138,15 +139,17 @@ class MainActivity : AppCompatActivity() {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
             && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
         ) {
-            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION),101)
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),101)
             return
         }
 
         fusedLocationProviderClient.lastLocation.addOnSuccessListener {
             lati = it.latitude
-            long = Math.abs(it.longitude)
+            long = abs(it.longitude)
             // Toast.makeText(applicationContext, "${Lati}, ${Long}", Toast.LENGTH_LONG).show()
         }
+
+
     }
 
     inner class NetworkThread : Thread() {

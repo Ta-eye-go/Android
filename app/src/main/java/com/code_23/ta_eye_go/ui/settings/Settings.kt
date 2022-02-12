@@ -9,17 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
 import com.code_23.ta_eye_go.ui.bookbus.InBus
-import com.code_23.ta_eye_go.ui.driver.Driver_main
 import com.code_23.ta_eye_go.ui.login.LoginMain
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
-import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_settings.menu
 import kotlinx.android.synthetic.main.menu_bar.*

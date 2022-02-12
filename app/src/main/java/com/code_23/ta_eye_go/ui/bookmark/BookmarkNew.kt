@@ -12,7 +12,6 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.code_23.ta_eye_go.R
-import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.bookmark_menu
 import kotlinx.android.synthetic.main.menu_bar.view.*

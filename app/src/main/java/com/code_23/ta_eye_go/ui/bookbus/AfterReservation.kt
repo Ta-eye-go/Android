@@ -1,5 +1,6 @@
 package com.code_23.ta_eye_go.ui.bookbus
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -22,13 +23,13 @@ import java.net.URL
 class AfterReservation : AppCompatActivity(){
 
     // ** 변수들은 일단 임시로 값을 넣어둠
-    // 예약 시 받아와야 하는 변수들(5개)
+    // 예약 시 받아와야 하는 변수들(4개)
     private val startSttnNm : String = "봉서1리.화약골" // 출발(현재) 정류장 이름
     private val startSttnID : String = "GGB229000328" // 출발 정류장 id
     private val destination : String = "십자약국" // 도착 정류장 이름
     private val busNm : String = "92" // 탈 버스 번호
-    private val citycode : Int = 31200 // 도시코드 (인천 : 23)
 
+    private val citycode : Int = 31200 // 도시코드 (인천 : 23)
     private var routeId : String? = null // 버스의 노선 번호
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
@@ -117,6 +118,7 @@ class AfterReservation : AppCompatActivity(){
 
     // json 파싱...
     inner class NetworkThread : Thread() {
+        @SuppressLint("SetTextI18n")
         override fun run() {
             // 타고자 하는 버스의 노선 id 받아오기 (노선은 한 번만 받아오도록 처리)
             if (routeId == null) {
@@ -189,12 +191,12 @@ class AfterReservation : AppCompatActivity(){
                     val item = response.getJSONArray("item")
                     // 도착 예정 시간이 더 적은 버스 고르기
                     var tmp = 999
-                    for (i in 0..item.length() - 1) {
+                    for (i in 0 until item.length()) {
                         val iObject = item.getJSONObject(i)
                         if (tmp > iObject.getInt("arrprevstationcnt")) {
                             tmp = iObject.getInt("arrprevstationcnt")
                             if (prevSttnCnt == 1 && iObject.getInt("arrprevstationcnt") > 1) {
-                                // 남은 정류장 수가 1이었는데 1보다 커진 경우 -> 버스에 탔다고 처리
+                                // 남은 정류장 수가 1이었는데 1보다 커진 경우(뒤 버스가 있는 경우) -> 버스에 탔다고 처리
                                 arrive = true
                             }
                             prevSttnCnt = iObject.getInt("arrprevstationcnt")
@@ -203,10 +205,10 @@ class AfterReservation : AppCompatActivity(){
                     }
                 }
                 if (arrTime!! < 60) { // 도착 예정 시간 1분 미만 시
-                    currentLocationText.text = "${prevSttnCnt} 정거장 전\n 잠시 후 도착 예정입니다."
+                    currentLocationText.text = "$prevSttnCnt 정거장 전\n 잠시 후 도착 예정입니다."
                 }
                 else {
-                    currentLocationText.text = "${prevSttnCnt} 정거장 전\n ${arrTime?.div(60)} 분 후 도착 예정입니다."
+                    currentLocationText.text = "$prevSttnCnt 정거장 전\n ${arrTime?.div(60)} 분 후 도착 예정입니다."
                 }
 
             } catch (e: MalformedURLException) {
@@ -217,6 +219,10 @@ class AfterReservation : AppCompatActivity(){
                 currentLocationText.text = "버스 정보 불러오기 오류"
             } catch (e: JSONException) {
                 e.printStackTrace()
+                if (prevSttnCnt == 1) {
+                    // 남은 정류장이 1이다가 목록이 없을 때(뒤 버스가 없는 경우) -> 버스에 탔다고 처리
+                    arrive = true
+                }
                 currentLocationText.text = "현재 버스가 운행되지 않습니다."
             }
         }
