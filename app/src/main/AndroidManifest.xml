@@ -33,6 +33,9 @@
             android:name=".ui.bookmark.BookmarkNew"
             android:exported="false" />
         <activity
+            android:name=".ui.bookmark.BookmarkAdd"
+            android:exported="false" />
+        <activity
             android:name=".ui.bookmark.BookmarkEditName"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />

@@ -2,10 +2,12 @@ package com.code_23.ta_eye_go.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.code_23.ta_eye_go.R
@@ -17,17 +19,17 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.ktx.database
+// import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.currentLocationText
 import kotlinx.coroutines.*
-import kotlinx.coroutines.Dispatchers.Main
 import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.URL
 import org.json.JSONObject
 import org.json.JSONException
 import java.io.IOException
-import java.lang.NullPointerException
 import java.net.MalformedURLException
 import kotlin.math.abs
 
@@ -39,7 +41,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var lati: Double? = null
     private var long: Double? = null
-    var currentStation: String? = null
+    var currentStation: String? = ""
 
     // 정류장 id
     var sttnId: String? = null
@@ -53,28 +55,10 @@ class MainActivity : AppCompatActivity() {
     // 뒤로가기
     private var mBackWait:Long = 0
 
+    @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        /*// Write a message to the database
-        val database = Firebase.database
-        val myRef = database.getReference("message")
-
-        myRef.setValue("Hello, World!")
-
-        // Read from the database
-        myRef.addValueEventListener(object: ValueEventListener() {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = snapshot.getValue<String>()
-                Log.d(TAG, "Value is: " + value)
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to read value.", error.toException())
-            }
-        })*/
 
         initVariables()
         fetchLocation()
@@ -114,7 +98,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        fetchCurrentStation()
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(1000)
+            withContext(Dispatchers.Main) {
+                fetchCurrentStation()
+            }
+        }
     }
 
     private fun initVariables() {
@@ -132,7 +121,7 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             currentStation = "정류장 불러오기 오류"
         }
-        currentLocationText.text = "현재 정류장\n ${currentStation}\n (${sttnNo})"
+        currentLocationText.text = "${currentStation}\n (${sttnNo})"
     }
 
     private fun fetchLocation() {
@@ -148,8 +137,6 @@ class MainActivity : AppCompatActivity() {
             long = abs(it.longitude)
             // Toast.makeText(applicationContext, "${Lati}, ${Long}", Toast.LENGTH_LONG).show()
         }
-
-
     }
 
     inner class NetworkThread : Thread() {

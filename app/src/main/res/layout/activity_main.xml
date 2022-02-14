@@ -68,7 +68,7 @@
             app:autoSizeTextType="uniform"
             android:gravity="center"
             android:layout_margin="15dp"
-            android:text="현재 정류장&#10; 인천대정문&#10; (송도더샾마스터뷰 23단지 방면)"
+            android:text="현재 정류장을&#10; 불러오고 있습니다..."
             android:textAlignment="center"
             android:textColor="@color/yellow"
             android:textSize="18sp" />

@@ -2,9 +2,11 @@ package com.code_23.ta_eye_go.ui.bookmark
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.AppComponentFactory
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
@@ -14,6 +16,7 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
 
     private var favoriteItems = mutableListOf<Favorite>()
     private lateinit var onItemClick: View.OnClickListener
+    private lateinit var onCreateContextMenu: View.OnCreateContextMenuListener
 
     inner class FavoriteViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -21,10 +24,15 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
         onItemClick = l
     }
 
+    fun setOnCreateContextMenuListener(l : View.OnCreateContextMenuListener){
+        onCreateContextMenu = l
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavoriteViewHolder {
         val view = LayoutInflater.from(activity).inflate(R.layout.bookmark_item, parent, false)
         view.setOnClickListener(onItemClick)
+        view.setOnCreateContextMenuListener(onCreateContextMenu)
 
         // 클릭 이벤트
         view.setOnTouchListener { view, motionEvent ->
@@ -35,7 +43,6 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
             }
             return@setOnTouchListener false
         }
-
         return FavoriteViewHolder(view)
     }
 
@@ -50,8 +57,6 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
         val startSttnID : String = favoriteItems[position].startSttnID
         val destinationID : String = favoriteItems[position].destinationID
         */
-
-
 
         apply {
             // 너무 긴 텍스트 처리
@@ -68,6 +73,4 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
         this.favoriteItems.add(favorite)
         notifyItemInserted(favoriteItems.size)
     }
-
-
 }

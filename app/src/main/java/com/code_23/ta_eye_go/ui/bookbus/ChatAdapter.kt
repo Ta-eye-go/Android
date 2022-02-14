@@ -10,17 +10,11 @@ import com.code_23.ta_eye_go.data.ChatMessage
 import com.code_23.ta_eye_go.ui.bookbus.ChatAdapter.ChatViewHolder
 import kotlinx.android.synthetic.main.message_item.view.*
 
-// class ChatAdapter(private var activity: Activity, private var messageList: List<ChatMessage>) : RecyclerView.Adapter<ChatViewHolder>() {
 class ChatAdapter(private var activity: Activity) : RecyclerView.Adapter<ChatViewHolder>() {
 
     private var messageList = mutableListOf<ChatMessage>()
 
     inner class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-
-//    class ChatViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-//         var messageReceive: TextView = itemView.findViewById(R.id.bot_message)  // bot, .findViewById : 특정 xml에서 id값들을 찾아올 수 있음
-//         var messageSend: TextView = itemView.findViewById(R.id.usr_message)    // user
-//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
         // .context : 액티비티에서 담고 있는 모든 정보, parent.context : 어댑터랑 연결될 액티비의 activity를 가져옴

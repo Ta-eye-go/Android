@@ -24,15 +24,15 @@ class InBus : AppCompatActivity() {
     //        출발 정류장에 버스가 없는 경우 실행이 안될 수 있으니 테스트 시 유의 바람
     //        실시간 적용을 아직 안한 상태 (적용 예정) => 도착 후에 새로고침 한 번 더 눌러줘야 제대로 작동합니다!
 
-    // 이전 단계에서 받아와야 하는 변수들(4개)
+    // 이전 단계에서 받아와야 하는 변수들(3개)
     private val startSttnID : String = "GGB229000509" // 출발 정류장 id
     private val endSttnID : String = "GGB229000585" // 도착 정류장 id
     private val routeId : String = "GGB229000042" // 탑승 버스의 노선 번호
-    private val citycode : Int = 31200 // 도시코드 (인천 : 23)
     // private val startSttnNm : String? = "가람마을3.4.6단지"
     // private val destination : String? = "파주우체국"
     // private val busNm : String? = "92"
 
+    private val citycode : Int = 31200 // 도시코드 (인천 : 23)
     private var vehicleNo : String? = null // 버스 번호
     private var nodeord : Int? = null // 현재 정류장의 순서 번호 -> 노선마다 정류장에 순서대로 번호를 붙임
     private var endNodeord : Int? = null // 도착 정류장의 순서 번호
@@ -53,7 +53,8 @@ class InBus : AppCompatActivity() {
         setContentView(R.layout.activity_in_bus)
 
         CoroutineScope(Dispatchers.IO).launch {
-            withContext(Main){
+            delay(1000)
+            withContext(Main) {
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()

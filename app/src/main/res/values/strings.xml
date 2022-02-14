@@ -36,4 +36,7 @@
     <string name="bus">bus</string>
     <string name="with_guide_dog">안내견 있음</string>
     <string name="taeyego_bot">타이고</string>
+    <string name="startSttn">출발 정류장</string>
+    <string name="busNum">버스 번호</string>
+    <string name="endSttn">도착 정류장</string>
 </resources>

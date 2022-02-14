@@ -57,6 +57,15 @@ class AfterReservation : AppCompatActivity(){
 
         reservationStatus()
 
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(1000)
+            withContext(Main) {
+                val thread = NetworkThread()
+                thread.start()
+                thread.join()
+            }
+        }
+
         // coroutines을 이용한 실시간 업데이트 처리
         // 참고 : delay(1000) => 1초 지연
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음

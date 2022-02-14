@@ -26,7 +26,7 @@
                 android:layout_width="317.1dp"
                 android:layout_height="80.5dp"
                 app:autoSizeTextType="uniform"
-                android:text="1 정거장 전&#10; 3분 후 도착 예정입니다."
+                android:text="버스정보를&#10; 불러오고 있습니다..."
                 android:textAlignment="center"
                 android:textColor="@color/yellow"
                 android:textSize="16sp" />
@@ -58,7 +58,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="출발 정류장"
+                android:text="@string/startSttn"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
 
@@ -72,7 +72,7 @@
                 app:autoSizeTextType="uniform"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
-                android:text="인천대정문"
+                android:text="@string/startSttn"
                 android:textColor="@color/yellow" />
 
         </RelativeLayout>
@@ -90,7 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="버스 번호"
+                android:text="@string/busNum"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 
@@ -103,7 +103,7 @@
                 app:autoSizeTextType="uniform"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
-                android:text="8"
+                android:text="@string/busNum"
                 android:textColor="@color/yellow"
                 app:autoSizeMaxTextSize="40sp"/>
 
@@ -122,7 +122,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="도착 정류장"
+                android:text="@string/endSttn"
                 android:textColor="@color/white"
                 android:textSize="16sp"/>
 
@@ -134,7 +134,7 @@
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
                 app:autoSizeTextType="uniform"
-                android:text="동막역(1번출구)"
+                android:text="@string/endSttn"
                 android:gravity="center"
                 android:textColor="@color/yellow"
                 app:autoSizeMaxTextSize="40sp" />
