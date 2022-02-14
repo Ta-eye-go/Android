@@ -1,5 +1,6 @@
 package com.code_23.ta_eye_go.ui.login
 
+import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +8,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.ImageButton
 import android.widget.Toast
+import com.code_23.ta_eye_go.DB.User
+import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.code_23.ta_eye_go.ui.settings.Settings
@@ -37,17 +40,25 @@ class LoginMain : AppCompatActivity() {
     // 구글 로그인 연동에 필요한 변수
     var googleSignInClient : GoogleSignInClient ? = null
     var GOOGLE_LOGIN_CODE = 9001
-    //var callbackManager: CallbackManager? = null
+    var id = ""
+    // UserDB
+    private var userDB : UserDB? = null
+    private var userList = listOf<User>()
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_main)
 
-        auth = FirebaseAuth.getInstance()   // firebaseauth를 사용하기 위한 인스턴스 get
+        // firebaseauth를 사용하기 위한 인스턴스 get
+        auth = FirebaseAuth.getInstance()
 
-        //hash key 받는 함수, logcat에서 Hash 검색해서 찾기 필요
+        // 카카오 로그인 hash key 받는 함수, logcat에서 Hash 검색해서 찾기 필요
         val keyHash = Utility.getKeyHash(this)
         Log.d("Hash", keyHash)
+
+        // Room DB
+        userDB = UserDB.getInstance(this)
 
         // 아직 기사용 화면은 없어서 메인화면으로 이동되게 만들어뒀음
         bus_btn.setOnClickListener {
@@ -116,11 +127,6 @@ class LoginMain : AppCompatActivity() {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
-        //var google_sign_in_button = findViewById<SignInButton>(R.id.google_sign_in_button)
-
-        google_sign_in_button.setOnClickListener {
-            googleLogin()
-        }
         // 구글 로그인을 위해 구성되어야 하는 코드 (Id, Email request)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
@@ -128,6 +134,10 @@ class LoginMain : AppCompatActivity() {
             .build()
         // googleSignInClient : 구글 로그인을 관리하는 클래스
         googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        google_sign_in_button.setOnClickListener {
+            googleLogin()
+        }
     }
 
     fun googleLogin() {
@@ -158,15 +168,12 @@ class LoginMain : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
-                    val user = auth?.currentUser
                     Toast.makeText(this,"로그인 성공", Toast.LENGTH_SHORT).show()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
-                    //updateUI(user)
                 } else {
                     // If sign in fails, display a message to the user.
                     Toast.makeText(this,"로그인 실패", Toast.LENGTH_SHORT).show()
-                    //updateUI(null)
                 }
             }
     }

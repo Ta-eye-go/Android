@@ -3,9 +3,12 @@ package com.code_23.ta_eye_go.ui.settings
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.code_23.ta_eye_go.DB.User
+import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
 import com.code_23.ta_eye_go.ui.bookbus.InBus
@@ -15,6 +18,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_settings.menu
@@ -26,11 +31,17 @@ class Settings : AppCompatActivity(){
     // 로그아웃 구현을 위한 변수
     var auth : FirebaseAuth ?= null
     var googleSignInClient : GoogleSignInClient?= null
+    // UserDB
+    private var userDB : UserDB? = null
+    private var userList = listOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
         menu.menu_text.text = "설정"
+
+        // Room DB
+        userDB = UserDB.getInstance(this)
 
         // 구글 로그아웃을 위해 로그인 세션 가져오기
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -90,5 +101,27 @@ class Settings : AppCompatActivity(){
             val intent = Intent(this, InBus::class.java)
             startActivity(intent)
         }
+        switch_dog.setOnClickListener{
+            val r = kotlinx.coroutines.Runnable {
+                try {
+                    userList = userDB?.userDao()?.getAll()!!
+
+                    val user = Firebase.auth.currentUser
+                    var email = ""
+                    email = Firebase.auth.currentUser?.email.toString()
+                    var users = User(email, 1)
+                    userDB?.userDao()?.updateUser(users)
+                } catch (e: Exception) {
+                    Log.d("tag", "Error - $e")
+                }
+            }
+            val thread = Thread(r)
+            thread.start()
+        }
+    }
+    override fun onDestroy() {
+        UserDB.destroyInstance()
+        userDB = null
+        super.onDestroy()
     }
 }
