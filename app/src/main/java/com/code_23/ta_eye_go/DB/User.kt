@@ -9,9 +9,9 @@ import androidx.room.*
 
 @Entity(tableName = "user")
 class User(@PrimaryKey var id: String,
-           @ColumnInfo(name = "guide_dog") var guide_dog: Int?
+           @ColumnInfo(name = "guide_dog") var guide_dog: Boolean
 ){
-    constructor(): this("nono",0)
+    constructor(): this("nono",false)
 }
 
 //DB에 접근해 질의를 수행할 DAO. Query를 메소드로 작성해주어야 한다.
@@ -35,7 +35,7 @@ interface UserDao {
 //RoomDatabase를 extend 하는 추상 클래스여야 하며, 테이블과 버전을 정의하는 곳이다.
 //Entity 모델을 기반으로 하고, dao의 메소드를 가지고 있는 데이터베이스를 생성하자. RoomDatabase()를 상속한다.
 //MainActivity에서 호출하며 database 객체를 반환하거나 삭제할 수 있도록 getInstance()와 destroyInstance()메소드를 생성
-@Database(entities = [User::class], version = 1)
+@Database(entities = [User::class], version = 3)
 abstract class UserDB: RoomDatabase() {
     abstract fun userDao(): UserDao
 

@@ -6,8 +6,11 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.code_23.ta_eye_go.DB.User
+import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.databinding.ActivityMainBinding
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMainActivity
@@ -16,6 +19,7 @@ import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
@@ -53,28 +57,16 @@ class MainActivity : AppCompatActivity() {
     // 뒤로가기
     private var mBackWait:Long = 0
 
+    // UserDB
+    private var userDB : UserDB? = null
+    private var userList = listOf<User>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        /*// Write a message to the database
-        val database = Firebase.database
-        val myRef = database.getReference("message")
-
-        myRef.setValue("Hello, World!")
-
-        // Read from the database
-        myRef.addValueEventListener(object: ValueEventListener() {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = snapshot.getValue<String>()
-                Log.d(TAG, "Value is: " + value)
-            }
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to read value.", error.toException())
-            }
-        })*/
+        // Room DB
+        userDB = UserDB.getInstance(this)
 
         initVariables()
         fetchLocation()
@@ -100,6 +92,24 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             fetchCurrentStation()
         }
+        // 로그인한 유저 DB등록
+        val r = Runnable {
+            try {
+                var email = ""
+                email = Firebase.auth.currentUser?.email.toString()
+                var users = User(email, false)
+                userDB?.userDao()?.insert(users)
+            } catch (e: Exception) {
+                Log.d("tag", "Error - $e")
+            }
+        }
+        val thread = Thread(r)
+        thread.start()
+    }
+    override fun onDestroy() {
+        UserDB.destroyInstance()
+        userDB = null
+        super.onDestroy()
     }
 
     // 뒤로 가기 버튼 종료 액션

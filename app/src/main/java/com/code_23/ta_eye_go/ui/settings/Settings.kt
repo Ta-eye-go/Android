@@ -101,16 +101,24 @@ class Settings : AppCompatActivity(){
             val intent = Intent(this, InBus::class.java)
             startActivity(intent)
         }
-        switch_dog.setOnClickListener{
+        // 안내견 유무 스위치
+        switch_dog.setOnCheckedChangeListener{CompoundButton, onSwitch ->
             val r = kotlinx.coroutines.Runnable {
                 try {
-                    userList = userDB?.userDao()?.getAll()!!
-
-                    val user = Firebase.auth.currentUser
-                    var email = ""
-                    email = Firebase.auth.currentUser?.email.toString()
-                    var users = User(email, 1)
-                    userDB?.userDao()?.updateUser(users)
+                    // 안내견 on
+                    if (onSwitch){
+                        var email = ""
+                        email = Firebase.auth.currentUser?.email.toString()
+                        var users = User(email, true)
+                        userDB?.userDao()?.updateUser(users)
+                        Toast.makeText(this, "안내견 on", Toast.LENGTH_SHORT).show()
+                    } else{ // 안내견견 off
+                        var email = ""
+                        email = Firebase.auth.currentUser?.email.toString()
+                        var users = User(email, false)
+                        userDB?.userDao()?.updateUser(users)
+                        Toast.makeText(this, "안내견 off", Toast.LENGTH_SHORT).show()
+                    }
                 } catch (e: Exception) {
                     Log.d("tag", "Error - $e")
                 }
