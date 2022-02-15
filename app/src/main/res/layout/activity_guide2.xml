@@ -58,19 +58,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/background_image" />
 
-            <TextView
-                android:id="@+id/text2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="-10dp"
-                android:layout_marginTop="5dp"
-                android:text="(키보드 버튼 클릭 시 타이핑도 가능합니다)"
-                android:textColor="@color/white"
-                android:textSize="15sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.314"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text1" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -98,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="2 / 3"
+                    android:contentDescription="@string/twoThirds"
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"

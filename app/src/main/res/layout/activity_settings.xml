@@ -50,7 +50,6 @@
                 android:layout_marginTop="0dp"
                 android:layout_toEndOf="@+id/text_dog"
                 android:checked="false" />
-
         </RelativeLayout>
 
 

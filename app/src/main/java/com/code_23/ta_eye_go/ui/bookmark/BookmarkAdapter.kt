@@ -61,6 +61,7 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
         apply {
             // 너무 긴 텍스트 처리
             if (favoriteNm.length > 15) holder.itemView.bookmark_name.text = favoriteNm.substring(0,13) + "..."
+            else holder.itemView.bookmark_name.text = favoriteNm
             holder.itemView.bus_end.text = destination
             holder.itemView.bus_start.text = startSttnNm
             holder.itemView.bus_number.text = busNm

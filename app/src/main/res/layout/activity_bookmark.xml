@@ -19,6 +19,7 @@
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/NewBtn"
+                android:contentDescription="@string/newFavorites"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
                 android:layout_marginTop="30dp"

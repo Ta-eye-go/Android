@@ -13,50 +13,72 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_config"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher_teg_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ta_eye_go"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".ui.SplashActivity"
+            android:label="@string/app_name"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ui.bookmark.AddName"
+            android:label=" "
             android:exported="false" />
         <activity
             android:name=".ui.bookmark.AddBusStop2"
+            android:label=" "
             android:exported="false" />
         <activity
             android:name=".ui.bookmark.AddBus"
+            android:label=" "
             android:exported="false" />
         <activity
             android:name=".ui.bookmark.AddBusStop"
+            android:label=" "
             android:exported="false" />
         <activity
             android:name=".ui.bookmark.BookmarkNew"
+            android:label=" "
             android:exported="false" />
         <activity
             android:name=".ui.bookmark.BookmarkAdd"
-            android:exported="false" />
+            android:label=" "
+            android:exported="false">
+        </activity>
         <activity
             android:name=".ui.bookmark.BookmarkEditName"
+            android:label=" "
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.bookmark.BookmarkEditList"
+            android:label=" "
             android:exported="false" />
         <activity
             android:name=".ui.settings.Guide3"
+            android:label="예약이 완료되면 버스 대기 화면으로 이동하며 버스가 도착하기 전 예약을 취소할 수 있습니다"
             android:exported="false" />
         <activity
             android:name=".ui.settings.Guide2"
+            android:label="예약을 위해 타이고에게 버스번호와 목적지를 말해주세요"
             android:exported="false" />
         <activity
             android:name=".ui.settings.Guide1"
+            android:label="메인 화면에서 마이크 버튼을 눌러 예약을 시작하세요"
             android:exported="false" />
-
         <meta-data
             android:name="com.kakao.sdk.AppKey"
+            android:label=" "
             android:value="f9d97c48eaa084a79506e93936c53d33" /> <!-- 네이티브 앱 키 설정 -->
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:label=" "
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -71,26 +93,35 @@
         </activity> <!-- 카카오톡 sdk 로그인 개발환경 함수 -->
         <activity
             android:name=".ui.main.MainActivity"
+            android:label=" "
             android:exported="true" /> <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.MAIN" /> -->
         <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
-        <activity android:name=".ui.settings.Settings" />
-        <activity android:name=".ui.bookmark.BookmarkList" />
-        <activity android:name=".ui.bookbus.AfterReservation" />
-        <activity android:name=".ui.bookbus.ChatbotMainActivity" />
-        <activity android:name=".ui.driver.DriverMain" />
-        <activity android:name=".ui.bookbus.InBus" />
+        <activity
+            android:name=".ui.settings.Settings"
+            android:label="설정"/>
+        <activity
+            android:name=".ui.bookmark.BookmarkList"
+            android:label="즐겨찾기"/>
+        <activity
+            android:name=".ui.bookbus.AfterReservation"
+            android:label=" "/>
+        <activity
+            android:name=".ui.bookbus.ChatbotMainActivity"
+            android:label=" "
+            />
+        <activity
+            android:name=".ui.driver.DriverMain"
+            android:label=" "/>
+        <activity
+            android:name=".ui.bookbus.InBus"
+            android:label=" "/>
         <activity
             android:name=".ui.login.LoginMain"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            android:label=" "
+            android:exported="false">
         </activity>
     </application>
-
 </manifest>

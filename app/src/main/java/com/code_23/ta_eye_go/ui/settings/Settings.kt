@@ -86,10 +86,17 @@ class Settings : AppCompatActivity(){
             }
         }
 
+        back_btn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         //간단 사용 설명서
         text_guide.setOnClickListener {
-                val intent = Intent(this, Guide1::class.java)
-                startActivity(intent)
+            val intent = Intent(this, Guide1::class.java)
+            startActivity(intent)
+            finish()
         }
 
         // 예약 테스트 용 입니다. 무시해주세요!!
@@ -131,5 +138,9 @@ class Settings : AppCompatActivity(){
         UserDB.destroyInstance()
         userDB = null
         super.onDestroy()
+    }
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

@@ -13,7 +13,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
+import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bookmark.*
+import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateContextMenuListener {
@@ -51,15 +53,22 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         NewBtn.setOnClickListener {
             val intent = Intent(this, BookmarkAdd::class.java)
             startActivity(intent)
+            finish()
+        }
+
+        back_btn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         // 예시 즐겨찾기 항목들
         addFavoriteToList("신나는 하굣길", "인천대정문", "1234",
             "동막역(1번출구)", "1234", "8")
-        addFavoriteToList("인입에서 해경", "인천대입구", "5678",
-            "해양경찰청", "5678", "16")
         addFavoriteToList("이름이 10글자 이상인 즐겨찾기", "인천대입구", "12345",
             "인천대학교공과대학", "12345", "8")
+        addFavoriteToList("인입에서해경", "인천대입구", "5678",
+            "해양경찰청", "5678", "16")
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -89,5 +98,9 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             }
         }
         return super.onContextItemSelected(item)
+    }
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }

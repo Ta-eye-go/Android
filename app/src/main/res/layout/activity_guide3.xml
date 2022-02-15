@@ -85,6 +85,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center"
                     android:text="3 / 3"
+                    android:contentDescription="@string/threeThirds"
                     android:textColor="@color/white"
                     android:textSize="17sp"
                     app:layout_constraintBottom_toBottomOf="parent"

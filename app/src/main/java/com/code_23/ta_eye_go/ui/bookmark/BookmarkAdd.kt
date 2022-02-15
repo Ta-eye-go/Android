@@ -14,11 +14,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.ChatMessage
 import com.code_23.ta_eye_go.ui.bookbus.ChatAdapter
+import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.dialogflow.v2.*
 import kotlinx.android.synthetic.main.activity_bookbus.*
+import kotlinx.android.synthetic.main.activity_bookmark.*
+import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
 import java.util.*
@@ -50,6 +53,12 @@ class BookmarkAdd : AppCompatActivity(), TextToSpeech.OnInitListener {
         // 음성데이터 입력 (이것만 실행!)
         mic_btn.setOnClickListener {
             askSpeechInput()
+        }
+
+        back_btn.setOnClickListener {
+            val intent = Intent(this, BookmarkList::class.java)
+            startActivity(intent)
+            finish()
         }
 
         // Initialize the Text To Speech
@@ -201,5 +210,8 @@ class BookmarkAdd : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun speakOut(text: String) {
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
-
+    override fun onBackPressed() {
+        startActivity(Intent(this, BookmarkList::class.java))
+        finish()
+    }
 }

@@ -1,5 +1,6 @@
 package com.code_23.ta_eye_go.ui.bookmark
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -24,8 +25,13 @@ class BookmarkEditList : AppCompatActivity() {
         btn_delete.setOnClickListener {
             showSettingPopup()
         }
-    }
 
+
+    }
+    override fun onBackPressed() {
+        startActivity(Intent(this, BookmarkList::class.java))
+        finish()
+    }
     //팝업창으로 사용한 xml들 : popup_shape(팝업창모양) , popup(팝업창 사용자화), bookmark_delete
 
     //삭제 눌렀을때 나올 함수 선언
@@ -62,4 +68,5 @@ class BookmarkEditList : AppCompatActivity() {
         alertDialog.setView(view)
         alertDialog.show()
     }
+
 }

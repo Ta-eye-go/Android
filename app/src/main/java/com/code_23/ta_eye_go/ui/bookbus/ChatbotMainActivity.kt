@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.DB.User
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.ChatMessage
+import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
@@ -22,6 +23,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_bookbus.*
+import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
 import java.util.*
@@ -44,8 +46,6 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setContentView(R.layout.activity_bookbus)
         chat_menu.menu_text.text = "예약 하기"
 
-
-
         //setting adapter to recyclerview
         chatAdapter = ChatAdapter(this)
         rv_messages.adapter = chatAdapter
@@ -55,6 +55,12 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         // 음성데이터 입력 (이것만 실행!)
         mic_btn.setOnClickListener {
             askSpeechInput()
+        }
+
+        back_btn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         // Initialize the Text To Speech
@@ -211,5 +217,8 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun speakOut(text: String) {
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
-
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
+    }
 }

@@ -68,12 +68,11 @@
                 android:layout_height="100dp"
                 android:layout_below="@+id/currentStation"
                 android:layout_marginTop="0dp"
-                app:autoSizeMaxTextSize="40sp"
-                app:autoSizeTextType="uniform"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
-                android:text="@string/startSttn"
-                android:textColor="@color/yellow" />
+                android:textColor="@color/yellow"
+                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeTextType="uniform" />
 
         </RelativeLayout>
 
@@ -103,7 +102,6 @@
                 app:autoSizeTextType="uniform"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
-                android:text="@string/busNum"
                 android:textColor="@color/yellow"
                 app:autoSizeMaxTextSize="40sp"/>
 
@@ -134,7 +132,6 @@
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
                 app:autoSizeTextType="uniform"
-                android:text="@string/endSttn"
                 android:gravity="center"
                 android:textColor="@color/yellow"
                 app:autoSizeMaxTextSize="40sp" />

@@ -76,16 +76,19 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ChatbotMainActivity::class.java)
             intent.putExtra("currentStation", currentStation)
             startActivity(intent)
+            finish()
         }
         // 설정 창 이동
         settingBtn.setOnClickListener {
             val intent = Intent(this, Settings::class.java)
             startActivity(intent)
+            finish()
         }
         // 즐겨찾기 창 이동
         bookmarkBtn.setOnClickListener {
             val intent = Intent(this, BookmarkList::class.java)
             startActivity(intent)
+            finish()
         }
         // 현 위치 새로고침
         refreshBtn.setOnClickListener {
@@ -124,7 +127,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        fetchCurrentStation()
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(500)
+            withContext(Main) {
+                fetchCurrentStation()
+            }
+        }
     }
 
     private fun initVariables() {
@@ -142,7 +150,14 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             currentStation = "정류장 불러오기 오류"
         }
-        currentLocationText.text = "현재 정류장\n ${currentStation}\n (${sttnNo})"
+        currentLocationText.text = "${currentStation}\n (${sttnNo})"
+
+        // Talkback 사용자를 위해 toast를 띄워 현재 정류장을 읽도록 함
+        if(currentStation == "정류장 불러오기 오류") {
+            Toast.makeText(this,"정류장을 불러오지 못했습니다. 새로고침을 눌러주세요", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(this,"현재 정류장은 ${currentStation} 입니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun fetchLocation() {
@@ -158,8 +173,6 @@ class MainActivity : AppCompatActivity() {
             long = abs(it.longitude)
             // Toast.makeText(applicationContext, "${Lati}, ${Long}", Toast.LENGTH_LONG).show()
         }
-
-
     }
 
     inner class NetworkThread : Thread() {

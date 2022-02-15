@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.main.MainActivity">
+    tools:context=".ui.main.MainActivity"
+    android:label="@null">
 
     <!-- 피그마에서 크기 참조 후 해당px * (160/440) 한 값이 dp입니다.
     소숫점 첫째짜리까지 표현해줍시다! 버튼 크기는 dp로 통일해 주세요. -->

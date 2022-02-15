@@ -9,6 +9,7 @@ import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_after_reservation.currentLocationText
+import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
@@ -53,23 +54,27 @@ class AfterReservation : AppCompatActivity(){
             // 화면 이동만 일단 해둠...
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
-        reservationStatus()
-
-        CoroutineScope(Dispatchers.IO).launch {
-            delay(1000)
-            withContext(Main) {
-                val thread = NetworkThread()
-                thread.start()
-                thread.join()
-            }
+        back_btn.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
         }
 
         // coroutines을 이용한 실시간 업데이트 처리
         // 참고 : delay(1000) => 1초 지연
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
+            // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
+            delay(1000)
+            withContext(Main) {
+                reservationStatus()
+                val thread = NetworkThread()
+                thread.start()
+                thread.join()
+            }
             for(i in 0..100) {
                 if (!arrive) {
                     withContext(Main) {

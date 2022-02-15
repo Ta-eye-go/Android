@@ -11,6 +11,7 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_messages"
+            android:importantForAccessibility="no"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/mic_btn"
@@ -26,6 +27,7 @@
 
         <RelativeLayout
             android:id="@+id/mic_btn"
+            android:contentDescription="@string/mic_btn"
             android:layout_width="200dp"
             android:layout_height="75dp"
             android:layout_alignBottom="@id/chat_menu"
