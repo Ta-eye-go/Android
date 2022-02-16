@@ -9,6 +9,9 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import androidx.room.ColumnInfo
+import com.code_23.ta_eye_go.DB.Bookmark
+import com.code_23.ta_eye_go.DB.ListForm
 import com.code_23.ta_eye_go.DB.User
 import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
@@ -43,10 +46,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var lati: Double? = null
     private var long: Double? = null
-    var currentStation: String? = null
-
-    // 정류장 id
-    var sttnId: String? = null
+    var citycode: String = "23" // 도시코드
+    var currentStation: String? = null  // 현재정류장
+    var sttnId: String? = null  // 현재정류장 id
 
     var sttnNo: String? = "새로고침을 눌러주세요"
     private val key =
@@ -57,9 +59,12 @@ class MainActivity : AppCompatActivity() {
     // 뒤로가기
     private var mBackWait:Long = 0
 
+    // firebase DB
+    val database = Firebase.database
+    var listform = listOf<ListForm>()
+
     // UserDB
     private var userDB : UserDB? = null
-    private var userList = listOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -94,6 +99,15 @@ class MainActivity : AppCompatActivity() {
         refreshBtn.setOnClickListener {
             fetchLocation()
             fetchCurrentStation()
+            // realtime DB로  예약 초기 데이터 리스트 전송
+            var email = ""
+            email = Firebase.auth.currentUser?.email.toString()
+            val bookdata = database.getReference("data")
+            var currentLoc = ListForm(email, false,citycode,currentStation,sttnId,"","","","")
+            bookdata.setValue(currentLoc)
+            // realtime DB로 유저 정보 전송
+//                val user = database.getReference("유저정보")
+//                user.setValue(users)
         }
         // 로그인한 유저 DB등록
         val r = Runnable {
