@@ -11,12 +11,14 @@
         android:layout_centerVertical="true"
         android:layout_marginStart="30dp"
         android:gravity="center_vertical"
-        android:maxLines="1"
         android:text="인천대입구"
+        android:textSize="40sp"
         android:textColor="@color/yellow"
         android:textStyle="bold"
-        app:autoSizeMaxTextSize="40sp"
-        app:autoSizeTextType="uniform" />
+        android:ellipsize="marquee"
+        android:singleLine="true"
+        android:marqueeRepeatLimit="marquee_forever"
+         />
 
     <ImageView
         android:id="@+id/guide_dog"

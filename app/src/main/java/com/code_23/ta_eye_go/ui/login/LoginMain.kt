@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.code_23.ta_eye_go.DB.User
 import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
+import com.code_23.ta_eye_go.ui.driver.DriverMain
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.auth.api.Auth
@@ -62,7 +63,7 @@ class LoginMain : AppCompatActivity() {
 
         // 아직 기사용 화면은 없어서 메인화면으로 이동되게 만들어뒀음
         bus_btn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, DriverMain::class.java)
             startActivity(intent)
         }
 
@@ -173,7 +174,7 @@ class LoginMain : AppCompatActivity() {
                     startActivity(intent)
                 } else {
                     // If sign in fails, display a message to the user.
-                    //Toast.makeText(this,"로그인 실패", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this,"로그인 실패", Toast.LENGTH_SHORT).show()
                 }
             }
     }

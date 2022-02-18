@@ -26,7 +26,6 @@ class BookmarkEditList : AppCompatActivity() {
             showSettingPopup()
         }
 
-
     }
     override fun onBackPressed() {
         startActivity(Intent(this, BookmarkList::class.java))
