@@ -26,6 +26,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.bookers_item.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 import java.io.BufferedReader
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity() {
 
     // firebase DB
     val database = Firebase.database
-    var listform = listOf<ListForm>()
+    //var userdata = listOf<User>()
 
     // UserDB
     private var userDB : UserDB? = null
@@ -78,6 +79,14 @@ class MainActivity : AppCompatActivity() {
 
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
+            // realtime DB로  예약 초기 데이터 리스트 전송
+            var email = ""
+            email = Firebase.auth.currentUser?.email.toString()
+            var userdata = userDB?.userDao()?.userdata(email)!!
+            val bookdata = database.getReference("data")
+            var currentLoc = ListForm(email, userdata,citycode,currentStation,sttnId,"","","","")
+            bookdata.setValue(currentLoc)
+
             val intent = Intent(this, ChatbotMainActivity::class.java)
             intent.putExtra("currentStation", currentStation)
             startActivity(intent)
@@ -99,15 +108,6 @@ class MainActivity : AppCompatActivity() {
         refreshBtn.setOnClickListener {
             fetchLocation()
             fetchCurrentStation()
-            // realtime DB로  예약 초기 데이터 리스트 전송
-            var email = ""
-            email = Firebase.auth.currentUser?.email.toString()
-            val bookdata = database.getReference("data")
-            var currentLoc = ListForm(email, false,citycode,currentStation,sttnId,"","","","")
-            bookdata.setValue(currentLoc)
-            // realtime DB로 유저 정보 전송
-//                val user = database.getReference("유저정보")
-//                user.setValue(users)
         }
         // 로그인한 유저 DB등록
         val r = Runnable {

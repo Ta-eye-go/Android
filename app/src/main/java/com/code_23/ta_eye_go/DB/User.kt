@@ -27,6 +27,10 @@ interface UserDao {
     @Update
     fun updateUser(user: User)
 
+    // 현재 유저의 안내견 유무 데이터를 가져와줌
+    @Query("SELECT guide_dog FROM user WHERE id IN (:email)")
+    fun userdata(email: String): Boolean
+
     @Query("DELETE from user")
     fun deleteAll()
 }
@@ -35,7 +39,7 @@ interface UserDao {
 //RoomDatabase를 extend 하는 추상 클래스여야 하며, 테이블과 버전을 정의하는 곳이다.
 //Entity 모델을 기반으로 하고, dao의 메소드를 가지고 있는 데이터베이스를 생성하자. RoomDatabase()를 상속한다.
 //MainActivity에서 호출하며 database 객체를 반환하거나 삭제할 수 있도록 getInstance()와 destroyInstance()메소드를 생성
-@Database(entities = [User::class], version = 3)
+@Database(entities = [User::class], version = 10)
 abstract class UserDB: RoomDatabase() {
     abstract fun userDao(): UserDao
 

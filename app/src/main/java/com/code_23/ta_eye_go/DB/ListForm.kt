@@ -5,7 +5,7 @@ import androidx.room.Entity
 
 class ListForm (
     var id: String?,
-    var guide_dog: Boolean,
+    var guide_dog: Any,
     var cityCode: String?,
     var startNodenm: String?,
     var startNodeID: String?,
