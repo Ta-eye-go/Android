@@ -109,7 +109,7 @@ class AfterReservation : AppCompatActivity(){
         destination_text.text = destination
     }
 
-    private fun parcing1(urlAddress: String?) : StringBuffer {
+    private fun parsing1(urlAddress: String?) : StringBuffer {
         val url = URL(urlAddress)
         val conn = url.openConnection()
         val input = conn.getInputStream()
@@ -140,7 +140,7 @@ class AfterReservation : AppCompatActivity(){
                     "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
 
                 try {
-                    val buf = parcing1(urlAddress)
+                    val buf = parsing1(urlAddress)
                     val jsonObject = JSONObject(buf.toString())
 
                     // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기
@@ -158,7 +158,7 @@ class AfterReservation : AppCompatActivity(){
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
                             .getJSONObject("items")
                         val item = response.getJSONArray("item")
-                        for (i in 0..item.length() - 1) {
+                        for (i in 0 until item.length()) {
                             val iObject = item.getJSONObject(i)
                             if (iObject.getString("routeno") == busNm) {
                                 routeId = iObject.getString("routeid")
@@ -181,7 +181,7 @@ class AfterReservation : AppCompatActivity(){
                 "${address_busLc}${key}&cityCode=${citycode}&nodeId=${startSttnID}&routeId=${routeId}&_type=json"
 
             try {
-                val buf = parcing1(urlAddress2)
+                val buf = parsing1(urlAddress2)
                 val jsonObject = JSONObject(buf.toString())
 
                 // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기

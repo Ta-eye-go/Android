@@ -1,5 +1,6 @@
 package com.code_23.ta_eye_go.ui.driver
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
@@ -9,9 +10,10 @@ import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.BookerData
 import kotlinx.android.synthetic.main.bookers_item.view.*
 
-class BookerAdapter (private var activity: Activity) : RecyclerView.Adapter<BookerAdapter.BookerHolder>(){
+class BookerAdapter (private var activity: Activity) : RecyclerView.Adapter<BookerAdapter.BookerHolder>() {
 
     private var reservations = mutableListOf<BookerData>()
+
     inner class BookerHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BookerHolder {
@@ -42,4 +44,11 @@ class BookerAdapter (private var activity: Activity) : RecyclerView.Adapter<Book
         this.reservations.add(bookerData)
         notifyItemInserted(reservations.size)
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeBooker(position: Int) {
+        reservations.remove(reservations[position])
+        notifyItemRemoved(position)
+    }
+
 }

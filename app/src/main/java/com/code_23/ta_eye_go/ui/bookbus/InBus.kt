@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_in_bus.*
-import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 import org.json.JSONException
@@ -95,7 +94,7 @@ class InBus : AppCompatActivity() {
     }
 
 
-    private fun parcing1(urlAddress: String?) : StringBuffer {
+    private fun parsing1(urlAddress: String?) : StringBuffer {
         val url = URL(urlAddress)
         val conn = url.openConnection()
         val input = conn.getInputStream()
@@ -124,7 +123,7 @@ class InBus : AppCompatActivity() {
                 val urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
 
                 try {
-                    val buf = parcing1(urlAddress)
+                    val buf = parsing1(urlAddress)
                     val jsonObject = JSONObject(buf.toString())
 
                     // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기
@@ -160,7 +159,7 @@ class InBus : AppCompatActivity() {
             } else { // 이미 버스 차량번호를 알고 있을 때
                 val urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
                 try {
-                    val buf = parcing1(urlAddress)
+                    val buf = parsing1(urlAddress)
 
                     val jsonObject = JSONObject(buf.toString())
                     val response = jsonObject.getJSONObject("response").getJSONObject("body")
@@ -190,8 +189,8 @@ class InBus : AppCompatActivity() {
                 "${address_getNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
 
             try {
-                val buf1 = parcing1(urlAddress1)
-                val buf2 = parcing1(urlAddress2)
+                val buf1 = parsing1(urlAddress1)
+                val buf2 = parsing1(urlAddress2)
 
                 val jsonObject1 = JSONObject(buf1.toString())
                 val jsonObject2 = JSONObject(buf2.toString())
@@ -224,7 +223,7 @@ class InBus : AppCompatActivity() {
                     val urlAddress =
                         "${address_getNodeord}${key}&numOfRows=10&pageNo=${pageNum}&cityCode=${citycode}&routeId=${routeId}&_type=json"
                     try {
-                        val buf = parcing1(urlAddress)
+                        val buf = parsing1(urlAddress)
                         val jsonObject = JSONObject(buf.toString())
 
                         // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기

@@ -1,29 +1,81 @@
 package com.code_23.ta_eye_go.ui.driver
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.graphics.Color
+import android.media.RingtoneManager
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.BookerData
 import kotlinx.android.synthetic.main.activity_driver_main.*
+import kotlinx.android.synthetic.main.activity_driver_reservation.view.*
+import kotlinx.android.synthetic.main.bookers_item.view.*
+import kotlinx.coroutines.*
 
 class DriverMain : AppCompatActivity() {
 
+    private var passengerIn : Int = 0
+    private var passengerWaiting : Int = 0
+
     private lateinit var bookerAdapter: BookerAdapter
     private var reservations = mutableListOf<BookerData>()
+
+    // 알림 관련 (예약, 하차 등)
+    private lateinit var view : View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_main)
 
+        waitingNum.text = "$passengerWaiting"
+        on_boardNum.text = "$passengerIn"
+
         bookerAdapter = BookerAdapter(this)
         rv_bookers.adapter = bookerAdapter
         rv_bookers.layoutManager = LinearLayoutManager(applicationContext)
+    }
 
-        // 예시 예약
-        addBookerToList("인천대입구","인천대정문",true)
-        addBookerToList("송도더샾마스터뷰23단지","해양경찰청",false)
+    override fun onStart() {
+        super.onStart()
+        /* 테스트 용 */
+        CoroutineScope(Dispatchers.IO).launch {
+
+            addBookerToList("인천대입구","인천대정문",true)
+            addBookerToList("송도더샾마스터뷰23단지","해양경찰청",false)
+
+            withContext(Dispatchers.Main) {
+                // 1 정거장 전 => 글씨 빨강색으로 변화
+                delay(5000)
+                oneSttnLeft(0)
+
+                // 버스에 탑승한 경우
+                delay(5000)
+                removeBookerInList(0, true)
+
+                // 예약을 취소한 경우
+                delay(5000)
+                cancelNoti(0)
+                removeBookerInList(0, false)
+
+                // 신규 예약
+                delay(5000)
+                addBookerToList("동막역(1번출구)","인천대정문",true)
+                newNoti()
+
+                // 세 정거장 전(하차 알림)
+                delay(5000)
+                getOffNoti("인천대입구") // 승객 탑승 후에는 항목이 없어지기 때문에 서버에 저장된 값을 받아와야 함
+
+                // 하차 (도중 하차, 정상 하차 모두)
+                delay(5000)
+                passengerIn -= 1
+                on_boardNum.text = "$passengerIn"
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -31,6 +83,86 @@ class DriverMain : AppCompatActivity() {
         reservations.add(BookerData(startSttnNm, endSttnNm, guideDog))
         bookerAdapter.insertBooker(BookerData(startSttnNm, endSttnNm, guideDog))
         bookerAdapter.notifyDataSetChanged()
+
+        passengerWaiting += 1
+        waitingNum.text = "$passengerWaiting"
         rv_bookers.scrollToPosition(0)
+    }
+
+    private fun removeBookerInList(position : Int, onBoard : Boolean) {
+        bookerAdapter.removeBooker(position)
+
+        passengerWaiting -= 1
+        waitingNum.text = "$passengerWaiting"
+
+        if (onBoard) {
+            passengerIn += 1
+            on_boardNum.text = "$passengerIn"
+        }
+    }
+
+    private fun oneSttnLeft(position: Int) {
+        val v : View? = rv_bookers.findViewHolderForAdapterPosition(position)?.itemView
+        v?.booker_station?.setTextColor(Color.parseColor("#FFFE0000"))
+    }
+
+    private fun newNoti() {
+        val layoutInflater = LayoutInflater.from(this)
+        view = layoutInflater.inflate(R.layout.activity_driver_reservation, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.start_station.text = reservations[reservations.size-1].startSttn
+        view.end_station.text = reservations[reservations.size-1].endSttn
+
+        if(reservations[reservations.size-1].guideDog) {
+            view.with_guide_dog.text = "안내견 있음"
+        } else view.with_guide_dog.text = " "
+
+        alertDialog.show()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(2000)
+            alertDialog.dismiss()
+        }
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun cancelNoti(position: Int) {
+        val layoutInflater2 = LayoutInflater.from(this)
+        view = layoutInflater2.inflate(R.layout.activity_driver_canceled, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.start_station.text = reservations[position].startSttn
+
+        alertDialog.show()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(2000)
+            alertDialog.dismiss()
+        }
+    }
+
+    private fun getOffNoti(destination : String) {
+        val layoutInflater3 = LayoutInflater.from(this)
+        view = layoutInflater3.inflate(R.layout.activity_driver_getoff, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.end_station.text = destination
+
+        alertDialog.show()
+
+        CoroutineScope(Dispatchers.IO).launch {
+            delay(2000)
+            alertDialog.dismiss()
+        }
     }
 }

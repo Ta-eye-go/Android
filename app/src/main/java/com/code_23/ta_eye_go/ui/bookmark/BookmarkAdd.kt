@@ -50,7 +50,6 @@ class BookmarkAdd : AppCompatActivity(), TextToSpeech.OnInitListener {
         rv_messages.layoutManager = LinearLayoutManager(applicationContext)
 
         //onclick listener to update the list and call dialogflow
-        // 음성데이터 입력 (이것만 실행!)
         mic_btn.setOnClickListener {
             askSpeechInput()
         }
@@ -64,7 +63,7 @@ class BookmarkAdd : AppCompatActivity(), TextToSpeech.OnInitListener {
         // Initialize the Text To Speech
         tts = TextToSpeech(this, this)
 
-        // 현재 정류장 확인하기
+        // 즐겨찾기 신규추가
         GlobalScope.launch {
             withContext(Dispatchers.Main) {
                 sendMessageToBot("즐겨찾기 신규추가")
