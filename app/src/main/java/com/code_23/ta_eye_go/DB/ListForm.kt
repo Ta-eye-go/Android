@@ -1,18 +1,31 @@
 package com.code_23.ta_eye_go.DB
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 
 
 class ListForm (
-    var id: String?,
-    var guide_dog: Any,
     var cityCode: String?,
+    var endNodenm: String?,
+    var endNodeID: String?,
+    var guide_dog: Any,
+    var id: String?,
+    var routeID: String?,
+    var routeNo: String?,
+    var startNodenm: String?,
+    var startNodeID: String?
+){
+    constructor(): this("", "","",false,"","","","","")
+}
+
+class booklist(
+    var no: Any,
     var startNodenm: String?,
     var startNodeID: String?,
-    var routeID: String?,
     var endNodenm: String?,
+    var endNodeID: String?,
     var routeNo: String?,
-    var endNodeID: String?
+    var routeID: String?
 ){
-    constructor(): this(null, false,null,null,null,null,null,null,null)
+    constructor(): this(0,null,null,null,null,null,null)
 }

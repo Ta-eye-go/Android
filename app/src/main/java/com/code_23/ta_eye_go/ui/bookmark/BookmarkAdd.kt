@@ -2,6 +2,7 @@ package com.code_23.ta_eye_go.ui.bookmark
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -19,6 +20,11 @@ import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.dialogflow.v2.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_bookbus.*
 import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.menu_bar.*
@@ -185,6 +191,7 @@ class BookmarkAdd : AppCompatActivity(), TextToSpeech.OnInitListener {
     private fun updateUI(response: DetectIntentResponse) {
         val botReply: String = response.queryResult.fulfillmentText
         if (botReply.isNotEmpty()) {
+
             addMessageToList(botReply, true)
             speakOut(botReply)  // bot의 응답 TTS
         } else {

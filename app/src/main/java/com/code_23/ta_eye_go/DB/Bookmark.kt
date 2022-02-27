@@ -6,17 +6,13 @@ import androidx.room.*
 @Entity(tableName = "bookmark")
 data class Bookmark (
     @PrimaryKey(autoGenerate = true) val no: Int,
-    @ColumnInfo(name = "유저ID") var id: String,
-    @ColumnInfo(name = "안내견") var guide_dog: Boolean,
-    @ColumnInfo(name = "도시코드") val cityCode: String,
     @ColumnInfo(name = "현재정류장") val startNodenm: String,
     @ColumnInfo(name = "현재정류장ID") val startNodeID: String,
-    @ColumnInfo(name = "노선번호") val routeID: String,
     @ColumnInfo(name = "도착정류장") val endNodenm: String,
-    @ColumnInfo(name = "노선번호ID") val routeNo: String,
-    @ColumnInfo(name = "도착정류장ID") val endNodeID: String
+    @ColumnInfo(name = "도착정류장ID") val endNodeID: String,
+    @ColumnInfo(name = "노선번호") val routeID: String
 ){
-    constructor(): this( 0,"", false,"","","","","","","")
+    constructor(): this( 0,"","","","","")
 }
 
 @Dao
@@ -24,8 +20,7 @@ interface BookmarkDao {
     @Query("SELECT * FROM bookmark")
     fun getAll(): List<Bookmark>
 
-    /* import android.arch.persistence.room.OnConflictStrategy.REPLACE */
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE) // 추가할 때 동일한 기록이면 무시하기
     fun insert(bookmark: Bookmark)
 
     @Update
@@ -35,7 +30,7 @@ interface BookmarkDao {
     fun deleteAll()
 }
 
-@Database(entities = [Bookmark::class], version = 1)
+@Database(entities = [Bookmark::class], version = 2)
 abstract class BookmarkDB: RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
 

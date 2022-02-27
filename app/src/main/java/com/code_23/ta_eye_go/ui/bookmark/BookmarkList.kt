@@ -62,6 +62,9 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             finish()
         }
 
+        //
+        //var FavoriteToList =
+
         // 예시 즐겨찾기 항목들
         addFavoriteToList("신나는 하굣길", "인천대정문", "1234",
             "동막역(1번출구)", "1234", "8")

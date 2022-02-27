@@ -2,6 +2,7 @@ package com.code_23.ta_eye_go.ui.bookbus
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.ContentValues
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,18 +12,24 @@ import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.code_23.ta_eye_go.DB.User
+import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.ChatMessage
+import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.dialogflow.v2.*
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_bookbus.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
@@ -40,6 +47,13 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private val uuid = UUID.randomUUID().toString()
     private val TAG = "mainactivity"
     private lateinit var chatAdapter: ChatAdapter
+
+    //val dataModelList = mutableListOf<DataModel>()
+    //var list = ArrayList<String>()
+
+    var list = mutableListOf("A", "B", "C")
+    // RecordDB
+    private var recordDB : RecordDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,7 +101,6 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 Toast.makeText(this@ChatbotMainActivity, "Please enter text!", Toast.LENGTH_SHORT).show()
             }
         }*/
-
         //initialize bot config
         setUpBot()
     }

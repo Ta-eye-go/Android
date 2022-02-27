@@ -2,6 +2,7 @@ package com.code_23.ta_eye_go.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
@@ -10,10 +11,7 @@ import android.util.Log
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.room.ColumnInfo
-import com.code_23.ta_eye_go.DB.Bookmark
-import com.code_23.ta_eye_go.DB.ListForm
-import com.code_23.ta_eye_go.DB.User
-import com.code_23.ta_eye_go.DB.UserDB
+import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.databinding.ActivityMainBinding
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMainActivity
@@ -22,7 +20,9 @@ import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
@@ -62,10 +62,11 @@ class MainActivity : AppCompatActivity() {
 
     // firebase DB
     val database = Firebase.database
-    //var userdata = listOf<User>()
 
     // UserDB
     private var userDB : UserDB? = null
+    // RecordDB
+    private var recordDB : RecordDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,16 +80,22 @@ class MainActivity : AppCompatActivity() {
 
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
-            // realtime DB로  예약 초기 데이터 리스트 전송
+            recordDB?.recordDao()?.deleteAll()
+            // 예약 초기 데이터 리스트 realtime DB로 전송
             var email = ""
             email = Firebase.auth.currentUser?.email.toString()
             var userdata = userDB?.userDao()?.userdata(email)!!
+            //val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
             val bookdata = database.getReference("data")
-            var currentLoc = ListForm(email, userdata,citycode,currentStation,sttnId,"","","","")
+            //database = Firebase.database.reference
+            var currentLoc = ListForm(citycode,"인천대 입구","164000396", userdata,email,"ICB165000012","8",currentStation,sttnId)
+            //var currentLoc = ListForm(email, userdata,citycode,currentStation,sttnId,"","","","")
+            //database.child("users").child(email).setValue(currentLoc)
             bookdata.setValue(currentLoc)
 
             val intent = Intent(this, ChatbotMainActivity::class.java)
             intent.putExtra("currentStation", currentStation)
+            intent.putExtra("sttnId", sttnId)
             startActivity(intent)
             finish()
         }
