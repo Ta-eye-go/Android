@@ -30,7 +30,7 @@ class AfterReservation : AppCompatActivity() {
     // ** 변수들은 일단 임시로 값을 넣어둠
     // 예약 시 받아와야 하는 변수들(4개)
     private val startSttnNm : String = "당하대주파크빌" // 출발(현재) 정류장 이름
-    private val startSttnID : String = "ICB168000392" // 출발 정류장 id
+    private val startSttnID : String = "ICB168000437" // 출발 정류장 id
     private val destination : String = "검암역입구" // 도착 정류장 이름
     private val busNm : String = "1" // 탈 버스 번호
 
@@ -71,9 +71,9 @@ class AfterReservation : AppCompatActivity() {
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
+            reservationStatus()
             delay(1000)
             withContext(Main) {
-                reservationStatus()
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()

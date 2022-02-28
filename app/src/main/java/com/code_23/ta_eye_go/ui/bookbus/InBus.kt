@@ -28,14 +28,14 @@ class InBus : AppCompatActivity() {
     //        실시간 적용을 아직 안한 상태 (적용 예정) => 도착 후에 새로고침 한 번 더 눌러줘야 제대로 작동합니다!
 
     // 이전 단계에서 받아와야 하는 변수들(3개)
-    private val startSttnID : String = "GGB229000509" // 출발 정류장 id
-    private val endSttnID : String = "GGB229000585" // 도착 정류장 id
-    private val routeId : String = "GGB229000042" // 탑승 버스의 노선 번호
+    private val startSttnID : String = "ICB168000441" // 출발 정류장 id
+    private val endSttnID : String = "ICB168000496" // 도착 정류장 id
+    private val routeId : String = "ICB165000001" // 탑승 버스의 노선 번호
     // private val startSttnNm : String? = "가람마을3.4.6단지"
     // private val destination : String? = "파주우체국"
     // private val busNm : String? = "92"
 
-    private val citycode : Int = 31200 // 도시코드 (인천 : 23)
+    private val citycode : Int = 23 // 도시코드 (인천 : 23)
     private var vehicleNo : String? = null // 버스 번호
     private var nodeord : Int? = null // 현재 정류장의 순서 번호 -> 노선마다 정류장에 순서대로 번호를 붙임
     private var endNodeord : Int? = null // 도착 정류장의 순서 번호
@@ -46,8 +46,8 @@ class InBus : AppCompatActivity() {
     // 도착 여부 확인용
     var arrive = false
 
-    // private val key = "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
-    private val key = "NbREnDA1nV3nLBWbv7EXWntBQT%2BoyKeMVAPC7dGVUYJu8zgIV%2FHzLylOStyuhH%2FjTSuC3Nj0pjTC6sCV9jkY%2Fg%3D%3D"
+    private val key = "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
+    // private val key = "NbREnDA1nV3nLBWbv7EXWntBQT%2BoyKeMVAPC7dGVUYJu8zgIV%2FHzLylOStyuhH%2FjTSuC3Nj0pjTC6sCV9jkY%2Fg%3D%3D"
     private val address_myBusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
     private val address_getNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=" //노선별경유정류소목록조회
 
@@ -144,11 +144,11 @@ class InBus : AppCompatActivity() {
         override fun run() {
             // 탑승한 차량의 위치 정보
             if (vehicleNo == null) { // 탑승한 버스 차량 번호를 모를 때 (처음 돌렸을 경우)
-                val urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                var urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
 
                 try {
-                    val buf = parsing1(urlAddress)
-                    val jsonObject = JSONObject(buf.toString())
+                    var buf = parsing1(urlAddress)
+                    var jsonObject = JSONObject(buf.toString())
 
                     // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기
                     val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
@@ -159,7 +159,24 @@ class InBus : AppCompatActivity() {
                             .getJSONObject("items").getJSONObject("item")
                         vehicleNo = response.getString("vehicleno")
                         nodeord = response.getInt("nodeord")
-                    } else {
+                    }
+                    else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
+                        urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&numOfRows=${totalCnt}&routeId=${routeId}&_type=json"
+                        buf = parsing1(urlAddress)
+                        jsonObject = JSONObject(buf.toString())
+                        val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                            .getJSONObject("items")
+                        val item = response.getJSONArray("item")
+                        for (i in 0 until item.length()) {
+                            val iObject = item.getJSONObject(i)
+                            if (iObject.getString("nodeid") == startSttnID) {
+                                vehicleNo = iObject.getString("vehicleno")
+                                nodeord = iObject.getInt("nodeord")
+                                break
+                            }
+                        }
+                    }
+                    else {
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
                             .getJSONObject("items")
                         val item = response.getJSONArray("item")
