@@ -34,6 +34,7 @@ import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
 import java.util.*
+import java.util.Collections.list
 
 class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private val RQ_SPEECH_REC = 102 // 음성 디코드?
@@ -52,8 +53,9 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     //var list = ArrayList<String>()
 
     var list = mutableListOf("A", "B", "C")
-    // RecordDB
+    // Room DB
     private var recordDB : RecordDB? = null
+    private var datamodelDB : DataModelDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,6 +63,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         chat_menu.menu_text.text = "예약 하기"
 
         recordDB = RecordDB.getInstance(this)
+        datamodelDB = DataModelDB.getInstance(this)
         list.clear()
 
         //setting adapter to recyclerview
@@ -213,6 +216,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             if (botReply.contains("예약 확정")){    // 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
                 val database = Firebase.database
                 val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
+                datamodelDB?.datamodelDao()?.deleteAll()
                 // realtime database 해당 유저 예약 기록 가져오기
                 bookdata.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
@@ -230,10 +234,12 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         var a8 = list[7]    // 현재정류장ID
                         var a9 = list[8]    // 현재정류장
                         var recordlist = Record(a2,a3,a6,a7,a8,a9)
+                        var datamodellist = DataModel(a2,a3,a6,a7,a8,a9)    // 예약 후 화면에서 사용할 변수
                         // 로그인한 유저 DB등록
                         val r = Runnable {
                             try {
                                 recordDB?.recordDao()?.insert(recordlist)
+                                datamodelDB?.datamodelDao()?.insert(datamodellist)
                             } catch (e: Exception) {
                                 Log.d("tag", "Error - $e")
                             }
@@ -242,6 +248,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         thread.start()
                         Log.d("kokoko4", recordlist.toString())
                         Log.d("kokoko5", recordDB?.recordDao()?.getAll().toString())
+                        Log.d("kokoko6", datamodelDB?.datamodelDao()?.getAll().toString())
                     }
                     override fun onCancelled(error: DatabaseError) {
                         Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
@@ -259,6 +266,8 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     override fun onDestroy() {
         RecordDB.destroyInstance()
         recordDB = null
+        DataModelDB.destroyInstance()
+        datamodelDB = null
         super.onDestroy()
     }
 

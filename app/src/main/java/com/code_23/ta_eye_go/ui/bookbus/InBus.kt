@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.code_23.ta_eye_go.DB.DataModelDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_in_bus.*
@@ -28,9 +30,9 @@ class InBus : AppCompatActivity() {
     //        실시간 적용을 아직 안한 상태 (적용 예정) => 도착 후에 새로고침 한 번 더 눌러줘야 제대로 작동합니다!
 
     // 이전 단계에서 받아와야 하는 변수들(3개)
-    private val startSttnID : String = "ICB168000441" // 출발 정류장 id
-    private val endSttnID : String = "ICB168000496" // 도착 정류장 id
-    private val routeId : String = "ICB165000001" // 탑승 버스의 노선 번호
+    private var startSttnID : String? = "" // 출발 정류장 id
+    private var endSttnID : String? = "" // 도착 정류장 id
+    private var routeId : String? = "" // 탑승 버스의 노선 번호 id
     // private val startSttnNm : String? = "가람마을3.4.6단지"
     // private val destination : String? = "파주우체국"
     // private val busNm : String? = "92"
@@ -51,13 +53,22 @@ class InBus : AppCompatActivity() {
     private val address_myBusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
     private val address_getNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=" //노선별경유정류소목록조회
 
+    // Room DB
+    private var datamodelDB : DataModelDB? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_in_bus)
 
+        datamodelDB = DataModelDB.getInstance(this)
+
         CoroutineScope(Dispatchers.IO).launch {
-            delay(1000)
             withContext(Main) {
+                val a = datamodelDB?.datamodelDao()?.getAll()
+                startSttnID = a?.get(0)?.startNodeID
+                endSttnID = a?.get(0)?.endNodeID
+                routeId = a?.get(0)?.routeID
+                delay(1000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -228,6 +239,9 @@ class InBus : AppCompatActivity() {
                 "${address_getNodeord}${key}&numOfRows=1&pageNo=${nodeord}&cityCode=${citycode}&routeId=${routeId}&_type=json"
             val urlAddress2 =
                 "${address_getNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+
+            Log.d("asd1", urlAddress1)
+            Log.d("asd2", urlAddress2)
 
             try {
                 val buf1 = parsing1(urlAddress1)

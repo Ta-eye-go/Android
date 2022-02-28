@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.code_23.ta_eye_go.DB.DataModelDB
+import com.code_23.ta_eye_go.DB.RecordDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_after_reservation.*
@@ -29,13 +31,13 @@ class AfterReservation : AppCompatActivity() {
 
     // ** 변수들은 일단 임시로 값을 넣어둠
     // 예약 시 받아와야 하는 변수들(4개)
-    private val startSttnNm : String = "당하대주파크빌" // 출발(현재) 정류장 이름
-    private val startSttnID : String = "ICB168000437" // 출발 정류장 id
-    private val destination : String = "검암역입구" // 도착 정류장 이름
-    private val busNm : String = "1" // 탈 버스 번호
+    private var startSttnNm : String? = "" // 출발(현재) 정류장 이름
+    private var startSttnID : String? = "" // 출발 정류장 id
+    private var destination : String? = "" // 도착 정류장 이름
+    private var busNm : String? = "" // 탈 버스 번호
 
     private val citycode : Int = 23 // 도시코드 (인천 : 23)
-    private var routeId : String? = null // 버스의 노선 번호
+    private var routeId : String? = null // 버스의 노선 번호 ID
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
 
@@ -49,10 +51,15 @@ class AfterReservation : AppCompatActivity() {
     private val address_getRoute = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
     private val address_busLc = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
 
+    // Room DB
+    private var datamodelDB : DataModelDB? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_after_reservation)
         menu.menu_text.text = "버스 탑승 예정"
+
+        datamodelDB = DataModelDB.getInstance(this)
 
         cancel_button.setOnClickListener {
             // 화면 이동만 일단 해둠...
@@ -74,6 +81,7 @@ class AfterReservation : AppCompatActivity() {
             reservationStatus()
             delay(1000)
             withContext(Main) {
+                reservationStatus()
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -88,6 +96,7 @@ class AfterReservation : AppCompatActivity() {
                     if (arrive) {
                         // TODO : 탑승 완료 후 처리 1
                         currentLocationText.text = "탑승이 완료되었습니다."
+                        turn()
                         break
                     }
                     delay(20000) // 20초 기다리기
@@ -95,10 +104,19 @@ class AfterReservation : AppCompatActivity() {
                 if (arrive) {
                     // TODO : 탑승 완료 후 처리 2
                     currentLocationText.text = "탑승이 완료되었습니다."
+                    turn()
                     break
                 }
             }
         }
+
+    }
+
+    fun turn() {
+        // 예약 후 화면 이동
+        val intent = Intent(this, InBus::class.java)
+        startActivity(intent)
+        finish()
     }
 
     override fun onStop() {
@@ -107,6 +125,12 @@ class AfterReservation : AppCompatActivity() {
     }
 
     private fun reservationStatus() {
+        val a = datamodelDB?.datamodelDao()?.getAll()
+        startSttnNm = a?.get(0)?.startNodenm
+        busNm = a?.get(0)?.routeNo
+        destination = a?.get(0)?.endNodenm
+        startSttnID = a?.get(0)?.startNodeID
+
         currentStation_text.text = startSttnNm
         busNum_text.text = busNm
         destination_text.text = destination
@@ -165,7 +189,7 @@ class AfterReservation : AppCompatActivity() {
             if (routeId == null) {
                 var urlAddress =
                     "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
-
+                //Log.d("asd", urlAddress)
                 try {
                     var buf = parsing1(urlAddress)
                     var jsonObject = JSONObject(buf.toString())
