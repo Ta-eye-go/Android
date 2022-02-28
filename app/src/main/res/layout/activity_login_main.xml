@@ -79,6 +79,7 @@
         android:layout_width="0dp"
         android:layout_height="55dp"
         android:layout_marginBottom="10dp"
+        android:contentDescription="@string/com_google_login_button"
         app:layout_constraintBottom_toTopOf="@+id/kakao_login_button"
         app:layout_constraintEnd_toEndOf="@+id/kakao_login_button"
         app:layout_constraintStart_toStartOf="@+id/kakao_login_button"

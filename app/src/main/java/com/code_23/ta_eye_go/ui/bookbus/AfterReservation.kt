@@ -29,12 +29,12 @@ class AfterReservation : AppCompatActivity() {
 
     // ** 변수들은 일단 임시로 값을 넣어둠
     // 예약 시 받아와야 하는 변수들(4개)
-    private val startSttnNm : String = "봉서1리.화약골" // 출발(현재) 정류장 이름
-    private val startSttnID : String = "GGB229000328" // 출발 정류장 id
-    private val destination : String = "십자약국" // 도착 정류장 이름
-    private val busNm : String = "92" // 탈 버스 번호
+    private val startSttnNm : String = "당하대주파크빌" // 출발(현재) 정류장 이름
+    private val startSttnID : String = "ICB168000392" // 출발 정류장 id
+    private val destination : String = "검암역입구" // 도착 정류장 이름
+    private val busNm : String = "1" // 탈 버스 번호
 
-    private val citycode : Int = 31200 // 도시코드 (인천 : 23)
+    private val citycode : Int = 23 // 도시코드 (인천 : 23)
     private var routeId : String? = null // 버스의 노선 번호
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
@@ -163,12 +163,12 @@ class AfterReservation : AppCompatActivity() {
         override fun run() {
             // 타고자 하는 버스의 노선 id 받아오기 (노선은 한 번만 받아오도록 처리)
             if (routeId == null) {
-                val urlAddress =
+                var urlAddress =
                     "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
 
                 try {
-                    val buf = parsing1(urlAddress)
-                    val jsonObject = JSONObject(buf.toString())
+                    var buf = parsing1(urlAddress)
+                    var jsonObject = JSONObject(buf.toString())
 
                     // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기
                     val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
@@ -178,6 +178,21 @@ class AfterReservation : AppCompatActivity() {
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
                             .getJSONObject("items").getJSONObject("item")
                         routeId = response.getString("routeid")
+                    }
+                    else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
+                        urlAddress = "${address_getRoute}${key}&numOfRows=${totalCnt}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
+                        buf = parsing1(urlAddress)
+                        jsonObject = JSONObject(buf.toString())
+                        val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                            .getJSONObject("items")
+                        val item = response.getJSONArray("item")
+                        for (i in 0 until item.length()) {
+                            val iObject = item.getJSONObject(i)
+                            if (iObject.getString("routeno") == busNm) {
+                                routeId = iObject.getString("routeid")
+                                break
+                            }
+                        }
                     }
                     // 버스 정보의 경우, 검색한 문자열을 포함하는 버스가 모두 검색된다. ex) 10번 검색시 : 10번, 9710번, 108번이 모두 검색됨
                     // 따라서 여러 가지 결과가 나올 경우, 우리가 검색한 번호와 일치하는 버스만 선택하여 골라준다.

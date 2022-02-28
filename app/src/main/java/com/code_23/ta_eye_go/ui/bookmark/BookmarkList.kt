@@ -37,7 +37,6 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         if (sttnId == favoriteItem.startSttnID) {
             // TODO : 클릭 시 예약화면으로 이동하기
             confirmDialog()
-            Toast.makeText(this@BookmarkList, "예약 이동 미구현", Toast.LENGTH_SHORT).show()
         }
         else {
             Toast.makeText(this@BookmarkList, "현재 정류장이 항목과 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
