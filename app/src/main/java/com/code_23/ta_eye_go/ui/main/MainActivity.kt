@@ -67,21 +67,22 @@ class MainActivity : AppCompatActivity() {
 
         // Room DB
         userDB = UserDB.getInstance(this)
+        recordDB = RecordDB.getInstance(this)
 
         initVariables()
         fetchLocation()
 
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
-            recordDB?.recordDao()?.deleteAll()
+            //recordDB?.recordDao()?.deleteAll()
             // 예약 초기 데이터 리스트 realtime DB로 전송
             var email = Firebase.auth.currentUser?.email.toString()
             var userdata = userDB?.userDao()?.userdata(email)!!
-            //val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
-            val bookdata = database.getReference("data")
+            val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
+            //val bookdata = database.getReference("data")
             //database = Firebase.database.reference
-            var currentLoc = ListForm(citycode,"인천대 입구","164000396", userdata,email,"ICB165000012","8",currentStation,sttnId)
-            //var currentLoc = ListForm(email, userdata,citycode,currentStation,sttnId,"","","","")
+            var currentLoc = ListForm(citycode,"164000396","인천대 입구", userdata,email,"ICB165000012","303",sttnId,currentStation)
+            //var currentLoc = ListForm(citycode,"","", userdata,email,"","",sttnId,currentStation)
             //database.child("users").child(email).setValue(currentLoc)
             bookdata.setValue(currentLoc)
 

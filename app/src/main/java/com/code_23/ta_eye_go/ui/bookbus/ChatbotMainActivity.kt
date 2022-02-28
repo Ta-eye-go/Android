@@ -60,6 +60,9 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         setContentView(R.layout.activity_bookbus)
         chat_menu.menu_text.text = "예약 하기"
 
+        recordDB = RecordDB.getInstance(this)
+        list.clear()
+
         //setting adapter to recyclerview
         chatAdapter = ChatAdapter(this)
         rv_messages.adapter = chatAdapter
@@ -90,7 +93,6 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 speakOut(currentSttnChecker)
             }
         }
-
         /*// 키보드 입력
         btnSend.setOnClickListener {
             val message: String = editMessage.text.toString()   // message : 입력한 텍스트 테이터
@@ -208,9 +210,56 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (botReply.isNotEmpty()) {
             addMessageToList(botReply, true)
             speakOut(botReply)  // bot의 응답 TTS
+            if (botReply.contains("예약 확정")){    // 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
+                val database = Firebase.database
+                val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
+                // realtime database 해당 유저 예약 기록 가져오기
+                bookdata.addValueEventListener(object: ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        for (item in snapshot.children){
+                            Log.d("kokoko1", item.toString())
+                            var values = item.value.toString()
+                            list.add(values)
+                            Log.d("kokoko2", values)
+                        }
+                        Log.d("kokoko3", list.toString())
+                        var a2 = list[1]    // 도착정류장ID
+                        var a3 = list[2]    // 도착정류장
+                        var a6 = list[5]    // 노선번호ID
+                        var a7 = list[6]    // 노선번로
+                        var a8 = list[7]    // 현재정류장ID
+                        var a9 = list[8]    // 현재정류장
+                        var recordlist = Record(a2,a3,a6,a7,a8,a9)
+                        // 로그인한 유저 DB등록
+                        val r = Runnable {
+                            try {
+                                recordDB?.recordDao()?.insert(recordlist)
+                            } catch (e: Exception) {
+                                Log.d("tag", "Error - $e")
+                            }
+                        }
+                        val thread = Thread(r)
+                        thread.start()
+                        Log.d("kokoko4", recordlist.toString())
+                        Log.d("kokoko5", recordDB?.recordDao()?.getAll().toString())
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
+                    }
+                })
+                // 예약 후 화면 이동
+                val intent = Intent(this, AfterReservation::class.java)
+                startActivity(intent)
+                finish()
+            }
         } else {
             Toast.makeText(this, "something went wrong", Toast.LENGTH_SHORT).show()
         }
+    }
+    override fun onDestroy() {
+        RecordDB.destroyInstance()
+        recordDB = null
+        super.onDestroy()
     }
 
     // TTS

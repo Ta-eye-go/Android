@@ -6,14 +6,14 @@ import androidx.room.Entity
 
 class ListForm (
     var cityCode: String?,
-    var endNodenm: String?,
     var endNodeID: String?,
+    var endNodenm: String?,
     var guide_dog: Any,
     var id: String?,
     var routeID: String?,
     var routeNo: String?,
-    var startNodenm: String?,
-    var startNodeID: String?
+    var startNodeID: String?,
+    var startNodenm: String?
 ){
     constructor(): this("", "","",false,"","","","","")
 }

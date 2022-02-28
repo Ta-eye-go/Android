@@ -25,7 +25,7 @@ import java.io.InputStreamReader
 import java.net.MalformedURLException
 import java.net.URL
 
-class AfterReservation : AppCompatActivity(){
+class AfterReservation : AppCompatActivity() {
 
     // ** 변수들은 일단 임시로 값을 넣어둠
     // 예약 시 받아와야 하는 변수들(4개)
