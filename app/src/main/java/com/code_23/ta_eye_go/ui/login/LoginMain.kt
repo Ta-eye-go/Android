@@ -1,11 +1,13 @@
 package com.code_23.ta_eye_go.ui.login
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.ImageButton
 import android.widget.Toast
 import com.code_23.ta_eye_go.DB.User
@@ -34,6 +36,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.kakao.util.helper.Utility
 import kotlinx.android.synthetic.main.activity_login_main.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.alertdialog_item.view.*
 
 class LoginMain : AppCompatActivity() {
     // firebase 인증을 위한 변수
@@ -191,5 +194,26 @@ class LoginMain : AppCompatActivity() {
         super.onStart()
         //자동 로그인 설정
         moveMainPage(auth?.currentUser)
+    }
+    override fun onBackPressed() {
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.alertdialog_item, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.menu_name.text = " "
+        view.menu_content.text = "앱을 종료하시겠습니까?"
+
+        alertDialog.show()
+
+        view.btn_yes.setOnClickListener {
+            alertDialog.dismiss()
+            finishAffinity()
+        }
+        view.btn_no.setOnClickListener {
+            alertDialog.dismiss()
+        }
     }
 }

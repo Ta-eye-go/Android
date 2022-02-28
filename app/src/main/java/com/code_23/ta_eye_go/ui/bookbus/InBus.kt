@@ -1,13 +1,16 @@
 package com.code_23.ta_eye_go.ui.bookbus
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_in_bus.*
+import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 import org.json.JSONException
@@ -87,12 +90,33 @@ class InBus : AppCompatActivity() {
         }
 
         getoffBtn.setOnClickListener {
+            confirmDialog()
+        }
+    }
+
+    private fun confirmDialog() {
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.alertdialog_item, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.menu_name.text = "<하차 확인>"
+        view.menu_content.text = "하차하시겠습니까?"
+
+        alertDialog.show()
+
+        view.btn_yes.setOnClickListener {
+            alertDialog.dismiss()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
         }
+        view.btn_no.setOnClickListener {
+            alertDialog.dismiss()
+        }
     }
-
 
     private fun parsing1(urlAddress: String?) : StringBuffer {
         val url = URL(urlAddress)

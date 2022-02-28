@@ -2,15 +2,15 @@ package com.code_23.ta_eye_go.ui.main
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
+import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.room.ColumnInfo
 import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.databinding.ActivityMainBinding
@@ -19,14 +19,11 @@ import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.bookers_item.*
+import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
 import java.io.BufferedReader
@@ -35,7 +32,6 @@ import java.net.URL
 import org.json.JSONObject
 import org.json.JSONException
 import java.io.IOException
-import java.lang.NullPointerException
 import java.net.MalformedURLException
 import kotlin.math.abs
 
@@ -56,9 +52,6 @@ class MainActivity : AppCompatActivity() {
         "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
     private val address =
         "http://openapi.tago.go.kr/openapi/service/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
-
-    // 뒤로가기
-    private var mBackWait:Long = 0
 
     // firebase DB
     val database = Firebase.database
@@ -82,8 +75,7 @@ class MainActivity : AppCompatActivity() {
         bookBusBtn.setOnClickListener {
             recordDB?.recordDao()?.deleteAll()
             // 예약 초기 데이터 리스트 realtime DB로 전송
-            var email = ""
-            email = Firebase.auth.currentUser?.email.toString()
+            var email = Firebase.auth.currentUser?.email.toString()
             var userdata = userDB?.userDao()?.userdata(email)!!
             //val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
             val bookdata = database.getReference("data")
@@ -108,6 +100,7 @@ class MainActivity : AppCompatActivity() {
         // 즐겨찾기 창 이동
         bookmarkBtn.setOnClickListener {
             val intent = Intent(this, BookmarkList::class.java)
+            intent.putExtra("sttnId", sttnId)
             startActivity(intent)
             finish()
         }
@@ -138,11 +131,24 @@ class MainActivity : AppCompatActivity() {
 
     // 뒤로 가기 버튼 종료 액션
     override fun onBackPressed() {
-        if(System.currentTimeMillis() - mBackWait >= 2000 ) {
-            mBackWait = System.currentTimeMillis()
-            Toast.makeText(applicationContext, "뒤로가기 버튼을 한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show()
-        } else {
-            finish()
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.alertdialog_item, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.menu_name.text = " "
+        view.menu_content.text = "앱을 종료하시겠습니까?"
+
+        alertDialog.show()
+
+        view.btn_yes.setOnClickListener {
+            alertDialog.dismiss()
+            finishAffinity()
+        }
+        view.btn_no.setOnClickListener {
+            alertDialog.dismiss()
         }
     }
 
@@ -177,7 +183,7 @@ class MainActivity : AppCompatActivity() {
         if(currentStation == "정류장 불러오기 오류") {
             Toast.makeText(this,"정류장을 불러오지 못했습니다. 새로고침을 눌러주세요", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this,"현재 정류장은 ${currentStation} 입니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"현재 정류장은 $currentStation 입니다.", Toast.LENGTH_SHORT).show()
         }
     }
 

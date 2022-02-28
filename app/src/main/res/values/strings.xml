@@ -47,4 +47,6 @@
     <string name="twoThirds">세 페이지 중 두 번째 페이지</string>
     <string name="threeThirds">세 페이지 중 세 번째 페이지</string>
     <string name="newFavorites">즐겨찾기 신규추가</string>
+    <string name="stationNm">정류장 이름</string>
+    <string name="threeSttnLeft">손님이 하차하는 정류장까지 세 정거장 남았습니다.</string>
 </resources>

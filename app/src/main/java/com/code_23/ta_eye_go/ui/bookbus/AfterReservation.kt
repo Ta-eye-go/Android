@@ -1,14 +1,18 @@
 package com.code_23.ta_eye_go.ui.bookbus
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_after_reservation.currentLocationText
+import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
@@ -52,12 +56,11 @@ class AfterReservation : AppCompatActivity(){
 
         cancel_button.setOnClickListener {
             // 화면 이동만 일단 해둠...
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            confirmDialog()
         }
 
         back_btn.setOnClickListener {
+            // TODO : 다시 이 화면으로 돌아와도 지장 없도록 해야 함...(안드)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -128,6 +131,30 @@ class AfterReservation : AppCompatActivity(){
         } while (str != null)
 
         return buf
+    }
+
+    private fun confirmDialog() {
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.alertdialog_item, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.menu_name.text = "<취소 확인>"
+        view.menu_content.text = "취소하시겠습니까?"
+
+        alertDialog.show()
+
+        view.btn_yes.setOnClickListener {
+            alertDialog.dismiss()
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+        view.btn_no.setOnClickListener {
+            alertDialog.dismiss()
+        }
     }
 
     // json 파싱...

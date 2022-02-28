@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.driver.DriverMain">
 
     <RelativeLayout
@@ -51,15 +50,16 @@
             <TextView
                 android:id="@+id/start_station"
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/alert_reservation_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                app:autoSizeMaxTextSize="50sp"
-                app:autoSizeTextType="uniform"
                 android:gravity="center"
-                android:text="인천대입구"
+                android:lineSpacingExtra="-10dp"
+                android:maxLines="2"
+                android:text="@string/stationNm"
                 android:textColor="@color/white"
+                android:textSize="40sp"
                 android:textStyle="bold" />
 
             <ImageView
@@ -75,16 +75,17 @@
             <TextView
                 android:id="@+id/end_station"
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_below="@+id/arrow"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="15dp"
                 android:gravity="center"
-                android:text="동막역(1번출구)"
+                android:lineSpacingExtra="-10dp"
+                android:maxLines="2"
+                android:text="@string/stationNm"
                 android:textColor="@color/white"
-                android:textStyle="bold"
-                app:autoSizeMaxTextSize="50sp"
-                app:autoSizeTextType="uniform" />
+                android:textSize="40sp"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/with_guide_dog"

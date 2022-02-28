@@ -1,13 +1,13 @@
 package com.code_23.ta_eye_go.ui.bookmark
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.ContextMenu
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,21 +15,34 @@ import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bookmark.*
+import kotlinx.android.synthetic.main.activity_driver_reservation.view.*
+import kotlinx.android.synthetic.main.alertdialog_item.view.*
+import kotlinx.android.synthetic.main.bookmark_item.*
 import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
+import kotlinx.android.synthetic.main.menu_bar.view.menu_text
 
 class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateContextMenuListener {
 
     private lateinit var bookmarkAdapter: BookmarkAdapter
     private var favoriteItems = mutableListOf<Favorite>()
+    private lateinit var sttnId : String
 
-    override fun onClick(v: View?) {
-        // 짧게 누르기 : 예약화면 이동, 길게 누르기 : 설정 메뉴
-        // TODO : 클릭 시 예약화면으로 이동하기
-        Toast.makeText(this@BookmarkList, "예약 이동 미구현", Toast.LENGTH_SHORT).show()
+    override fun onClick(v: View?) { // 짧은 클릭 (예약 화면 이동)
+        val favoriteItem = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)]
+
+        // 현재 정류장과 시작 정류장 일치 검사
+        if (sttnId == favoriteItem.startSttnID) {
+            // TODO : 클릭 시 예약화면으로 이동하기
+            confirmDialog()
+            Toast.makeText(this@BookmarkList, "예약 이동 미구현", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            Toast.makeText(this@BookmarkList, "현재 정류장이 항목과 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+        }
     }
 
-    override fun onCreateContextMenu(
+    override fun onCreateContextMenu( // 긴 클릭 (메뉴 띄우기)
         menu: ContextMenu?,
         v: View?,
         menuInfo: ContextMenu.ContextMenuInfo?
@@ -42,6 +55,7 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark)
         bookmark_menu.menu_text.text = "즐겨찾기"
+        sttnId = intent.getStringExtra("sttnId").toString()
 
         bookmarkAdapter = BookmarkAdapter(this)
         rv_favorites.adapter = bookmarkAdapter
@@ -66,9 +80,9 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         //var FavoriteToList =
 
         // 예시 즐겨찾기 항목들
-        addFavoriteToList("신나는 하굣길", "인천대정문", "1234",
-            "동막역(1번출구)", "1234", "8")
-        addFavoriteToList("이름이 10글자 이상인 즐겨찾기", "인천대입구", "12345",
+        addFavoriteToList("신나는 하굣길", "당하대주파크빌", "ICB168000392",
+            "인천대입구", "ICB164000396", "8")
+        addFavoriteToList("이름이 10글자 이상인 즐겨찾기", "산내마을3단지", "12345",
             "인천대학교공과대학", "12345", "8")
         addFavoriteToList("인입에서해경", "인천대입구", "5678",
             "해양경찰청", "5678", "16")
@@ -105,5 +119,27 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
+    }
+
+    private fun confirmDialog() {
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.alertdialog_item, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.menu_name.text = "<예약 확인>"
+        view.menu_content.text = "예약하시겠습니까?"
+
+        alertDialog.show()
+
+        view.btn_yes.setOnClickListener {
+            alertDialog.dismiss()
+            Toast.makeText(this@BookmarkList, "예약 이동 미구현", Toast.LENGTH_SHORT).show()
+        }
+        view.btn_no.setOnClickListener {
+            alertDialog.dismiss()
+        }
     }
 }

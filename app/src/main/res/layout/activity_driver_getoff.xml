@@ -51,14 +51,15 @@
             <TextView
                 android:id="@+id/end_station"
                 android:layout_width="300dp"
-                android:layout_height="60dp"
+                android:layout_height="120dp"
                 android:layout_below="@+id/alert_getoff_text"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="동막역(1번출구)"
+                android:text="@string/stationNm"
                 android:textColor="@color/white"
                 android:textStyle="bold"
+                android:maxLines="2"
                 app:autoSizeMaxTextSize="50sp"
                 app:autoSizeTextType="uniform" />
 
@@ -70,7 +71,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
                 android:gravity="center"
-                android:text="손님이 하차하는 정류장까지 세 정거장 남았습니다."
+                android:text="@string/threeSttnLeft"
                 android:textColor="@color/white"
                 android:textSize="25sp" />
 
