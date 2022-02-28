@@ -1,10 +1,12 @@
 package com.code_23.ta_eye_go.ui.settings
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.DB.User
@@ -71,9 +73,11 @@ class Settings : AppCompatActivity(){
                     // 카카오 로그아웃, 로그아웃 눌렀을때 로그아웃+팝업, 로그인 화면으로 전환
                     UserApiClient.instance.logout { error ->
                         if (error != null) {
-                            Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
+                            Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
+                            //Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
                         }else {
-                            Toast.makeText(this, "로그아웃 성공", Toast.LENGTH_SHORT).show()
+                            Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
+                            //Toast.makeText(this, "로그아웃 성공", Toast.LENGTH_SHORT).show()
                         }
                         val intent = Intent(this, LoginMain::class.java)
                         startActivity(intent.addFlags(FLAG_ACTIVITY_CLEAR_TOP))
@@ -97,6 +101,15 @@ class Settings : AppCompatActivity(){
             val intent = Intent(this, Guide1::class.java)
             startActivity(intent)
             finish()
+        }
+
+        //카카오톡 로그인 정보
+        val nickname = findViewById<TextView>(R.id.nickname_txt)
+        val email = findViewById<TextView>(R.id.email_txt)
+
+        UserApiClient.instance.me { user, error ->
+            nickname.text = "닉네임: ${user?.kakaoAccount?.profile?.nickname}"
+            email.text = "이메일 : ${user?.kakaoAccount?.email}"
         }
 
         // 예약 테스트 용 입니다. 무시해주세요!!

@@ -3,11 +3,12 @@ package com.code_23.ta_eye_go.ui.bookmark
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.ContextMenu
-import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,6 +16,7 @@ import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bookmark.*
+import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
 import kotlinx.android.synthetic.main.activity_driver_reservation.view.*
 import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.android.synthetic.main.bookmark_item.*
@@ -79,11 +81,11 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         //
         //var FavoriteToList =
 
-        // 예시 즐겨찾기 항목들
-        addFavoriteToList("신나는 하굣길", "당하대주파크빌", "ICB168000392",
+        // 예시 즐겨찾기 항목들 , 띄어쓰기 기준으로 줄바꿈
+        addFavoriteToList("신나는 하굣길", "당하대 주파크빌", "ICB168000392",
             "인천대입구", "ICB164000396", "8")
         addFavoriteToList("이름이 10글자 이상인 즐겨찾기", "산내마을3단지", "12345",
-            "인천대학교공과대학", "12345", "8")
+            "인천대학교 공과대학", "12345", "8")
         addFavoriteToList("인입에서해경", "인천대입구", "5678",
             "해양경찰청", "5678", "16")
     }
@@ -103,19 +105,52 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             //각각 선택했을때 할 작업 설정
             R.id.menu_edit_list -> {
                 startActivity(Intent(this, BookmarkEditList::class.java))
-                finish()
             }
             R.id.menu_edit_name -> {
                 startActivity(Intent(this, BookmarkEditName::class.java))
-                finish()
+                bookmark_name.text = intent.getStringExtra("Data")
             }
             R.id.menu_delete_list -> {
-                startActivity(Intent(this, BookmarkEditList::class.java))
-                finish()
+                showSettingPopup()
             }
         }
         return super.onContextItemSelected(item)
     }
+
+    private fun showSettingPopup() {
+        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = inflater.inflate(R.layout.popup, null)
+
+        //팝업창 제목과 이름
+        val textView: TextView = view.findViewById(R.id.textView)
+        textView.text="<즐겨찾기 삭제>"
+        val textView2: TextView = view.findViewById(R.id.textView2)
+        textView2.text = "삭제하시겠습니까?"
+
+        //팝업창 설정
+        val alertDialog = AlertDialog.Builder(this)
+            .create()
+
+        //"예" 눌렀을때 팝업창 띄워주는 형식으로 일단 설정, 삭제되는 액션 안에 넣어주면 됨
+        val btn_yes = view.findViewById<Button>(R.id.btn_yes)
+        btn_yes.setOnClickListener{
+            Toast.makeText(applicationContext, "삭제되었습니다", Toast.LENGTH_SHORT).show()
+            alertDialog.dismiss()
+        }
+
+        //"아니오" 눌렀을때 -> 변화없음(dismiss)
+        val btn_no = view.findViewById<Button>(R.id.btn_no)
+        btn_no.setOnClickListener{
+            alertDialog.dismiss()
+        }
+
+        alertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) //팝업창 모양설정
+        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE) //팝업창 타이틀바 제거
+        alertDialog.setCancelable(false) //팝업창 바깥 눌렀을때 종료되지 않도록
+        alertDialog.setView(view)
+        alertDialog.show()
+    }
+
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()

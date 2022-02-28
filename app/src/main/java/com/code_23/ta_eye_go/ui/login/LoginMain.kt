@@ -64,7 +64,7 @@ class LoginMain : AppCompatActivity() {
         // Room DB
         userDB = UserDB.getInstance(this)
 
-        // 아직 기사용 화면은 없어서 메인화면으로 이동되게 만들어뒀음
+        // 기사용 버튼
         bus_btn.setOnClickListener {
             val intent = Intent(this, DriverMain::class.java)
             startActivity(intent)
@@ -74,9 +74,13 @@ class LoginMain : AppCompatActivity() {
         UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
             if (error != null) {
                 //Toast.makeText(this, "토큰 정보 보기 실패", Toast.LENGTH_SHORT).show()
+                Log.e(TAG,"토큰 정보 보기 실패",error)
             }
             else if (tokenInfo != null) {
                 //Toast.makeText(this, "토큰 정보 보기 성공", Toast.LENGTH_SHORT).show()
+                Log.i(TAG,"토큰 정보 보기 성공"+
+                        "\n회원번호 : ${tokenInfo.id}"+
+                        "\n만료시간 : ${tokenInfo.expiresIn} 초")
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
@@ -117,6 +121,7 @@ class LoginMain : AppCompatActivity() {
             }
             else if (token != null) {
                 //Toast.makeText(this, "로그인에 성공하였습니다.", Toast.LENGTH_SHORT).show()
+                Log.i(TAG, "카카오계정으로 로그인 성공 ${token.accessToken}")
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
                 finish()
@@ -125,12 +130,59 @@ class LoginMain : AppCompatActivity() {
         //카카오톡 로그인 버튼 눌렀을시 실행함수
         val kakao_login_button = findViewById<ImageButton>(R.id.kakao_login_button) // 로그인 버튼
         kakao_login_button.setOnClickListener {
-            if(UserApiClient.instance.isKakaoTalkLoginAvailable(this)){
-                UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
-            }else{
+//            if(UserApiClient.instance.isKakaoTalkLoginAvailable(this)){
+//                UserApiClient.instance.loginWithKakaoTalk(this, callback = callback)
+//            }else{
+//                UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+//            }
+            // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+            if (UserApiClient.instance.isKakaoTalkLoginAvailable(this)) {
+                UserApiClient.instance.loginWithKakaoTalk(this) { token, error ->
+                    if (error != null) {
+                        Log.e(TAG, "카카오톡으로 로그인 실패", error)
+
+                        // 사용자가 카카오톡 설치 후 디바이스 권한 요청 화면에서 로그인을 취소한 경우,
+                        // 의도적인 로그인 취소로 보고 카카오계정으로 로그인 시도 없이 로그인 취소로 처리 (예: 뒤로 가기)
+                        if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                            return@loginWithKakaoTalk
+                        }
+
+                        // 카카오톡에 연결된 카카오계정이 없는 경우, 카카오계정으로 로그인 시도
+                        UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
+                    } else if (token != null) {
+                        Log.i(TAG, "카카오톡 계정으로 로그인 성공 ${token.accessToken}")
+                    }
+                }
+            } else {
                 UserApiClient.instance.loginWithKakaoAccount(this, callback = callback)
             }
         }
+
+        // 사용자 정보 저장
+        // 변경할 내용
+        val properties = mapOf("nickname" to "${System.currentTimeMillis()}")
+
+        UserApiClient.instance.updateProfile(properties) { error ->
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 저장 실패", error)
+            }
+            else {
+                Log.i(TAG, "사용자 정보 저장 성공")
+            }
+        }
+
+        //사용자 정보 가져오기 (Logcat에서 확인가능, 한번 동의하면 그 뒤로 동의메시지 안뜸)
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e(TAG, "사용자 정보 요청 실패", error)
+            }
+            else if (user != null) {
+                Log.i(TAG, "사용자 정보 요청 성공" +
+                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
+                        "\n이메일: ${user.kakaoAccount?.email}")
+            }
+        }
+
         // 구글 로그인을 위해 구성되어야 하는 코드 (Id, Email request)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
