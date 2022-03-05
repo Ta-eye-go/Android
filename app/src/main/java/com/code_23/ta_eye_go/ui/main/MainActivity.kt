@@ -15,7 +15,7 @@ import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.databinding.ActivityMainBinding
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMainActivity
-import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
+import com.code_23.ta_eye_go.ui.bookmark.BookmarkMain
 import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
@@ -100,7 +100,7 @@ class MainActivity : AppCompatActivity() {
         }
         // 즐겨찾기 창 이동
         bookmarkBtn.setOnClickListener {
-            val intent = Intent(this, BookmarkList::class.java)
+            val intent = Intent(this, BookmarkMain::class.java)
             intent.putExtra("sttnId", sttnId)
             startActivity(intent)
             finish()

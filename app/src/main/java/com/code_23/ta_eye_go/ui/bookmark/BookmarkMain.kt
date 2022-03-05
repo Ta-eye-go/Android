@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.android.synthetic.main.menu_bar.view.menu_text
 
-class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateContextMenuListener {
+class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateContextMenuListener {
 
     private lateinit var bookmarkAdapter: BookmarkAdapter
     private var favoriteItems = mutableListOf<Favorite>()
@@ -39,7 +39,7 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             confirmDialog()
         }
         else {
-            Toast.makeText(this@BookmarkList, "현재 정류장이 항목과 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@BookmarkMain, "현재 정류장이 항목과 일치하지 않습니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -66,7 +66,7 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
 
         // + -> 신규추가 버튼 누를시 이동
         NewBtn.setOnClickListener {
-            val intent = Intent(this, BookmarkAdd::class.java)
+            val intent = Intent(this, BookmarkNew::class.java)
             startActivity(intent)
             finish()
         }
@@ -76,9 +76,6 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             startActivity(intent)
             finish()
         }
-
-        //
-        //var FavoriteToList =
 
         // 예시 즐겨찾기 항목들 , 띄어쓰기 기준으로 줄바꿈
         addFavoriteToList("신나는 하굣길", "당하대 주파크빌", "ICB168000392",
@@ -170,7 +167,7 @@ class BookmarkList : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
 
         view.btn_yes.setOnClickListener {
             alertDialog.dismiss()
-            Toast.makeText(this@BookmarkList, "예약 이동 미구현", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@BookmarkMain, "예약 이동 미구현", Toast.LENGTH_SHORT).show()
         }
         view.btn_no.setOnClickListener {
             alertDialog.dismiss()

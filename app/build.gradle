@@ -8,7 +8,9 @@ plugins {
 
 android {
     compileSdk 31
-    buildToolsVersion "30.0.2"
+    buildToolsVersion "30.0.3"
+
+    androidExtensions { experimental = true }
 
     defaultConfig {
         applicationId "com.code_23.ta_eye_go"
@@ -47,10 +49,6 @@ android {
         jvmTarget = '1.8'
     }
 
-//    dataBinding {
-//        enabled = true
-//    }
-
     buildFeatures {
         dataBinding = true
         viewBinding true
@@ -58,7 +56,6 @@ android {
 
 }
 dependencies {
-
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
     implementation 'com.google.android.material:material:1.5.0'
@@ -109,7 +106,3 @@ dependencies {
 }
 configurations.implementation.exclude(group: 'com.google.firebase', module: 'protolite-well-known-types')
 configurations.implementation.exclude(group: 'com.google.protobuf', module: 'protobuf-javalite')
-
-//repositories {
-//    mavenCentral()
-//}

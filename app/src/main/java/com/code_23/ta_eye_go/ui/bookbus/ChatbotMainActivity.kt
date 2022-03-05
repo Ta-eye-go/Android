@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.ChatMessage
-import com.code_23.ta_eye_go.ui.bookmark.BookmarkList
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
@@ -34,7 +33,6 @@ import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.coroutines.*
 import java.util.*
-import java.util.Collections.list
 
 class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private val RQ_SPEECH_REC = 102 // 음성 디코드?

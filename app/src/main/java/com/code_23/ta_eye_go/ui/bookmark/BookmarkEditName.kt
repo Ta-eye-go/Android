@@ -4,9 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.code_23.ta_eye_go.R
-import kotlinx.android.synthetic.main.activity_add_name.*
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
-import kotlinx.android.synthetic.main.bookmark_item.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class BookmarkEditName : AppCompatActivity() {
@@ -16,14 +14,14 @@ class BookmarkEditName : AppCompatActivity() {
         nickname_menu.menu_text.text = "별칭 수정"
 
         btn_cancel.setOnClickListener{
-            startActivity(Intent(this, BookmarkList::class.java))
+            startActivity(Intent(this, BookmarkMain::class.java))
             finish()
         }
 
         btn_complete.setOnClickListener {
             //bookmark textview가 변경되도록
             val text = edt_name.text.toString()
-            val intent = Intent(this, BookmarkList::class.java)
+            val intent = Intent(this, BookmarkMain::class.java)
             intent.putExtra("Data", text)
             startActivity(intent)
         }

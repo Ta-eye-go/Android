@@ -1,73 +1,94 @@
 package com.code_23.ta_eye_go.ui.bookmark
 
+import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Window
-import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
+import com.code_23.ta_eye_go.data.Favorite
+import com.code_23.ta_eye_go.data.ReservationData
+import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.bookmark_menu
+import kotlinx.android.synthetic.main.alertdialog_item.view.*
+import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 
-class BookmarkNew : AppCompatActivity() {
+class BookmarkNew : AppCompatActivity(), View.OnClickListener {
+    private lateinit var recentRouteAdapter: RecentRouteAdapter
+    private var recentRoutes = mutableListOf<ReservationData>()
+
+    override fun onClick(v: View?) {
+        // Favorite 이름 default : " "
+        val recentRoute = recentRoutes[rv_recentRoutes.getChildAdapterPosition(v!!)]
+        val newFavorite = Favorite(" ", recentRoute.startSttnNm, recentRoute.startSttnID, recentRoute.destination, recentRoute.destinationID, recentRoute.busNm)
+        confirmDialog(newFavorite)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark_new)
         bookmark_menu.menu_text.text = "즐겨찾기"
 
-        //신규추가 버튼 눌렀을때, 신규추가 화면 이동
+        recentRouteAdapter = RecentRouteAdapter(this)
+        rv_recentRoutes.adapter = recentRouteAdapter
+        rv_recentRoutes.layoutManager = LinearLayoutManager(applicationContext)
+        recentRouteAdapter.setOnItemClickListener(this)
+
+        //신규추가 버튼 눌렀을때, 신규추가 챗봇 이동
         Newline_Btn.setOnClickListener {
-            val intent = Intent(this, AddBusStop::class.java)
+            val intent = Intent(this, BookmarkAdd::class.java)
             startActivity(intent)
         }
 
-//        // 최근 이용 경로 눌렀을때, 즐겨찾기 확인 팝업창 띄워줌
-//        bookmark_1.setOnClickListener {
-//            showSettingPopup()
-//        }
+        back_btn.setOnClickListener {
+            val intent = Intent(this, BookmarkMain::class.java)
+            startActivity(intent)
+            finish()
+        }
+
+        addRecentRouteToList("당하대주파크빌", "ICB168000392",
+            "인천대입구", "ICB164000396", "8")
+        addRecentRouteToList("산내마을3단지", "12345",
+            "인천대학교공과대학", "12345", "16")
     }
-//
-//    //팝업창으로 사용한 xml들 : popup_shape(팝업창모양) , popup(팝업창 사용자화), bookmark_delete
-//
-//    //삭제 눌렀을때 나올 함수 선언
-//    private fun showSettingPopup(){
-//        val inflater = getSystemService(LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        val view = inflater.inflate(R.layout.popup, null)
-//
-//        //팝업창 제목과 이름
-//        val textView: TextView = view.findViewById(R.id.textView)
-//        textView.text="<즐겨찾기 확인>"
-//        val textView2: TextView = view.findViewById(R.id.textView2)
-//        textView2.text = "추가하시겠습니까?"
-//
-//        //팝업창 설정
-//        val alertDialog = AlertDialog.Builder(this)
-//            .create()
-//
-//        //"예" 눌렀을때 팝업창 띄워주는 형식으로 일단 설정, 삭제되는 액션 안에 넣어주면 됨
-//        val btn_yes = view.findViewById<Button>(R.id.btn_yes)
-//        btn_yes.setOnClickListener{
-//            Toast.makeText(applicationContext, "추가되었습니다", Toast.LENGTH_SHORT).show()
-//            alertDialog.dismiss()
-//        }
-//
-//        //"아니오" 눌렀을때 -> 변화없음(dismiss)
-//        val btn_no = view.findViewById<Button>(R.id.btn_no)
-//        btn_no.setOnClickListener{
-//            alertDialog.dismiss()
-//        }
-//
-//        alertDialog.getWindow()?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) //팝업창 모양설정
-//        alertDialog.requestWindowFeature(Window.FEATURE_NO_TITLE) //팝업창 타이틀바 제거
-//        alertDialog.setCancelable(false) //팝업창 바깥 눌렀을때 종료되지 않도록
-//        alertDialog.setView(view)
-//        alertDialog.show()
-//    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun addRecentRouteToList(startSttnNm : String, startSttnID : String,
+                                  destination : String, destinationID : String, busNm : String) {
+
+        recentRoutes.add(ReservationData(startSttnNm, startSttnID, destination, destinationID, busNm))
+        recentRouteAdapter.insertRecentRoute(ReservationData(startSttnNm, startSttnID, destination, destinationID, busNm))
+        recentRouteAdapter.notifyDataSetChanged()
+        rv_recentRoutes.scrollToPosition(0)
+    }
+
+    private fun confirmDialog(newFavorite: Favorite) {
+        val layoutInflater = LayoutInflater.from(this)
+        val view = layoutInflater.inflate(R.layout.alertdialog_item, null)
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setView(view)
+            .create()
+
+        view.menu_name.text = "<즐겨찾기 확인>"
+        view.menu_content.text = "추가하시겠습니까?"
+
+        alertDialog.show()
+
+        view.btn_yes.setOnClickListener {
+            alertDialog.dismiss()
+            val intent = Intent(this, AddName::class.java)
+            intent.putExtra("newFavorite", newFavorite)
+            startActivity(intent)
+            finish()
+        }
+        view.btn_no.setOnClickListener {
+            alertDialog.dismiss()
+        }
+    }
 }

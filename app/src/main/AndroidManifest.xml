@@ -103,7 +103,7 @@
             android:name=".ui.settings.Settings"
             android:label="설정"/>
         <activity
-            android:name=".ui.bookmark.BookmarkList"
+            android:name=".ui.bookmark.BookmarkMain"
             android:label="즐겨찾기"/>
         <activity
             android:name=".ui.bookbus.AfterReservation"

@@ -2,11 +2,9 @@ package com.code_23.ta_eye_go.ui.bookmark
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.AppComponentFactory
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
@@ -62,6 +60,7 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
             // 너무 긴 텍스트 처리
             if (favoriteNm.length > 15) holder.itemView.bookmark_name.text = favoriteNm.substring(0,13) + "..."
             else holder.itemView.bookmark_name.text = favoriteNm
+            holder.itemView.menu_btn.visibility = View.GONE
             holder.itemView.bus_end.text = destination
             holder.itemView.bus_start.text = startSttnNm
             holder.itemView.bus_number.text = busNm

@@ -2,7 +2,6 @@ package com.code_23.ta_eye_go.ui.bookmark
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -15,16 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.ChatMessage
 import com.code_23.ta_eye_go.ui.bookbus.ChatAdapter
-import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
 import com.google.cloud.dialogflow.v2.*
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_bookbus.*
 import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.menu_bar.*
@@ -61,7 +54,7 @@ class BookmarkAdd : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
 
         back_btn.setOnClickListener {
-            val intent = Intent(this, BookmarkList::class.java)
+            val intent = Intent(this, BookmarkMain::class.java)
             startActivity(intent)
             finish()
         }
@@ -217,7 +210,7 @@ class BookmarkAdd : AppCompatActivity(), TextToSpeech.OnInitListener {
         tts?.speak(text, TextToSpeech.QUEUE_FLUSH, null, "")
     }
     override fun onBackPressed() {
-        startActivity(Intent(this, BookmarkList::class.java))
+        startActivity(Intent(this, BookmarkMain::class.java))
         finish()
     }
 }
