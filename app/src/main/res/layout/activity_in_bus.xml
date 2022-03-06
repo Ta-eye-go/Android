@@ -38,7 +38,7 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text=""
-                android:textColor="@color/yellow"
+                android:textColor="@color/colorPrimary"
                 app:autoSizeMaxTextSize="50sp"
                 app:autoSizeTextType="uniform" />
 
@@ -71,7 +71,7 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text=""
-                android:textColor="@color/yellow"
+                android:textColor="@color/colorPrimary"
                 app:autoSizeMaxTextSize="50sp"
                 app:autoSizeTextType="uniform" />
 
@@ -104,7 +104,7 @@
                 android:layout_marginBottom="20dp"
                 android:gravity="center"
                 android:text=""
-                android:textColor="@color/yellow"
+                android:textColor="@color/colorPrimary"
                 app:autoSizeMaxTextSize="50sp"
                 app:autoSizeTextType="uniform" />
 
@@ -114,17 +114,17 @@
             android:id="@+id/refreshBtn"
             android:layout_width="72dp"
             android:layout_height="72dp"
-            android:src="@drawable/refresh_yellow"
             android:layout_below="@id/numOfStations_box"
+            app:tint="@color/colorPrimary"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
-            android:layout_marginStart="10dp"/>
+            android:src="@drawable/refresh_yellow"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/getoffBtn"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/numOfStations_box"
-
             android:layout_alignParentEnd="true"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"

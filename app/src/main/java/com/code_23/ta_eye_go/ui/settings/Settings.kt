@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import com.code_23.ta_eye_go.DB.User
 import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
@@ -114,12 +115,10 @@ class Settings : AppCompatActivity(){
 
         // 예약 테스트 용 입니다. 무시해주세요!!
         btn_yellow.setOnClickListener {
-            val intent = Intent(this, AfterReservation::class.java)
-            startActivity(intent)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
         btn_blue.setOnClickListener {
-            val intent = Intent(this, InBus::class.java)
-            startActivity(intent)
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
         // 안내견 유무 스위치
         switch_dog.setOnCheckedChangeListener{CompoundButton, onSwitch ->

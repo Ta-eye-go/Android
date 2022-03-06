@@ -31,18 +31,6 @@
             android:label=" "
             android:exported="false" />
         <activity
-            android:name=".ui.bookmark.AddBusStop2"
-            android:label=" "
-            android:exported="false" />
-        <activity
-            android:name=".ui.bookmark.AddBus"
-            android:label=" "
-            android:exported="false" />
-        <activity
-            android:name=".ui.bookmark.AddBusStop"
-            android:label=" "
-            android:exported="false" />
-        <activity
             android:name=".ui.bookmark.BookmarkNew"
             android:label=" "
             android:exported="false" />

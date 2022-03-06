@@ -5,20 +5,37 @@
       <map>
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/alert.xml" value="0.22719298245614036" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/app_icon.xml" value="0.225" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/arrow.xml" value="0.12927631578947368" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/background.xml" value="0.1" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/background_line.xml" value="0.1" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/bg_chat_receive.xml" value="0.1" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/bg_chat_send.xml" value="0.1" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/blank_shape.xml" value="0.22412280701754386" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/book_arrow.xml" value="0.22719298245614036" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/book_yellow.xml" value="0.17039473684210527" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/booker_list.xml" value="0.22412280701754386" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/bookmark_cirlce.xml" value="0.1" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/bookmark_rectangle.xml" value="0.1" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/border_outline.xml" value="0.22412280701754386" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/bus_icon.xml" value="0.1" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/chatbot_icon.xml" value="0.1" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/chatbox.xml" value="0.17039473684210527" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/chattingspace.xml" value="0.22412280701754386" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/check_box.xml" value="0.17039473684210527" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/circle.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/dialog_box.xml" value="0.17039473684210527" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/division.xml" value="0.17039473684210527" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/dog_footprint.xml" value="0.22719298245614036" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.11710526315789474" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/ic_launcher_teg_foreground.xml" value="0.15164473684210528" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/ic_plus.xml" value="0.17039473684210527" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/keyboard_white.xml" value="0.17039473684210527" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/letterbox_yellow.xml" value="0.17039473684210527" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/listening.xml" value="0.21666666666666667" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/microphone_yellow.xml" value="0.1" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/search_box.xml" value="0.17039473684210527" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/setting_yellow.xml" value="0.16689189189189188" />
+        <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/star_yellow.xml" value="0.17039473684210527" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/text_bar.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/text_bar_2.xml" value="0.21666666666666667" />
         <entry key="..\:/Users/gosjo/AndroidStudioProjects/ta_eye_go2/app/src/main/res/drawable/tiger_blur.xml" value="0.10493421052631578" />

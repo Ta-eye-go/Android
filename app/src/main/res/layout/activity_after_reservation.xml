@@ -19,17 +19,18 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="122.5dp"
             android:background="@drawable/letterbox_yellow"
+            android:backgroundTint="@color/colorPrimary"
             android:gravity="center">
 
             <TextView
                 android:id="@+id/currentLocationText"
                 android:layout_width="317.1dp"
                 android:layout_height="80.5dp"
-                app:autoSizeTextType="uniform"
                 android:text="버스정보를&#10; 불러오고 있습니다..."
                 android:textAlignment="center"
-                android:textColor="@color/yellow"
-                android:textSize="16sp" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                app:autoSizeTextType="uniform" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -70,7 +71,7 @@
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
-                android:textColor="@color/yellow"
+                android:textColor="@color/colorPrimary"
                 app:autoSizeMaxTextSize="40sp"
                 app:autoSizeTextType="uniform" />
 
@@ -102,7 +103,7 @@
                 app:autoSizeTextType="uniform"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
-                android:textColor="@color/yellow"
+                android:textColor="@color/colorPrimary"
                 app:autoSizeMaxTextSize="40sp"/>
 
         </RelativeLayout>
@@ -133,7 +134,7 @@
                 android:background="@drawable/text_bar"
                 app:autoSizeTextType="uniform"
                 android:gravity="center"
-                android:textColor="@color/yellow"
+                android:textColor="@color/colorPrimary"
                 app:autoSizeMaxTextSize="40sp" />
 
         </RelativeLayout>

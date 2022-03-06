@@ -69,6 +69,9 @@ class MainActivity : AppCompatActivity() {
         userDB = UserDB.getInstance(this)
         recordDB = RecordDB.getInstance(this)
 
+        // 수정이가 넣으라고 한거
+        //recordDB?.recordDao()?.deleteAll()
+
         initVariables()
         fetchLocation()
 

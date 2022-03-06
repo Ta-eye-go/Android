@@ -28,6 +28,7 @@
             app:layout_constraintHorizontal_bias="0.037"
             app:layout_constraintStart_toStartOf="parent"
             android:layout_marginStart="10dp"
+            app:tint="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/star_yellow" />
 

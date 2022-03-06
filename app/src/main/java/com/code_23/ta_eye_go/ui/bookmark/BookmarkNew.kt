@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.data.ReservationData
-import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.bookmark_menu
 import kotlinx.android.synthetic.main.alertdialog_item.view.*

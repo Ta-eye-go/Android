@@ -18,6 +18,7 @@
         android:layout_height="83.6dp"
         android:contentDescription="@string/SettingsButton"
         android:src="@drawable/setting_yellow"
+        app:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.073"
@@ -32,6 +33,7 @@
         android:layout_height="83.6dp"
         android:contentDescription="@string/BookmarkButton"
         android:src="@drawable/star_yellow"
+        app:tint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.917"
@@ -56,6 +58,7 @@
         android:layout_width="345.1dp"
         android:layout_height="105.1dp"
         android:background="@drawable/letterbox_yellow"
+        android:backgroundTint="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -66,23 +69,27 @@
             android:id="@+id/currentLocationText"
             android:layout_width="280.7dp"
             android:layout_height="78.5dp"
-            app:autoSizeTextType="uniform"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="15dp"
             android:gravity="center"
-            android:layout_margin="15dp"
             android:text="현재 정류장을&#10; 불러오고 있습니다..."
             android:textAlignment="center"
-            android:textColor="@color/yellow"
-            android:textSize="18sp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            app:autoSizeTextType="uniform" />
 
         <ImageView
             android:id="@+id/refreshBtn"
-            android:layout_alignParentEnd="true"
             android:layout_width="41.1dp"
             android:layout_height="41.1dp"
-            android:layout_marginEnd="5dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="30dp"
+            android:layout_marginEnd="5dp"
             android:contentDescription="@string/RefreshButton"
             android:src="@drawable/refresh_yellow"
+            app:tint="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent" />
     </RelativeLayout>
 
