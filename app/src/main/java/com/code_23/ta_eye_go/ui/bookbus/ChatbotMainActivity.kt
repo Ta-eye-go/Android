@@ -218,13 +218,18 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 // realtime database 해당 유저 예약 기록 가져오기
                 bookdata.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
+                        Log.d("gogo", "realtime db 값 오류")
                         for (item in snapshot.children){
                             Log.d("kokoko1", item.toString())
                             var values = item.value.toString()
-                            list.add(values)
-                            Log.d("kokoko2", values)
+                            // realtime db 값 필터링
+                            var str1_values = values.replace("[","")
+                            var str2_values = str1_values.replace("]","")
+                            list.add(str2_values)
+                            Log.d("kokoko2", str2_values)
                         }
                         Log.d("kokoko3", list.toString())
+                        Log.d("kokoko33", list[2])
                         var a2 = list[1]    // 도착정류장ID
                         var a3 = list[2]    // 도착정류장
                         var a6 = list[5]    // 노선번호ID

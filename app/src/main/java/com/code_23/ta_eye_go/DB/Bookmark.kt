@@ -3,16 +3,16 @@ package com.code_23.ta_eye_go.DB
 import android.content.Context
 import androidx.room.*
 
-@Entity(tableName = "bookmark")
+@Entity(tableName = "bookmark",primaryKeys = ["도착정류장ID","도착정류장", "노선번호","현재정류장ID","현재정류장"])
 data class Bookmark (
-    @PrimaryKey(autoGenerate = true) val no: Int,
+    @ColumnInfo(name = "별칭") val favoriteNm: String,
     @ColumnInfo(name = "현재정류장") val startNodenm: String,
     @ColumnInfo(name = "현재정류장ID") val startNodeID: String,
     @ColumnInfo(name = "도착정류장") val endNodenm: String,
     @ColumnInfo(name = "도착정류장ID") val endNodeID: String,
     @ColumnInfo(name = "노선번호") val routeID: String
 ){
-    constructor(): this( 0,"","","","","")
+    constructor(): this( "0","","","","","")
 }
 
 @Dao
@@ -30,7 +30,7 @@ interface BookmarkDao {
     fun deleteAll()
 }
 
-@Database(entities = [Bookmark::class], version = 2)
+@Database(entities = [Bookmark::class], version = 4)
 abstract class BookmarkDB: RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
 

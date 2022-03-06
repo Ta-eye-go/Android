@@ -81,8 +81,8 @@ class MainActivity : AppCompatActivity() {
             val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
             //val bookdata = database.getReference("data")
             //database = Firebase.database.reference
-            var currentLoc = ListForm(citycode,"ICB168000852","검암역입구", userdata,email,"ICB165000001","1","ICB168000494",currentStation)
-            //var currentLoc = ListForm(citycode,"","", userdata,email,"","",sttnId,currentStation)
+            //var currentLoc = ListForm(citycode,"ICB168000394","엘리지안타운", userdata,email,"ICB165000055","87",sttnId,currentStation)
+            var currentLoc = ListForm(citycode,"","", userdata,email,"","",sttnId,currentStation)
             //database.child("users").child(email).setValue(currentLoc)
             bookdata.setValue(currentLoc)
 
