@@ -48,8 +48,8 @@ class AfterReservation : AppCompatActivity() {
     var arrive = false
 
     private val key = "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
-    private val address_getRoute = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
-    private val address_busLc = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
+    private val address_getRoute = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
+    private val address_busLc = "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
 
     // Room DB
     private var datamodelDB : DataModelDB? = null

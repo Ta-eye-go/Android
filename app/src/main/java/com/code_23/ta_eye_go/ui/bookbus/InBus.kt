@@ -50,8 +50,8 @@ class InBus : AppCompatActivity() {
 
     private val key = "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
     // private val key = "NbREnDA1nV3nLBWbv7EXWntBQT%2BoyKeMVAPC7dGVUYJu8zgIV%2FHzLylOStyuhH%2FjTSuC3Nj0pjTC6sCV9jkY%2Fg%3D%3D"
-    private val address_myBusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
-    private val address_getNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=" //노선별경유정류소목록조회
+    private val address_myBusLc = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
+    private val address_getNodeord = "http://apis.data.go.kr/1613000//BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=" //노선별경유정류소목록조회
 
     // Room DB
     private var datamodelDB : DataModelDB? = null
