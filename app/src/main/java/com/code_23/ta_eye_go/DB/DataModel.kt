@@ -3,7 +3,7 @@ package com.code_23.ta_eye_go.DB
 import android.content.Context
 import androidx.room.*
 
-@Entity(tableName = "datamodel",primaryKeys = ["도착정류장ID"])
+@Entity(tableName = "datamodel",primaryKeys = ["도착정류장ID","도착정류장", "노선번호ID","노선번호","현재정류장ID","현재정류장"])
 data class DataModel (
     @ColumnInfo(name = "도착정류장ID") val endNodeID: String,
     @ColumnInfo(name = "도착정류장") val endNodenm: String,
@@ -28,7 +28,7 @@ interface DataModelDao {
     fun deleteAll()
 }
 
-@Database(entities = [DataModel::class], version = 1)
+@Database(entities = [DataModel::class], version = 2)
 abstract class DataModelDB: RoomDatabase() {
     abstract fun datamodelDao(): DataModelDao
 

@@ -30,9 +30,12 @@ class AddName : AppCompatActivity() {
 
         btn_complete2.setOnClickListener {
             if (edt_name_new.text.isNotEmpty()) { // 데이터를 입력했으면
-                // TODO : 새로운 즐겨찾기 DB 추가 처리
+
                 newFavorite.favoriteNm = edt_name_new.text.toString()
                 Log.d("newFavorite", newFavorite.toString())
+
+                // TODO : 새로운 즐겨찾기 DB 추가 처리
+
 
                 val intent = Intent(this, BookmarkMain::class.java)
                 startActivity(intent)

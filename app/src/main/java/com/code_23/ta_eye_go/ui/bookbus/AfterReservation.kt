@@ -126,14 +126,26 @@ class AfterReservation : AppCompatActivity() {
 
     private fun reservationStatus() {
         val a = datamodelDB?.datamodelDao()?.getAll()
-        startSttnNm = a?.get(0)?.startNodenm
-        busNm = a?.get(0)?.routeNo
-        destination = a?.get(0)?.endNodenm
-        startSttnID = a?.get(0)?.startNodeID
+        if (a != null) {
+            startSttnNm = a.get(0).startNodenm
+            busNm = a.get(0).routeNo
+            destination = a.get(0).endNodenm
+            startSttnID = a.get(0).startNodeID
 
-        currentStation_text.text = startSttnNm
-        busNum_text.text = busNm
-        destination_text.text = destination
+            currentStation_text.text = startSttnNm
+            busNum_text.text = busNm
+            destination_text.text = destination
+//            if( a.size != 0){
+//                startSttnNm = a.get(0).startNodenm
+//                busNm = a.get(0).routeNo
+//                destination = a.get(0).endNodenm
+//                startSttnID = a.get(0).startNodeID
+//
+//                currentStation_text.text = startSttnNm
+//                busNum_text.text = busNm
+//                destination_text.text = destination
+//            }
+        }
     }
 
     private fun parsing1(urlAddress: String?) : StringBuffer {

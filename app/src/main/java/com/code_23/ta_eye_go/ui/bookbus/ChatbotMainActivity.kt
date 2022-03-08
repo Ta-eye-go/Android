@@ -214,7 +214,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
             if (botReply.contains("예약 확정")){    // 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
                 val database = Firebase.database
                 val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
-                datamodelDB?.datamodelDao()?.deleteAll()
+//                datamodelDB?.datamodelDao()?.deleteAll()
                 // realtime database 해당 유저 예약 기록 가져오기
                 bookdata.addValueEventListener(object: ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {

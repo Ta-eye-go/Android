@@ -86,6 +86,7 @@ class InBus : AppCompatActivity() {
                 }
                 if (arrive) {
                     // TODO : 버스 도착 후 처리
+                    datamodelDB?.datamodelDao()?.deleteAll()
                     Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
                     val intent = Intent(this, MainActivity::class.java)
                     startActivity(intent)
@@ -93,6 +94,7 @@ class InBus : AppCompatActivity() {
                 }
             }
             if (arrive) { // TODO : 버스 도착 후 처리2
+                datamodelDB?.datamodelDao()?.deleteAll()
                 Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)

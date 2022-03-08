@@ -5,9 +5,11 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.code_23.ta_eye_go.DB.RecordDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.data.ReservationData
@@ -21,6 +23,8 @@ class BookmarkNew : AppCompatActivity(), View.OnClickListener {
     private lateinit var recentRouteAdapter: RecentRouteAdapter
     private var recentRoutes = mutableListOf<ReservationData>()
 
+
+
     override fun onClick(v: View?) {
         // Favorite 이름 default : " "
         val recentRoute = recentRoutes[rv_recentRoutes.getChildAdapterPosition(v!!)]
@@ -28,10 +32,14 @@ class BookmarkNew : AppCompatActivity(), View.OnClickListener {
         confirmDialog(newFavorite)
     }
 
+    private var recordDB : RecordDB? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_bookmark_new)
         bookmark_menu.menu_text.text = "즐겨찾기"
+
+        recordDB = RecordDB.getInstance(this)
 
         recentRouteAdapter = RecentRouteAdapter(this)
         rv_recentRoutes.adapter = recentRouteAdapter
@@ -50,10 +58,20 @@ class BookmarkNew : AppCompatActivity(), View.OnClickListener {
             finish()
         }
 
-        addRecentRouteToList("당하대주파크빌", "ICB168000392",
-            "인천대입구", "ICB164000396", "8")
-        addRecentRouteToList("산내마을3단지", "12345",
-            "인천대학교공과대학", "12345", "16")
+        // 최근 이용 경로 추가
+        val RecentRoute = recordDB?.recordDao()?.getAll()
+        if (RecentRoute != null){
+            for (index in RecentRoute.indices){
+                val ssn = RecentRoute[index].startNodenm.toString()
+                val ssi = RecentRoute[index].startNodeID.toString()
+                val des = RecentRoute[index].endNodenm.toString()
+                val desi = RecentRoute[index].endNodeID.toString()
+                val bn = RecentRoute[index].routeNo.toString()
+                Log.d("RecentRoute", bn)
+
+                addRecentRouteToList(ssn,ssi,des,desi,bn)
+            }
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
