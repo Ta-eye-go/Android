@@ -73,4 +73,10 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
         this.favoriteItems.add(favorite)
         notifyItemInserted(favoriteItems.size)
     }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun removeBookmark(position: Int) {
+        favoriteItems.remove(favoriteItems[position])
+        notifyItemRemoved(position)
+    }
 }

@@ -1,11 +1,14 @@
 package com.code_23.ta_eye_go.ui.bookmark
 
+import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.TextView
 import com.code_23.ta_eye_go.R
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
+import org.w3c.dom.Text
 
 class BookmarkEditName : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +26,9 @@ class BookmarkEditName : AppCompatActivity() {
             val text = edt_name.text.toString()
             val intent = Intent(this, BookmarkMain::class.java)
             intent.putExtra("Data", text)
-            startActivity(intent)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+            //startActivity(intent)
         }
     }
     //뒤로가기 버튼 비활성화

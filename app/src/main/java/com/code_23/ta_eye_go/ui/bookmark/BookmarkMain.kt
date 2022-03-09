@@ -1,6 +1,7 @@
 package com.code_23.ta_eye_go.ui.bookmark
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
@@ -10,13 +11,16 @@ import android.view.*
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
+import com.code_23.ta_eye_go.ui.driver.BookerAdapter
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
+import kotlinx.android.synthetic.main.activity_driver_main.*
 import kotlinx.android.synthetic.main.activity_driver_reservation.view.*
 import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.android.synthetic.main.bookmark_item.*
@@ -96,17 +100,27 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         rv_favorites.scrollToPosition(0)
     }
 
+    //별칭 수정하는 이벤트 (안에서 호출하면 오류)
+    val resultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult())
+    { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            bookmark_name.text = result.data?.getStringExtra("Data")
+        }
+    }
+
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //각각 선택했을때 할 작업 설정
-            R.id.menu_edit_list -> {
+            R.id.menu_edit_list -> { //목록편집
                 startActivity(Intent(this, BookmarkEditList::class.java))
             }
-            R.id.menu_edit_name -> {
-                startActivity(Intent(this, BookmarkEditName::class.java))
-                bookmark_name.text = intent.getStringExtra("Data")
+
+            R.id.menu_edit_name -> { //별칭수정
+                val intent = Intent(this,BookmarkEditName::class.java)
+                resultLauncher.launch(intent)
             }
-            R.id.menu_delete_list -> {
+
+            R.id.menu_delete_list -> { //북마크삭제
                 showSettingPopup()
             }
         }
@@ -130,6 +144,8 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         //"예" 눌렀을때 팝업창 띄워주는 형식으로 일단 설정, 삭제되는 액션 안에 넣어주면 됨
         val btn_yes = view.findViewById<Button>(R.id.btn_yes)
         btn_yes.setOnClickListener{
+            removeBookmarkList(0)
+
             Toast.makeText(applicationContext, "삭제되었습니다", Toast.LENGTH_SHORT).show()
             alertDialog.dismiss()
         }
@@ -145,6 +161,12 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         alertDialog.setCancelable(false) //팝업창 바깥 눌렀을때 종료되지 않도록
         alertDialog.setView(view)
         alertDialog.show()
+    }
+
+    //즐겨찾기 삭제
+    private fun removeBookmarkList(position : Int) {
+        bookmarkAdapter.removeBookmark(position)
+        favoriteItems.removeAt(position)
     }
 
     override fun onBackPressed() {
