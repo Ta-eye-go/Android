@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.code_23.ta_eye_go.DB.BookmarkDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.ui.driver.BookerAdapter
@@ -33,6 +34,9 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     private lateinit var bookmarkAdapter: BookmarkAdapter
     private var favoriteItems = mutableListOf<Favorite>()
     private lateinit var sttnId : String
+
+    // BookmarkDB
+    private var bookmarkDB : BookmarkDB? = null
 
     override fun onClick(v: View?) { // 짧은 클릭 (예약 화면 이동)
         val favoriteItem = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)]
@@ -62,6 +66,8 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         bookmark_menu.menu_text.text = "즐겨찾기"
         sttnId = intent.getStringExtra("sttnId").toString()
 
+        bookmarkDB = BookmarkDB.getInstance(this)
+
         bookmarkAdapter = BookmarkAdapter(this)
         rv_favorites.adapter = bookmarkAdapter
         rv_favorites.layoutManager = LinearLayoutManager(applicationContext)
@@ -81,13 +87,22 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             finish()
         }
 
+        // 즐겨찾기 adapter에 DB연결
+        val bookmarklist = bookmarkDB?.bookmarkDao()?.getAll()
+        if (bookmarklist != null){
+            for (index in bookmarklist.indices){
+                addFavoriteToList(bookmarklist[index].favoriteNm ,bookmarklist[index].startNodenm,bookmarklist[index].startNodeID,
+                    bookmarklist[index].endNodenm,bookmarklist[index].endNodeID,bookmarklist[index].routeID)
+            }
+        }
+
         // 예시 즐겨찾기 항목들 , 띄어쓰기 기준으로 줄바꿈
-        addFavoriteToList("신나는 하굣길", "당하대 주파크빌", "ICB168000392",
-            "인천대입구", "ICB164000396", "8")
-        addFavoriteToList("이름이 10글자 이상인 즐겨찾기", "산내마을3단지", "12345",
-            "인천대학교 공과대학", "12345", "8")
-        addFavoriteToList("인입에서해경", "인천대입구", "5678",
-            "해양경찰청", "5678", "16")
+//        addFavoriteToList("신나는 하굣길", "당하대 주파크빌", "ICB168000392",
+//            "인천대입구", "ICB164000396", "8")
+//        addFavoriteToList("이름이 10글자 이상인 즐겨찾기", "산내마을3단지", "12345",
+//            "인천대학교 공과대학", "12345", "8")
+//        addFavoriteToList("인입에서해경", "인천대입구", "5678",
+//            "해양경찰청", "5678", "16")
     }
 
     @SuppressLint("NotifyDataSetChanged")

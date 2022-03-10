@@ -62,14 +62,8 @@ class BookmarkNew : AppCompatActivity(), View.OnClickListener {
         val RecentRoute = recordDB?.recordDao()?.getAll()
         if (RecentRoute != null){
             for (index in RecentRoute.indices){
-                val ssn = RecentRoute[index].startNodenm.toString()
-                val ssi = RecentRoute[index].startNodeID.toString()
-                val des = RecentRoute[index].endNodenm.toString()
-                val desi = RecentRoute[index].endNodeID.toString()
-                val bn = RecentRoute[index].routeNo.toString()
-                Log.d("RecentRoute", bn)
-
-                addRecentRouteToList(ssn,ssi,des,desi,bn)
+                addRecentRouteToList(RecentRoute[index].startNodenm,RecentRoute[index].startNodeID,
+                    RecentRoute[index].endNodenm,RecentRoute[index].endNodeID,RecentRoute[index].routeNo)
             }
         }
     }

@@ -6,6 +6,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import com.code_23.ta_eye_go.DB.Bookmark
+import com.code_23.ta_eye_go.DB.BookmarkDB
+import com.code_23.ta_eye_go.DB.User
+import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.ui.main.MainActivity
@@ -18,10 +22,15 @@ class AddName : AppCompatActivity() {
 
     lateinit var newFavorite: Favorite
 
+    // BookmarkDB
+    private var bookmarkDB : BookmarkDB? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_name)
         new_name_menu.menu_text.text = "별칭 설정"
+
+        bookmarkDB = BookmarkDB.getInstance(this)
 
         newFavorite = intent.getSerializableExtra("newFavorite") as Favorite
         bus_number.text = newFavorite.busNm
@@ -34,7 +43,9 @@ class AddName : AppCompatActivity() {
                 newFavorite.favoriteNm = edt_name_new.text.toString()
                 Log.d("newFavorite", newFavorite.toString())
 
-                // TODO : 새로운 즐겨찾기 DB 추가 처리
+                var bookmark = Bookmark(newFavorite.favoriteNm, newFavorite.startSttnNm,
+                    newFavorite.startSttnID, newFavorite.destination , newFavorite.destinationID , newFavorite.busNm)
+                bookmarkDB?.bookmarkDao()?.insert(bookmark)
 
 
                 val intent = Intent(this, BookmarkMain::class.java)
@@ -68,6 +79,9 @@ class AddName : AppCompatActivity() {
         view.btn_yes.setOnClickListener {
             alertDialog.dismiss()
             Log.d("newFavorite", newFavorite.toString())
+            var bookmark = Bookmark(newFavorite.favoriteNm, newFavorite.startSttnNm,
+                newFavorite.startSttnID, newFavorite.destination , newFavorite.destinationID , newFavorite.busNm)
+            bookmarkDB?.bookmarkDao()?.insert(bookmark)
             val intent = Intent(this, BookmarkMain::class.java)
             startActivity(intent)
             finish()
