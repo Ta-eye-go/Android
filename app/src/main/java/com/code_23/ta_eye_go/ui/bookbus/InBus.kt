@@ -64,6 +64,7 @@ class InBus : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
+                delay(300)
                 val a = datamodelDB?.datamodelDao()?.getAll()
                 startSttnID = a?.get(0)?.startNodeID
                 endSttnID = a?.get(0)?.endNodeID
