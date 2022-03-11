@@ -146,6 +146,8 @@ class AfterReservation : AppCompatActivity() {
 //                busNum_text.text = busNm
 //                destination_text.text = destination
 //            }
+        }else{
+            Log.d("realtime db", "수정이한테 연락바람")
         }
     }
 

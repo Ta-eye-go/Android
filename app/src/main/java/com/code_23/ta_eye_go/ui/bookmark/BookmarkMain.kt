@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Button
 import android.widget.TextView
@@ -94,6 +95,8 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
                 addFavoriteToList(bookmarklist[index].favoriteNm ,bookmarklist[index].startNodenm,bookmarklist[index].startNodeID,
                     bookmarklist[index].endNodenm,bookmarklist[index].endNodeID,bookmarklist[index].routeID)
             }
+        }else{
+            Log.d("realtime db", "수정이한테 연락바람")
         }
 
         // 예시 즐겨찾기 항목들 , 띄어쓰기 기준으로 줄바꿈
@@ -160,7 +163,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         val btn_yes = view.findViewById<Button>(R.id.btn_yes)
         btn_yes.setOnClickListener{
             removeBookmarkList(0)
-
+            //TODO : 즐겨찾기 DB삭제
             Toast.makeText(applicationContext, "삭제되었습니다", Toast.LENGTH_SHORT).show()
             alertDialog.dismiss()
         }

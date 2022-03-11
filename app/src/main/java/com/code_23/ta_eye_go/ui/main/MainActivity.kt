@@ -60,6 +60,7 @@ class MainActivity : AppCompatActivity() {
     private var userDB : UserDB? = null
     // RecordDB
     private var recordDB : RecordDB? = null
+    private var datamodelDB : DataModelDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         // Room DB
         userDB = UserDB.getInstance(this)
         recordDB = RecordDB.getInstance(this)
+        datamodelDB = DataModelDB.getInstance(this)
 
         // 수정이가 넣으라고 한거
         //recordDB?.recordDao()?.deleteAll()
@@ -79,12 +81,13 @@ class MainActivity : AppCompatActivity() {
         bookBusBtn.setOnClickListener {
             //recordDB?.recordDao()?.deleteAll()
             // 예약 초기 데이터 리스트 realtime DB로 전송
+            datamodelDB?.datamodelDao()?.deleteAll()
             val email = Firebase.auth.currentUser?.email.toString()
             val userdata = userDB?.userDao()?.userdata(email)!!
             val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
             //val bookdata = database.getReference("data")
             //database = Firebase.database.reference
-            var currentLoc = ListForm(citycode,"ICB168000377","독정역(서구동구예비군훈련장)", userdata,email,"ICB165000052","78",sttnId,currentStation)
+            var currentLoc = ListForm(citycode,"ICB168000377","독정역(서구동구예비군훈련장)", userdata,email,"ICB165000055","87",sttnId,currentStation)
             //val currentLoc = ListForm(citycode,"","", userdata,email,"","",sttnId,currentStation)
             //database.child("users").child(email).setValue(currentLoc)
             bookdata.setValue(currentLoc)

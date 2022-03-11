@@ -230,14 +230,8 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         }
                         Log.d("kokoko3", list.toString())
                         Log.d("kokoko33", list[2])
-                        var a2 = list[1]    // 도착정류장ID
-                        var a3 = list[2]    // 도착정류장
-                        var a6 = list[5]    // 노선번호ID
-                        var a7 = list[6]    // 노선번로
-                        var a8 = list[7]    // 현재정류장ID
-                        var a9 = list[8]    // 현재정류장
-                        var recordlist = Record(a2,a3,a6,a7,a8,a9)
-                        var datamodellist = DataModel(a2,a3,a6,a7,a8,a9)    // 예약 후 화면에서 사용할 변수
+                        var recordlist = Record(list[1],list[2],list[5],list[6],list[7],list[8])
+                        var datamodellist = DataModel(list[1],list[2],list[5],list[6],list[7],list[8])    // 예약 후 화면에서 사용할 변수
                         // 로그인한 유저 DB등록
                         val r = Runnable {
                             try {
