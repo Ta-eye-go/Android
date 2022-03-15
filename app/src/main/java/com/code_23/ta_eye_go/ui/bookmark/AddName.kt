@@ -43,7 +43,7 @@ class AddName : AppCompatActivity() {
                 newFavorite.favoriteNm = edt_name_new.text.toString()
                 Log.d("newFavorite", newFavorite.toString())
 
-                var bookmark = Bookmark(newFavorite.favoriteNm, newFavorite.startSttnNm,
+                val bookmark = Bookmark(newFavorite.favoriteNm, newFavorite.startSttnNm,
                     newFavorite.startSttnID, newFavorite.destination , newFavorite.destinationID , newFavorite.busNm)
                 bookmarkDB?.bookmarkDao()?.insert(bookmark)
 

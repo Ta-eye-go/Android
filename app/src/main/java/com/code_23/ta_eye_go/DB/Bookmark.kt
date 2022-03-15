@@ -26,11 +26,14 @@ interface BookmarkDao {
     @Update
     fun updateBookmark(bookmark: Bookmark)
 
+    @Query("DELETE from bookmark where 별칭 = (:favoriteNm)")
+    fun delete(favoriteNm: String)
+
     @Query("DELETE from bookmark")
     fun deleteAll()
 }
 
-@Database(entities = [Bookmark::class], version = 4)
+@Database(entities = [Bookmark::class], version = 6)
 abstract class BookmarkDB: RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
 

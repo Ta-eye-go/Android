@@ -79,12 +79,12 @@ class AfterReservation : AppCompatActivity() {
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
-            delay(300)
+            delay(700)
             reservationStatus()
             delay(1000)
             withContext(Main) {
 
-                delay(300)
+                delay(700)
                 reservationStatus()
                 val thread = NetworkThread()
                 thread.start()
@@ -189,6 +189,7 @@ class AfterReservation : AppCompatActivity() {
         alertDialog.show()
 
         view.btn_yes.setOnClickListener {
+            datamodelDB?.datamodelDao()?.deleteAll()
             alertDialog.dismiss()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

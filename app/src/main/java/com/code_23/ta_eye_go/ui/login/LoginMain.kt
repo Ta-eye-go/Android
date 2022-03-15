@@ -45,9 +45,9 @@ class LoginMain : AppCompatActivity() {
     var googleSignInClient : GoogleSignInClient ? = null
     var GOOGLE_LOGIN_CODE = 9001
     var id = ""
+
     // UserDB
     private var userDB : UserDB? = null
-    private var userList = listOf<User>()
 
     @SuppressLint("NotifyDataSetChanged")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -175,11 +175,15 @@ class LoginMain : AppCompatActivity() {
         UserApiClient.instance.me { user, error ->
             if (error != null) {
                 Log.e(TAG, "사용자 정보 요청 실패", error)
+                Log.d("kakao_email", "사용자 정보 요청 실패")
             }
             else if (user != null) {
                 Log.i(TAG, "사용자 정보 요청 성공" +
                         "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
                         "\n이메일: ${user.kakaoAccount?.email}")
+                Log.d("kakao_email", user.kakaoAccount?.email.toString())
+                val users = User(user.kakaoAccount?.email.toString(), false)
+                userDB?.userDao()?.insert(users)
             }
         }
 

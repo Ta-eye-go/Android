@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.ChatMessage
+import com.code_23.ta_eye_go.ui.bookmark.BookmarkMain
 import com.code_23.ta_eye_go.ui.main.MainActivity
+import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.api.gax.core.FixedCredentialsProvider
 import com.google.auth.oauth2.GoogleCredentials
 import com.google.auth.oauth2.ServiceAccountCredentials
@@ -46,9 +48,6 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
     private val uuid = UUID.randomUUID().toString()
     private val TAG = "mainactivity"
     private lateinit var chatAdapter: ChatAdapter
-
-    //val dataModelList = mutableListOf<DataModel>()
-    //var list = ArrayList<String>()
 
     var list = mutableListOf("A", "B", "C")
     // Room DB
@@ -193,6 +192,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     .setSession(sessionName.toString())
                     .setQueryInput(queryInput)
                     .build()
+                //delay(30000)
                 val result = sessionsClient?.detectIntent(detectIntentRequest)
                 if (result != null) {
                     runOnUiThread {
@@ -211,7 +211,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (botReply.isNotEmpty()) {
             addMessageToList(botReply, true)
             speakOut(botReply)  // bot의 응답 TTS
-            if (botReply.contains("예약 확정")){    // 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
+            if (botReply.contains("예약이 확정")){    // 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
                 val database = Firebase.database
                 val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
 //                datamodelDB?.datamodelDao()?.deleteAll()
@@ -220,18 +220,17 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
                         Log.d("gogo", "realtime db 값 오류")
                         for (item in snapshot.children){
-                            Log.d("kokoko1", item.toString())
-                            var values = item.value.toString()
+                            Log.d("예약확정_data1", item.toString())
+                            val values = item.value.toString()
                             // realtime db 값 필터링
-                            var str1_values = values.replace("[","")
-                            var str2_values = str1_values.replace("]","")
+                            val str1_values = values.replace("[","")
+                            val str2_values = str1_values.replace("]","")
                             list.add(str2_values)
-                            Log.d("kokoko2", str2_values)
+                            Log.d("예약확정_data2", str2_values)
                         }
-                        Log.d("kokoko3", list.toString())
-                        Log.d("kokoko33", list[2])
-                        var recordlist = Record(list[1],list[2],list[5],list[6],list[7],list[8])
-                        var datamodellist = DataModel(list[1],list[2],list[5],list[6],list[7],list[8])    // 예약 후 화면에서 사용할 변수
+                        Log.d("예약확정_data3", list.toString())
+                        val recordlist = Record(list[1],list[2],list[5],list[6],list[7],list[8])
+                        val datamodellist = DataModel(list[1],list[2],list[5],list[6],list[7],list[8])    // 예약 후 화면에서 사용할 변수
                         // 로그인한 유저 DB등록
                         val r = Runnable {
                             try {
@@ -243,9 +242,9 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         }
                         val thread = Thread(r)
                         thread.start()
-                        Log.d("kokoko4", recordlist.toString())
-                        Log.d("kokoko5", recordDB?.recordDao()?.getAll().toString())
-                        Log.d("kokoko6", datamodelDB?.datamodelDao()?.getAll().toString())
+                        Log.d("예약확정_data4", recordlist.toString())
+                        Log.d("예약확정_data5", recordDB?.recordDao()?.getAll().toString())
+                        Log.d("예약확정_data6", datamodelDB?.datamodelDao()?.getAll().toString())
                     }
                     override fun onCancelled(error: DatabaseError) {
                         Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
@@ -255,10 +254,24 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 val intent = Intent(this, AfterReservation::class.java)
                 startActivity(intent)
                 finish()
+            } else if (botReply.contains("설정창")){
+                // 설정 화면 이동
+                val intent = Intent(this, Settings::class.java)
+                startActivity(intent)
+                finish()
+            } else if (botReply.contains("리스트 화면")){
+                // 즐겨찾기 화면 이동
+                val intent = Intent(this, BookmarkMain::class.java)
+                startActivity(intent)
+                finish()
             }
         } else {
             Toast.makeText(this, "something went wrong", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private suspend fun del(){
+        delay(5000)
     }
     override fun onDestroy() {
         RecordDB.destroyInstance()

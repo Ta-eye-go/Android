@@ -53,12 +53,12 @@ class MainActivity : AppCompatActivity() {
 
     // firebase DB
     val database = Firebase.database
-
-    // UserDB
+    // Room DB
     private var userDB : UserDB? = null
-    // RecordDB
     private var recordDB : RecordDB? = null
     private var datamodelDB : DataModelDB? = null
+    private var bookmarkDB : BookmarkDB? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,28 +68,40 @@ class MainActivity : AppCompatActivity() {
         userDB = UserDB.getInstance(this)
         recordDB = RecordDB.getInstance(this)
         datamodelDB = DataModelDB.getInstance(this)
+        bookmarkDB = BookmarkDB.getInstance(this)
 
-        // 수정이가 넣으라고 한거
-        //recordDB?.recordDao()?.deleteAll()
+        // 수정이가 넣으라고 한거 (한번 사용했으면 꺼두기, datamodelDB는 건들지말기)
+        userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
+        datamodelDB?.datamodelDao()?.deleteAll()    // 예약리스트(일회용) DB 초기화
+        //recordDB?.recordDao()?.deleteAll()    // 최근경로 DB 초기화
+        //bookmarkDB?.bookmarkDao()?.deleteAll()    // 즐겨찾기 DB 초기화
+
+        // 즐겨찾기기능 테스트를 위한 최근경로DB에 임의 데이터 넣기
+//        val recordlist1 = Record("ICB168000377","독정역(서구동구예비군훈련장)","ICB165000055","87","sttnId","당하대주파크빌")
+//        val recordlist2 = Record("ICB168000377","완정역","ICB165000055","66","sttnId","마전역")
+//        val recordlist3 = Record("ICB168000377","인천대입구","ICB165000055","8","sttnId","인천대학교공과대학")
+//        val recordlist4 = Record("ICB168000377","지정단)","ICB165000055","6-1","sttnId","인천대정문")
+//        recordDB?.recordDao()?.insert(recordlist1)
+//        recordDB?.recordDao()?.insert(recordlist2)
+//        recordDB?.recordDao()?.insert(recordlist3)
+//        recordDB?.recordDao()?.insert(recordlist4)
 
         initVariables()
         fetchLocation()
 
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
-            //recordDB?.recordDao()?.deleteAll()
             // 예약 초기 데이터 리스트 realtime DB로 전송
             datamodelDB?.datamodelDao()?.deleteAll()
             val email = Firebase.auth.currentUser?.email.toString()
             val userdata = userDB?.userDao()?.userdata(email)!!
             val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
-            //val bookdata = database.getReference("data")
-            //database = Firebase.database.reference
-            var currentLoc = ListForm(citycode,"ICB168000377","독정역(서구동구예비군훈련장)", userdata,email,"ICB165000055","87",sttnId,currentStation)
-            //val currentLoc = ListForm(citycode,"","", userdata,email,"","",sttnId,currentStation)
+            val uid = database.getReference("uid")
+            uid.setValue(Firebase.auth.currentUser!!.uid)
+            //val currentLoc = ListForm(citycode,"ICB168000377","독정역(서구동구예비군훈련장)", userdata,email,"ICB165000055","87",sttnId,currentStation)
+            val currentLoc = ListForm(citycode,"","", userdata,email,"","",sttnId,currentStation)
             //database.child("users").child(email).setValue(currentLoc)
             bookdata.setValue(currentLoc)
-
             val intent = Intent(this, ChatbotMainActivity::class.java)
             intent.putExtra("currentStation", currentStation)
             intent.putExtra("sttnId", sttnId)
@@ -117,9 +129,7 @@ class MainActivity : AppCompatActivity() {
         // 로그인한 유저 DB등록
         val r = Runnable {
             try {
-                var email = ""
-                email = Firebase.auth.currentUser?.email.toString()
-                var users = User(email, false)
+                val users = User(Firebase.auth.currentUser?.email.toString(), false)
                 userDB?.userDao()?.insert(users)
             } catch (e: Exception) {
                 Log.d("tag", "Error - $e")
