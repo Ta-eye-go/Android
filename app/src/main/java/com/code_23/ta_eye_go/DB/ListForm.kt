@@ -19,13 +19,18 @@ class ListForm (
 }
 
 class booklist(
-    var no: Any,
     var startNodenm: String?,
-    var startNodeID: String?,
     var endNodenm: String?,
-    var endNodeID: String?,
-    var routeNo: String?,
-    var routeID: String?
+    var guide_dog: Any
 ){
-    constructor(): this(0,null,null,null,null,null,null)
+    constructor(): this(null,null,false)
+}
+
+class driverlist(
+    var id: String?,
+    var startNodenm: String?,
+    var endNodenm: String?,
+    var guide_dog: String
+){
+    constructor(): this(null,null,null,"")
 }

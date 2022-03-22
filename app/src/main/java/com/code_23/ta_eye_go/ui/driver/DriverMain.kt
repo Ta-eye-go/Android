@@ -8,12 +8,17 @@ import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.BookerData
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_driver_getoff.view.*
 import kotlinx.android.synthetic.main.activity_driver_main.*
 import kotlinx.android.synthetic.main.activity_driver_reservation.view.*
@@ -29,12 +34,22 @@ class DriverMain : AppCompatActivity() {
     private lateinit var bookerAdapter: BookerAdapter
     private var reservations = mutableListOf<BookerData>()
 
+    // 서버
+    private lateinit var database: DatabaseReference
+    // DriverDB
+    private var driverDB : DriverDB? = null
+
     // 알림 관련 (예약, 하차 등)
     private lateinit var view : View
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_main)
 
+        // 서버
+        database = Firebase.database.reference
+        // DB
+        driverDB = DriverDB.getInstance(this)
 
         waitingNum.text = "$passengerWaiting"
         on_boardNum.text = "$passengerIn"
@@ -50,10 +65,71 @@ class DriverMain : AppCompatActivity() {
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
 
+                // 기사용 서버 실시간 데이터 확인
+                val database = Firebase.database
+                val driverdata = database.getReference("Driver")
+                driverdata.addChildEventListener(object : ChildEventListener {
+                    override fun onChildRemoved(p0: DataSnapshot) {
+                        //App.INSTANCE.userMap.remove(p0.key.toString())
+                    }
+                    override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                        val tmpbooklist = driverlist()
+                        tmpbooklist.id = p0.key.toString()
+                        for (snapshot in p0.children) {
+                            if (snapshot.key == "startNodenm") {
+                                tmpbooklist.startNodenm = snapshot.value.toString()
+                            } else if (snapshot.key == "endNodenm"){
+                                tmpbooklist.endNodenm = snapshot.value.toString()
+                            } else if (snapshot.key == "guide_dog"){
+                                tmpbooklist.guide_dog = snapshot.value.toString()
+                            }
+                        }
+                        Log.d("기사용_data1", tmpbooklist.toString())
+                        Log.d("기사용_data1", tmpbooklist.id.toString())
+                        Log.d("기사용_data1", tmpbooklist.startNodenm.toString())
+                        Log.d("기사용_data1", tmpbooklist.endNodenm.toString())
+                        Log.d("기사용_data1", tmpbooklist.guide_dog.toString())
+                    }
+                    override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                        val tmpbooklist = driverlist()
+                        tmpbooklist.id = p0.key.toString()
+                        for (snapshot in p0.children) {
+                            if (snapshot.key == "startNodenm") {
+                                tmpbooklist.startNodenm = snapshot.value.toString()
+                            } else if (snapshot.key == "endNodenm"){
+                                tmpbooklist.endNodenm = snapshot.value.toString()
+                            } else if (snapshot.key == "guide_dog"){
+                                tmpbooklist.guide_dog = snapshot.value.toString()
+                            }
+                        }
+                        Log.d("기사용_data2", tmpbooklist.toString())
+                        Log.d("기사용_data2", tmpbooklist.id.toString())
+                        Log.d("기사용_data2", tmpbooklist.startNodenm.toString())
+                        Log.d("기사용_data2", tmpbooklist.endNodenm.toString())
+                        Log.d("기사용_data2", tmpbooklist.guide_dog.toString())
+                        val Userbook = Driver(tmpbooklist.id.toString(),tmpbooklist.startNodenm.toString(),
+                            tmpbooklist.startNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
+                        driverDB?.driverDao()?.insert(Userbook)
+                    }
+                    override fun onCancelled(p0: DatabaseError) {
+                    }
+                    override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                    }
+                })
+
                 // 신규 예약
-                addBookerToList("인천대입구","인천대정문",true)
-                delay(3000)
-                addBookerToList("송도더샾마스터뷰23단지","해양경찰청",false)
+//                addBookerToList("인천대입구","인천대정문",true)
+//                delay(3000)
+//                addBookerToList("송도더샾마스터뷰23단지","해양경찰청",false)
+                // 기사용 adapter에 DB연결
+                val driverlist = driverDB?.driverDao()?.getAll()
+                if (driverlist != null){
+                    for (index in driverlist.indices){
+                        addBookerToList(driverlist[index].startNodenm, driverlist[index].endNodenm,driverlist[index].guide_dog)
+                    }
+                }else{
+                    Log.d("realtime db", "수정이한테 연락바람")
+                }
 
                 // 1 정거장 전 => 글씨 빨강색으로 변화
                 delay(5000)

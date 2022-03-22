@@ -16,6 +16,7 @@ import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.ChatMessage
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkMain
+import com.code_23.ta_eye_go.ui.bookmark.BookmarkNew
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.code_23.ta_eye_go.ui.settings.Settings
 import com.google.api.gax.core.FixedCredentialsProvider
@@ -211,7 +212,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         if (botReply.isNotEmpty()) {
             addMessageToList(botReply, true)
             speakOut(botReply)  // bot의 응답 TTS
-            if (botReply.contains("예약이 확정")){    // 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
+            if (botReply.contains("예약이 확정")){    // 예약이 확정, 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
                 val database = Firebase.database
                 val bookdata = database.getReference("data").child(Firebase.auth.currentUser!!.uid)
 //                datamodelDB?.datamodelDao()?.deleteAll()
@@ -231,6 +232,11 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         Log.d("예약확정_data3", list.toString())
                         val recordlist = Record(list[1],list[2],list[5],list[6],list[7],list[8])
                         val datamodellist = DataModel(list[1],list[2],list[5],list[6],list[7],list[8])    // 예약 후 화면에서 사용할 변수
+                        // 기사용 서버에 데이터 전송
+                        //val driverdata = database.getReference("Driver")
+                        val driverdata = database.getReference("Driver").child(Firebase.auth.currentUser!!.uid)
+                        val Todriver = booklist(list[2],list[8],list[3])    // 현재정류장, 도착정류장, 안내견유무
+                        driverdata.setValue(Todriver)
                         // 로그인한 유저 DB등록
                         val r = Runnable {
                             try {
@@ -245,6 +251,7 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         Log.d("예약확정_data4", recordlist.toString())
                         Log.d("예약확정_data5", recordDB?.recordDao()?.getAll().toString())
                         Log.d("예약확정_data6", datamodelDB?.datamodelDao()?.getAll().toString())
+
                     }
                     override fun onCancelled(error: DatabaseError) {
                         Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
@@ -259,9 +266,14 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                 val intent = Intent(this, Settings::class.java)
                 startActivity(intent)
                 finish()
-            } else if (botReply.contains("리스트 화면")){
+            } else if (botReply.contains("즐겨찾기 리스트 화면")){
                 // 즐겨찾기 화면 이동
                 val intent = Intent(this, BookmarkMain::class.java)
+                startActivity(intent)
+                finish()
+            } else if (botReply.contains("최근 경로 리스트 화면")){
+                // 즐겨찾기 화면 이동
+                val intent = Intent(this, BookmarkNew::class.java)
                 startActivity(intent)
                 finish()
             }
