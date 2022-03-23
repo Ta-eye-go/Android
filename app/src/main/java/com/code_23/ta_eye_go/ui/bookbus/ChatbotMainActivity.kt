@@ -234,8 +234,8 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
                         val datamodellist = DataModel(list[1],list[2],list[5],list[6],list[7],list[8])    // 예약 후 화면에서 사용할 변수
                         // 기사용 서버에 데이터 전송
                         //val driverdata = database.getReference("Driver")
-                        val driverdata = database.getReference("Driver").child(Firebase.auth.currentUser!!.uid)
-                        val Todriver = booklist(list[2],list[8],list[3])    // 현재정류장, 도착정류장, 안내견유무
+                        val driverdata = database.getReference("Driver").child(list[6])
+                        val Todriver = booklist(Firebase.auth.currentUser!!.uid,list[8],list[2],list[3])    // 현재정류장, 도착정류장, 안내견유무
                         driverdata.setValue(Todriver)
                         // 로그인한 유저 DB등록
                         val r = Runnable {

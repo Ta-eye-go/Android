@@ -39,6 +39,8 @@ class DriverMain : AppCompatActivity() {
     // DriverDB
     private var driverDB : DriverDB? = null
 
+    private var driverNo: String = "78" // 78번 기사님 예시
+
     // 알림 관련 (예약, 하차 등)
     private lateinit var view : View
 
@@ -50,6 +52,8 @@ class DriverMain : AppCompatActivity() {
         database = Firebase.database.reference
         // DB
         driverDB = DriverDB.getInstance(this)
+
+        //driverDB?.driverDao()?.deleteAll()    // 기사용 DB 초기화
 
         waitingNum.text = "$passengerWaiting"
         on_boardNum.text = "$passengerIn"
@@ -70,46 +74,56 @@ class DriverMain : AppCompatActivity() {
                 val driverdata = database.getReference("Driver")
                 driverdata.addChildEventListener(object : ChildEventListener {
                     override fun onChildRemoved(p0: DataSnapshot) {
-                        //App.INSTANCE.userMap.remove(p0.key.toString())
                     }
                     override fun onChildChanged(p0: DataSnapshot, p1: String?) {
                         val tmpbooklist = driverlist()
-                        tmpbooklist.id = p0.key.toString()
-                        for (snapshot in p0.children) {
-                            if (snapshot.key == "startNodenm") {
-                                tmpbooklist.startNodenm = snapshot.value.toString()
-                            } else if (snapshot.key == "endNodenm"){
-                                tmpbooklist.endNodenm = snapshot.value.toString()
-                            } else if (snapshot.key == "guide_dog"){
-                                tmpbooklist.guide_dog = snapshot.value.toString()
+                        if (driverNo == p0.key.toString()) {
+                            for (snapshot in p0.children) {
+                                if (snapshot.key == "startNodenm") {
+                                    tmpbooklist.startNodenm = snapshot.value.toString()
+                                } else if (snapshot.key == "endNodenm") {
+                                    tmpbooklist.endNodenm = snapshot.value.toString()
+                                } else if (snapshot.key == "guide_dog") {
+                                    tmpbooklist.guide_dog = snapshot.value.toString()
+                                } else if (snapshot.key == "id") {
+                                    tmpbooklist.id = snapshot.value.toString()
+                                }
                             }
+                            Log.d("기사용_추가", tmpbooklist.toString())
+                            Log.d("기사용_추가", tmpbooklist.id.toString())
+                            Log.d("기사용_추가", tmpbooklist.startNodenm.toString())
+                            Log.d("기사용_추가", tmpbooklist.endNodenm.toString())
+                            Log.d("기사용_추가", tmpbooklist.guide_dog)
+
+                            val Userbook = Driver(tmpbooklist.id.toString(),tmpbooklist.startNodenm.toString(),
+                                tmpbooklist.endNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
+                            driverDB?.driverDao()?.insert(Userbook)
                         }
-                        Log.d("기사용_data1", tmpbooklist.toString())
-                        Log.d("기사용_data1", tmpbooklist.id.toString())
-                        Log.d("기사용_data1", tmpbooklist.startNodenm.toString())
-                        Log.d("기사용_data1", tmpbooklist.endNodenm.toString())
-                        Log.d("기사용_data1", tmpbooklist.guide_dog.toString())
                     }
                     override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                         val tmpbooklist = driverlist()
-                        tmpbooklist.id = p0.key.toString()
-                        for (snapshot in p0.children) {
-                            if (snapshot.key == "startNodenm") {
-                                tmpbooklist.startNodenm = snapshot.value.toString()
-                            } else if (snapshot.key == "endNodenm"){
-                                tmpbooklist.endNodenm = snapshot.value.toString()
-                            } else if (snapshot.key == "guide_dog"){
-                                tmpbooklist.guide_dog = snapshot.value.toString()
+                        if (driverNo == p0.key.toString()) {
+                            for (snapshot in p0.children) {
+                                if (snapshot.key == "startNodenm") {
+                                    tmpbooklist.startNodenm = snapshot.value.toString()
+                                } else if (snapshot.key == "endNodenm") {
+                                    tmpbooklist.endNodenm = snapshot.value.toString()
+                                } else if (snapshot.key == "guide_dog") {
+                                    tmpbooklist.guide_dog = snapshot.value.toString()
+                                } else if (snapshot.key == "id") {
+                                    tmpbooklist.id = snapshot.value.toString()
+                                }
                             }
+                            Log.d("기사용_추가", tmpbooklist.toString())
+                            Log.d("기사용_추가", tmpbooklist.id.toString())
+                            Log.d("기사용_추가", tmpbooklist.startNodenm.toString())
+                            Log.d("기사용_추가", tmpbooklist.endNodenm.toString())
+                            Log.d("기사용_추가", tmpbooklist.guide_dog)
+
+                            val Userbook = Driver(tmpbooklist.id.toString(),tmpbooklist.startNodenm.toString(),
+                                tmpbooklist.endNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
+                            driverDB?.driverDao()?.insert(Userbook)
                         }
-                        Log.d("기사용_data2", tmpbooklist.toString())
-                        Log.d("기사용_data2", tmpbooklist.id.toString())
-                        Log.d("기사용_data2", tmpbooklist.startNodenm.toString())
-                        Log.d("기사용_data2", tmpbooklist.endNodenm.toString())
-                        Log.d("기사용_data2", tmpbooklist.guide_dog.toString())
-                        val Userbook = Driver(tmpbooklist.id.toString(),tmpbooklist.startNodenm.toString(),
-                            tmpbooklist.startNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
-                        driverDB?.driverDao()?.insert(Userbook)
                     }
                     override fun onCancelled(p0: DatabaseError) {
                     }

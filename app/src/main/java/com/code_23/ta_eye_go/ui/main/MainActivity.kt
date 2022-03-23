@@ -58,6 +58,8 @@ class MainActivity : AppCompatActivity() {
     private var recordDB : RecordDB? = null
     private var datamodelDB : DataModelDB? = null
     private var bookmarkDB : BookmarkDB? = null
+    private var driverDB : DriverDB? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -69,12 +71,14 @@ class MainActivity : AppCompatActivity() {
         recordDB = RecordDB.getInstance(this)
         datamodelDB = DataModelDB.getInstance(this)
         bookmarkDB = BookmarkDB.getInstance(this)
+        driverDB = DriverDB.getInstance(this)
 
         // 수정이가 넣으라고 한거 (한번 사용했으면 꺼두기, datamodelDB는 건들지말기)
         userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
         datamodelDB?.datamodelDao()?.deleteAll()    // 예약리스트(일회용) DB 초기화
         //recordDB?.recordDao()?.deleteAll()    // 최근경로 DB 초기화
         //bookmarkDB?.bookmarkDao()?.deleteAll()    // 즐겨찾기 DB 초기화
+        driverDB?.driverDao()?.deleteAll()    // 기사용 DB 초기화
 
         // 즐겨찾기기능 테스트를 위한 최근경로DB에 임의 데이터 넣기
 //        val recordlist1 = Record("ICB168000377","독정역(서구동구예비군훈련장)","ICB165000055","87","sttnId","당하대주파크빌")
