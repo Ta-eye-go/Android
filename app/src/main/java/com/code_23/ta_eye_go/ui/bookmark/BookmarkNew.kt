@@ -23,8 +23,6 @@ class BookmarkNew : AppCompatActivity(), View.OnClickListener {
     private lateinit var recentRouteAdapter: RecentRouteAdapter
     private var recentRoutes = mutableListOf<ReservationData>()
 
-
-
     override fun onClick(v: View?) {
         // Favorite 이름 default : " "
         val recentRoute = recentRoutes[rv_recentRoutes.getChildAdapterPosition(v!!)]

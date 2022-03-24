@@ -13,6 +13,7 @@ import android.widget.Toast
 import com.code_23.ta_eye_go.DB.User
 import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
+import com.code_23.ta_eye_go.ui.driver.DriverLogin
 import com.code_23.ta_eye_go.ui.driver.DriverMain
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.code_23.ta_eye_go.ui.settings.Settings
@@ -66,7 +67,7 @@ class LoginMain : AppCompatActivity() {
 
         // 기사용 버튼
         bus_btn.setOnClickListener {
-            val intent = Intent(this, DriverMain::class.java)
+            val intent = Intent(this, DriverLogin::class.java)
             startActivity(intent)
         }
 

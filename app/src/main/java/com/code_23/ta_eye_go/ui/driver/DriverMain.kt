@@ -39,7 +39,8 @@ class DriverMain : AppCompatActivity() {
     // DriverDB
     private var driverDB : DriverDB? = null
 
-    private var driverNo: String = "8" // 78번 기사님 예시
+    // 기사 버스 이름
+    lateinit var driverNo: String
 
     // 알림 관련 (예약, 하차 등)
     private lateinit var view : View
@@ -57,6 +58,7 @@ class DriverMain : AppCompatActivity() {
 
         waitingNum.text = "$passengerWaiting"
         on_boardNum.text = "$passengerIn"
+        driverNo = intent.getStringExtra("busNm").toString()
 
         bookerAdapter = BookerAdapter(this)
         rv_bookers.adapter = bookerAdapter

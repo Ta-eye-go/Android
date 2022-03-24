@@ -1,11 +1,13 @@
 package com.code_23.ta_eye_go.ui.bookmark
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.Toast
 import com.code_23.ta_eye_go.DB.Bookmark
 import com.code_23.ta_eye_go.DB.BookmarkDB
@@ -64,6 +66,7 @@ class AddName : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun confirmDialog() {
         val layoutInflater = LayoutInflater.from(this)
         val view = layoutInflater.inflate(R.layout.alertdialog_item, null)
@@ -73,22 +76,12 @@ class AddName : AppCompatActivity() {
             .create()
 
         view.menu_name.text = ""
-        view.menu_content.text = "별칭 없이 추가하시겠습니까?"
+        view.menu_content.text = "별칭을 입력하신 후\n완료 버튼을 눌러주세요."
+        view.btn_no.visibility = View.GONE
 
         alertDialog.show()
 
         view.btn_yes.setOnClickListener {
-            alertDialog.dismiss()
-            Log.d("newFavorite", newFavorite.toString())
-            var bookmark = Bookmark(newFavorite.favoriteNm, newFavorite.startSttnNm,
-                newFavorite.startSttnID, newFavorite.destination , newFavorite.destinationID , newFavorite.busNm)
-            bookmarkDB?.bookmarkDao()?.insert(bookmark)
-            Toast.makeText(applicationContext, "즐겨찾기가 추가되었습니다.", Toast.LENGTH_SHORT).show()
-            val intent = Intent(this, BookmarkMain::class.java)
-            startActivity(intent)
-            finish()
-        }
-        view.btn_no.setOnClickListener {
             alertDialog.dismiss()
         }
     }

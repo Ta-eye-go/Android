@@ -111,5 +111,7 @@
             android:label=" "
             android:exported="false">
         </activity>
+        <activity
+            android:name=".ui.driver.DriverLogin" />
     </application>
 </manifest>
