@@ -36,6 +36,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     private var favoriteItems = mutableListOf<Favorite>()
     private lateinit var sttnId : String
     private var selectedView: View? = null
+    private lateinit var favoriteItemNm : String
 
     // BookmarkDB
     private var bookmarkDB : BookmarkDB? = null
@@ -165,9 +166,10 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         //"예" 눌렀을때 팝업창 띄워주는 형식으로 일단 설정, 삭제되는 액션 안에 넣어주면 됨
         val btn_yes = view.findViewById<Button>(R.id.btn_yes)
         btn_yes.setOnClickListener{
+            favoriteItemNm = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)].favoriteNm
+            Log.d("즐찾 삭제 별칭", favoriteItemNm)
             removeBookmarkList(rv_favorites.getChildAdapterPosition(v!!))
-            //TODO : 즐겨찾기 DB삭제
-
+            bookmarkDB?.bookmarkDao()?.delete(favoriteItemNm)
             Toast.makeText(applicationContext, "삭제되었습니다", Toast.LENGTH_SHORT).show()
             alertDialog.dismiss()
         }

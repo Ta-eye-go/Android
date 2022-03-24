@@ -10,8 +10,13 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.DataModelDB
+import com.code_23.ta_eye_go.DB.booklist
+import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_in_bus.*
 import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.coroutines.*
@@ -43,6 +48,8 @@ class InBus : AppCompatActivity() {
     private var nextStation : String? = null // 도착 정류장 이름
     private var leftSttnCnt : Int = 0 // 남은 정류장
 
+    private var startSttnNm : String? = "" // 출발(현재) 정류장 이름
+
     // 도착 여부 확인용
     var arrive = false
 
@@ -63,6 +70,7 @@ class InBus : AppCompatActivity() {
             withContext(Main) {
                 delay(300)
                 val a = datamodelDB?.datamodelDao()?.getAll()
+                startSttnNm = a?.get(0)?.startNodenm
                 startSttnID = a?.get(0)?.startNodeID
                 endSttnID = a?.get(0)?.endNodeID
                 routeId = a?.get(0)?.routeID
@@ -328,6 +336,12 @@ class InBus : AppCompatActivity() {
                     arrive = true
                 }
                 numOfStations_text.text = "$leftSttnCnt 정류장"
+                if (leftSttnCnt == 1) { // 남은 정류장이 1개일때 기사용 서버 알림
+                    val database = Firebase.database
+                    val driverdata = database.getReference("Driver").child("boarding")
+                    val Todriver =  bordinglist(startSttnNm)   // 탑승정류장
+                    driverdata.setValue(Todriver)
+                }
             }
         }
     }

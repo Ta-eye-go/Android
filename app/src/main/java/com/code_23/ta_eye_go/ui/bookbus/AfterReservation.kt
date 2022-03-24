@@ -134,16 +134,6 @@ class AfterReservation : AppCompatActivity() {
             currentStation_text.text = startSttnNm
             busNum_text.text = busNm
             destination_text.text = destination
-//            if( a.size != 0){
-//                startSttnNm = a.get(0).startNodenm
-//                busNm = a.get(0).routeNo
-//                destination = a.get(0).endNodenm
-//                startSttnID = a.get(0).startNodeID
-//
-//                currentStation_text.text = startSttnNm
-//                busNum_text.text = busNm
-//                destination_text.text = destination
-//            }
         }else{
             Log.d("realtime db", "수정이한테 연락바람")
         }

@@ -35,3 +35,9 @@ class driverlist(
 ){
     constructor(): this(null,null,null,"")
 }
+
+class bordinglist(
+    var startNodenm: String?
+){
+    constructor(): this(null)
+}

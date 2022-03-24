@@ -39,7 +39,7 @@ class DriverMain : AppCompatActivity() {
     // DriverDB
     private var driverDB : DriverDB? = null
 
-    private var driverNo: String = "78" // 78번 기사님 예시
+    private var driverNo: String = "8" // 78번 기사님 예시
 
     // 알림 관련 (예약, 하차 등)
     private lateinit var view : View
@@ -68,6 +68,8 @@ class DriverMain : AppCompatActivity() {
         /* 테스트 용 */
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Dispatchers.Main) {
+
+                val driverlist = driverDB?.driverDao()?.getAll()
 
                 // 기사용 서버 실시간 데이터 확인
                 val database = Firebase.database
@@ -98,6 +100,19 @@ class DriverMain : AppCompatActivity() {
                             val Userbook = Driver(tmpbooklist.id.toString(),tmpbooklist.startNodenm.toString(),
                                 tmpbooklist.endNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
                             driverDB?.driverDao()?.insert(Userbook)
+                        } else {
+                            for (snapshot in p0.children) {
+                                if (snapshot.key == "startNodenm") {
+                                    val bordingnm = snapshot.value.toString()
+                                    if (driverlist != null){
+                                        for (index in driverlist.indices){
+                                            if (bordingnm == driverlist[index].startNodenm) {
+                                                oneSttnLeft(index)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     override fun onChildAdded(p0: DataSnapshot, p1: String?) {
@@ -123,6 +138,19 @@ class DriverMain : AppCompatActivity() {
                             val Userbook = Driver(tmpbooklist.id.toString(),tmpbooklist.startNodenm.toString(),
                                 tmpbooklist.endNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
                             driverDB?.driverDao()?.insert(Userbook)
+                        } else {
+                            for (snapshot in p0.children) {
+                                if (snapshot.key == "startNodenm") {
+                                    val bordingnm = snapshot.value.toString()
+                                    if (driverlist != null){
+                                        for (index in driverlist.indices){
+                                            if (bordingnm == driverlist[index].startNodenm) {
+                                                oneSttnLeft(index)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                     override fun onCancelled(p0: DatabaseError) {
@@ -136,7 +164,7 @@ class DriverMain : AppCompatActivity() {
 //                delay(3000)
 //                addBookerToList("송도더샾마스터뷰23단지","해양경찰청",false)
                 // 기사용 adapter에 DB연결
-                val driverlist = driverDB?.driverDao()?.getAll()
+
                 if (driverlist != null){
                     for (index in driverlist.indices){
                         addBookerToList(driverlist[index].startNodenm, driverlist[index].endNodenm,driverlist[index].guide_dog)
@@ -146,28 +174,28 @@ class DriverMain : AppCompatActivity() {
                 }
 
                 // 1 정거장 전 => 글씨 빨강색으로 변화
-                delay(5000)
-                oneSttnLeft(0)
+//                delay(5000)
+//                oneSttnLeft(0)
 
-                // 버스에 탑승한 경우
-                delay(5000)
-                removeBookerInList(0, true)
-
-                // 예약을 취소한 경우
-                delay(5000)
-                removeBookerInList(0, false)
-
-                // 신규 예약
-                delay(5000)
-                addBookerToList("동막역(1번출구)","인천대정문",true)
-
-                // 세 정거장 전(하차 알림)
-                delay(5000)
-                getOffNoti("인천대입구", 1) // 승객 탑승 후에는 항목이 없어지기 때문에 서버에 저장된 값을 받아와야 함
-
-                // 하차 (도중 하차, 정상 하차 모두)
-                delay(5000)
-                getOff()
+//                // 버스에 탑승한 경우
+//                delay(5000)
+//                removeBookerInList(0, true)
+//
+//                // 예약을 취소한 경우
+//                delay(5000)
+//                removeBookerInList(0, false)
+//
+//                // 신규 예약
+//                delay(5000)
+//                addBookerToList("동막역(1번출구)","인천대정문",true)
+//
+//                // 세 정거장 전(하차 알림)
+//                delay(5000)
+//                getOffNoti("인천대입구", 1) // 승객 탑승 후에는 항목이 없어지기 때문에 서버에 저장된 값을 받아와야 함
+//
+//                // 하차 (도중 하차, 정상 하차 모두)
+//                delay(5000)
+//                getOff()
             }
         }
     }
