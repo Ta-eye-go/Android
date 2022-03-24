@@ -28,7 +28,7 @@ interface DataModelDao {
     fun deleteAll()
 }
 
-@Database(entities = [DataModel::class], version = 2)
+@Database(entities = [DataModel::class], version = 3)
 abstract class DataModelDB: RoomDatabase() {
     abstract fun datamodelDao(): DataModelDao
 

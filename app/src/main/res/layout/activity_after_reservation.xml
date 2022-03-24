@@ -14,8 +14,8 @@
 
         <RelativeLayout
             android:id="@+id/currentLocationBox"
-            android:layout_width="345.1dp"
-            android:layout_height="110.9dp"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="122.5dp"
             android:background="@drawable/letterbox_yellow"
@@ -24,35 +24,35 @@
 
             <TextView
                 android:id="@+id/currentLocationText"
-                android:layout_width="317.1dp"
-                android:layout_height="80.5dp"
+                android:layout_width="380dp"
+                android:layout_height="120dp"
                 android:text="버스정보를&#10; 불러오고 있습니다..."
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
-                android:textSize="16sp"
+                android:textSize="60sp"
                 app:autoSizeTextType="uniform" />
         </RelativeLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/cancel_button"
-            android:layout_width="127.3dp"
-            android:layout_height="64.5dp"
+            android:layout_width="140dp"
+            android:layout_height="70dp"
             android:layout_below="@+id/currentLocationBox"
-            android:layout_marginStart="238.2dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginStart="260dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/text_bar"
             android:backgroundTint="@color/red"
             android:text="예약 취소"
             android:textColor="@color/white"
-            android:textSize="25sp" />
+            android:textSize="30sp" />
 
         <RelativeLayout
             android:id="@+id/currentStation_bar"
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cancel_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/currentStation"
@@ -61,29 +61,30 @@
                 android:layout_marginStart="10dp"
                 android:text="@string/startSttn"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="21sp" />
 
             <TextView
                 android:id="@+id/currentStation_text"
-                android:layout_width="345.1dp"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
                 android:layout_below="@+id/currentStation"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
+                android:padding="20dp"
                 android:textColor="@color/colorPrimary"
-                app:autoSizeMaxTextSize="40sp"
+                app:autoSizeMaxTextSize="70sp"
                 app:autoSizeTextType="uniform" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/busNum_bar"
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/currentStation_bar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/busNum"
@@ -92,29 +93,30 @@
                 android:layout_marginStart="10dp"
                 android:text="@string/busNum"
                 android:textColor="@color/white"
-                android:textSize="16sp"/>
+                android:textSize="21sp" />
 
             <TextView
                 android:id="@+id/busNum_text"
-                android:layout_width="345.1dp"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
                 android:layout_below="@+id/busNum"
                 android:layout_marginTop="0dp"
-                app:autoSizeTextType="uniform"
                 android:background="@drawable/text_bar"
                 android:gravity="center"
+                android:padding="20dp"
                 android:textColor="@color/colorPrimary"
-                app:autoSizeMaxTextSize="40sp"/>
+                app:autoSizeMaxTextSize="70sp"
+                app:autoSizeTextType="uniform" />
 
         </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/destination_bar"
-            android:layout_width="343dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/busNum_bar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp">
+            android:layout_marginTop="10dp">
 
             <TextView
                 android:id="@+id/destination"
@@ -123,19 +125,20 @@
                 android:layout_marginStart="10dp"
                 android:text="@string/endSttn"
                 android:textColor="@color/white"
-                android:textSize="16sp"/>
+                android:textSize="21sp" />
 
             <TextView
                 android:id="@+id/destination_text"
-                android:layout_width="345.1dp"
-                android:layout_height="100dp"
+                android:layout_width="match_parent"
+                android:layout_height="130dp"
                 android:layout_below="@+id/destination"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
-                app:autoSizeTextType="uniform"
                 android:gravity="center"
+                android:padding="20dp"
                 android:textColor="@color/colorPrimary"
-                app:autoSizeMaxTextSize="40sp" />
+                app:autoSizeMaxTextSize="70sp"
+                app:autoSizeTextType="uniform" />
 
         </RelativeLayout>
     </RelativeLayout>

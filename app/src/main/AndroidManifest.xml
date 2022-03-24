@@ -81,7 +81,7 @@
         </activity> <!-- 카카오톡 sdk 로그인 개발환경 함수 -->
         <activity
             android:name=".ui.main.MainActivity"
-            android:label=" "
+            android:label=""
             android:exported="true" /> <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.MAIN" /> -->
         <!-- <category android:name="android.intent.category.LAUNCHER" /> -->

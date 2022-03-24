@@ -31,6 +31,8 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_bookbus.*
+import kotlinx.android.synthetic.main.activity_bookmark.*
+import kotlinx.android.synthetic.main.activity_driver_main.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
@@ -211,6 +213,8 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         val botReply: String = response.queryResult.fulfillmentText
         if (botReply.isNotEmpty()) {
             addMessageToList(botReply, true)
+//            val v : View? = rv_messages.findViewHolderForAdapterPosition(rv_messages.size-1)?.itemView
+//            v?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             speakOut(botReply)  // bot의 응답 TTS
             if (botReply.contains("예약이 확정")){    // 예약이 확정, 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
                 val database = Firebase.database
@@ -282,9 +286,6 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
         }
     }
 
-    private suspend fun del(){
-        delay(5000)
-    }
     override fun onDestroy() {
         RecordDB.destroyInstance()
         recordDB = null

@@ -11,9 +11,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.databinding.ActivityMainBinding
 import com.code_23.ta_eye_go.ui.bookbus.ChatbotMainActivity
 import com.code_23.ta_eye_go.ui.bookmark.BookmarkMain
 import com.code_23.ta_eye_go.ui.settings.Settings
@@ -41,15 +41,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var lati: Double? = null
     private var long: Double? = null
-    var citycode: String = "23" // 도시코드
+    private var citycode: String = "23" // 도시코드
     var currentStation: String? = null  // 현재정류장
     var sttnId: String? = null  // 현재정류장 id
 
     var sttnNo: String? = "새로고침을 눌러주세요"
-    private val key =
-        "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
-    private val address =
-        "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
+    private val key = BuildConfig.TAGO_API_KEY
+    private val address = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
 
     // firebase DB
     val database = Firebase.database
@@ -59,8 +57,6 @@ class MainActivity : AppCompatActivity() {
     private var datamodelDB : DataModelDB? = null
     private var bookmarkDB : BookmarkDB? = null
     private var driverDB : DriverDB? = null
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -142,6 +138,7 @@ class MainActivity : AppCompatActivity() {
         val thread = Thread(r)
         thread.start()
     }
+
     override fun onDestroy() {
         UserDB.destroyInstance()
         userDB = null
@@ -157,7 +154,7 @@ class MainActivity : AppCompatActivity() {
             .setView(view)
             .create()
 
-        view.menu_name.text = " "
+        view.menu_name.text = ""
         view.menu_content.text = "앱을 종료하시겠습니까?"
 
         alertDialog.show()
@@ -196,13 +193,13 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             currentStation = "정류장 불러오기 오류"
         }
+
+        // api 정류소별경유노선 목록조회에 오류가 있어 임시로 정류장 번호 표시
         currentLocationText.text = "${currentStation}\n (${sttnNo})"
 
         // Talkback 사용자를 위해 toast를 띄워 현재 정류장을 읽도록 함
         if(currentStation == "정류장 불러오기 오류") {
             Toast.makeText(this,"정류장을 불러오지 못했습니다. 새로고침을 눌러주세요", Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this,"현재 정류장은 $currentStation 입니다.", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -223,6 +220,7 @@ class MainActivity : AppCompatActivity() {
 
     inner class NetworkThread : Thread() {
         override fun run() {
+            // 현재 정류장
             val urlAddress = "${address}${key}&gpsLati=${lati}&gpsLong=${long}&_type=json"
 
             try {

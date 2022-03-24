@@ -259,7 +259,7 @@ class LoginMain : AppCompatActivity() {
             .setView(view)
             .create()
 
-        view.menu_name.text = " "
+        view.menu_name.text = ""
         view.menu_content.text = "앱을 종료하시겠습니까?"
 
         alertDialog.show()

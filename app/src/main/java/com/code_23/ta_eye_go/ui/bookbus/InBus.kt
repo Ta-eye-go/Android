@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.DataModelDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
@@ -33,9 +34,6 @@ class InBus : AppCompatActivity() {
     private var startSttnID : String? = "" // 출발 정류장 id
     private var endSttnID : String? = "" // 도착 정류장 id
     private var routeId : String? = "" // 탑승 버스의 노선 번호 id
-    // private val startSttnNm : String? = "가람마을3.4.6단지"
-    // private val destination : String? = "파주우체국"
-    // private val busNm : String? = "92"
 
     private val citycode : Int = 23 // 도시코드 (인천 : 23)
     private var vehicleNo : String? = null // 버스 번호
@@ -48,10 +46,9 @@ class InBus : AppCompatActivity() {
     // 도착 여부 확인용
     var arrive = false
 
-    private val key = "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
-    // private val key = "NbREnDA1nV3nLBWbv7EXWntBQT%2BoyKeMVAPC7dGVUYJu8zgIV%2FHzLylOStyuhH%2FjTSuC3Nj0pjTC6sCV9jkY%2Fg%3D%3D"
-    private val address_myBusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
-    private val address_getNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey="
+    private val key = BuildConfig.TAGO_API_KEY
+    private val addressMybusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
+    private val addressGetNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey="
 
     // Room DB
     private var datamodelDB : DataModelDB? = null
@@ -116,7 +113,7 @@ class InBus : AppCompatActivity() {
             .setView(view)
             .create()
 
-        view.menu_name.text = "<하차 확인>"
+        view.menu_name.text = ""
         view.menu_content.text = "하차하시겠습니까?"
 
         alertDialog.show()
@@ -158,7 +155,7 @@ class InBus : AppCompatActivity() {
         override fun run() {
             // 탑승한 차량의 위치 정보
             if (vehicleNo == null) { // 탑승한 버스 차량 번호를 모를 때 (처음 돌렸을 경우)
-                var urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                var urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
 
                 try {
                     var buf = parsing1(urlAddress)
@@ -175,7 +172,7 @@ class InBus : AppCompatActivity() {
                         nodeord = response.getInt("nodeord")
                     }
                     else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
-                        urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&numOfRows=${totalCnt}&routeId=${routeId}&_type=json"
+                        urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&numOfRows=${totalCnt}&routeId=${routeId}&_type=json"
                         buf = parsing1(urlAddress)
                         jsonObject = JSONObject(buf.toString())
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
@@ -212,7 +209,7 @@ class InBus : AppCompatActivity() {
                     e.printStackTrace()
                 }
             } else { // 이미 버스 차량번호를 알고 있을 때
-                val urlAddress = "${address_myBusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                val urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
                 try {
                     val buf = parsing1(urlAddress)
 
@@ -239,9 +236,9 @@ class InBus : AppCompatActivity() {
             // 현재 정류장의 다음 정류장 조회
             // nodeord는 현재 정류장, nodeord+1은 다음 정류장임을 이용한다.
             val urlAddress1 =
-                "${address_getNodeord}${key}&numOfRows=1&pageNo=${nodeord}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord}&cityCode=${citycode}&routeId=${routeId}&_type=json"
             val urlAddress2 =
-                "${address_getNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
 
             Log.d("asd1", urlAddress1)
             Log.d("asd2", urlAddress2)
@@ -279,7 +276,7 @@ class InBus : AppCompatActivity() {
 
                 while (true) {
                     val urlAddress =
-                        "${address_getNodeord}${key}&numOfRows=10&pageNo=${pageNum}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                        "${addressGetNodeord}${key}&numOfRows=10&pageNo=${pageNum}&cityCode=${citycode}&routeId=${routeId}&_type=json"
                     try {
                         val buf = parsing1(urlAddress)
                         val jsonObject = JSONObject(buf.toString())

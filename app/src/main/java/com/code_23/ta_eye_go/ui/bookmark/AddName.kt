@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Toast
 import com.code_23.ta_eye_go.DB.Bookmark
 import com.code_23.ta_eye_go.DB.BookmarkDB
 import com.code_23.ta_eye_go.DB.User
@@ -46,7 +47,7 @@ class AddName : AppCompatActivity() {
                 val bookmark = Bookmark(newFavorite.favoriteNm, newFavorite.startSttnNm,
                     newFavorite.startSttnID, newFavorite.destination , newFavorite.destinationID , newFavorite.busNm)
                 bookmarkDB?.bookmarkDao()?.insert(bookmark)
-
+                Toast.makeText(applicationContext, "즐겨찾기가 추가되었습니다.", Toast.LENGTH_SHORT).show()
 
                 val intent = Intent(this, BookmarkMain::class.java)
                 startActivity(intent)
@@ -71,7 +72,7 @@ class AddName : AppCompatActivity() {
             .setView(view)
             .create()
 
-        view.menu_name.text = " "
+        view.menu_name.text = ""
         view.menu_content.text = "별칭 없이 추가하시겠습니까?"
 
         alertDialog.show()
@@ -82,6 +83,7 @@ class AddName : AppCompatActivity() {
             var bookmark = Bookmark(newFavorite.favoriteNm, newFavorite.startSttnNm,
                 newFavorite.startSttnID, newFavorite.destination , newFavorite.destinationID , newFavorite.busNm)
             bookmarkDB?.bookmarkDao()?.insert(bookmark)
+            Toast.makeText(applicationContext, "즐겨찾기가 추가되었습니다.", Toast.LENGTH_SHORT).show()
             val intent = Intent(this, BookmarkMain::class.java)
             startActivity(intent)
             finish()

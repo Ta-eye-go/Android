@@ -6,10 +6,8 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.DB.DataModelDB
-import com.code_23.ta_eye_go.DB.RecordDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_after_reservation.*
@@ -46,8 +44,7 @@ class AfterReservation : AppCompatActivity() {
 
     // 도착 여부 확인용
     var arrive = false
-
-    private val key = "NrOHnEMMNsLCDTuElcA01fuKwTdlJfGt95XWdtq771Ft34OvtB74iaRmUOCRc21wQPseZBRnw0bbvs%2B2Nbsedw%3D%3D"
+    private val key = com.code_23.ta_eye_go.BuildConfig.TAGO_API_KEY
 //    private val address_getRoute = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
 //    private val address_busLc = "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
     private val address_getRoute = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
@@ -68,7 +65,6 @@ class AfterReservation : AppCompatActivity() {
         }
 
         back_btn.setOnClickListener {
-            // TODO : 다시 이 화면으로 돌아와도 지장 없도록 해야 함...(안드)
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
@@ -79,12 +75,11 @@ class AfterReservation : AppCompatActivity() {
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
-            delay(700)
+            delay(1000)
             reservationStatus()
             delay(1000)
             withContext(Main) {
-
-                delay(700)
+                delay(1000)
                 reservationStatus()
                 val thread = NetworkThread()
                 thread.start()
@@ -131,10 +126,10 @@ class AfterReservation : AppCompatActivity() {
     private fun reservationStatus() {
         val a = datamodelDB?.datamodelDao()?.getAll()
         if (a != null) {
-            startSttnNm = a.get(0).startNodenm
-            busNm = a.get(0).routeNo
-            destination = a.get(0).endNodenm
-            startSttnID = a.get(0).startNodeID
+            startSttnNm = a[0].startNodenm
+            busNm = a[0].routeNo
+            destination = a[0].endNodenm
+            startSttnID = a[0].startNodeID
 
             currentStation_text.text = startSttnNm
             busNum_text.text = busNm
@@ -183,7 +178,7 @@ class AfterReservation : AppCompatActivity() {
             .setView(view)
             .create()
 
-        view.menu_name.text = "<취소 확인>"
+        view.menu_name.text = ""
         view.menu_content.text = "취소하시겠습니까?"
 
         alertDialog.show()
