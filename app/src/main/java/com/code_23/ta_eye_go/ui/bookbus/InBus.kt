@@ -49,6 +49,8 @@ class InBus : AppCompatActivity() {
     private var leftSttnCnt : Int = 0 // 남은 정류장
 
     private var startSttnNm : String? = "" // 출발(현재) 정류장 이름
+    private var endSttnnNm : String? = "" // 도착 정류장 이름
+    private var onBoardSttnNm : String? = ""
 
     // 도착 여부 확인용
     var arrive = false
@@ -65,16 +67,24 @@ class InBus : AppCompatActivity() {
         setContentView(R.layout.activity_in_bus)
 
         datamodelDB = DataModelDB.getInstance(this)
+        val a = datamodelDB?.datamodelDao()?.getAll()
+        onBoardSttnNm = a?.get(0)?.startNodenm
+
+        // 탑승 예정 데이터 서버로 전송
+        val database = Firebase.database
+        val driverdata = database.getReference("Driver").child("on board")
+        val toDriver =  bordinglist(onBoardSttnNm)   // 탑승정류장
+        driverdata.setValue(toDriver)
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
-                delay(300)
-                val a = datamodelDB?.datamodelDao()?.getAll()
+                delay(500)
                 startSttnNm = a?.get(0)?.startNodenm
+                endSttnnNm = a?.get(0)?.endNodenm
                 startSttnID = a?.get(0)?.startNodeID
                 endSttnID = a?.get(0)?.endNodeID
                 routeId = a?.get(0)?.routeID
-                delay(1000)
+                delay(1300)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -338,8 +348,8 @@ class InBus : AppCompatActivity() {
                 numOfStations_text.text = "$leftSttnCnt 정류장"
                 if (leftSttnCnt == 1) { // 남은 정류장이 1개일때 기사용 서버 알림
                     val database = Firebase.database
-                    val driverdata = database.getReference("Driver").child("boarding")
-                    val Todriver =  bordinglist(startSttnNm)   // 탑승정류장
+                    val driverdata = database.getReference("Driver").child("get off i")
+                    val Todriver =  bordinglist(endSttnnNm)   // 도착정류장
                     driverdata.setValue(Todriver)
                 }
             }

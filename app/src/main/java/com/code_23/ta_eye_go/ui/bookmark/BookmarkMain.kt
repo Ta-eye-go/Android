@@ -101,14 +101,6 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         }else{
             Log.d("realtime db", "수정이한테 연락바람")
         }
-
-        // 즐겨찾기 예시 데이터
-//        addFavoriteToList("신나는 하굣길", "당하대 주파크빌", "ICB168000392",
-//            "인천대입구", "ICB164000396", "8")
-//        addFavoriteToList("이름이 10글자 이상인 즐겨찾기", "산내마을3단지", "12345",
-//            "인천대학교 공과대학", "12345", "8")
-//        addFavoriteToList("인입에서해경", "인천대입구", "5678",
-//            "해양경찰청", "5678", "16")
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -142,7 +134,6 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             }
 
             R.id.menu_delete_list -> { //북마크삭제
-                //Log.d("sososo", item.itemId.favoriteNm)
                 showSettingPopup(selectedView)
             }
         }

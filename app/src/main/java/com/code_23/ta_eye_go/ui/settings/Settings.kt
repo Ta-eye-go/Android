@@ -126,15 +126,15 @@ class Settings : AppCompatActivity(){
                 try {
                     // 안내견 on
                     if (onSwitch){
-                        var email = ""
-                        email = Firebase.auth.currentUser?.email.toString()
-                        var users = User(email, true)
+                        val email = Firebase.auth.currentUser?.email.toString()
+                        val users = User(email, true)
                         userDB?.userDao()?.updateUser(users)
                         Toast.makeText(this, "안내견 on", Toast.LENGTH_SHORT).show()
-                    } else{ // 안내견견 off
-                        var email = ""
-                        email = Firebase.auth.currentUser?.email.toString()
-                        var users = User(email, false)
+                    }
+                    // 안내견견 off
+                    else{
+                        val email = Firebase.auth.currentUser?.email.toString()
+                        val users = User(email, false)
                         userDB?.userDao()?.updateUser(users)
                         Toast.makeText(this, "안내견 off", Toast.LENGTH_SHORT).show()
                     }

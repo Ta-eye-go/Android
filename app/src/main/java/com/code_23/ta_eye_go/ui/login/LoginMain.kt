@@ -172,22 +172,6 @@ class LoginMain : AppCompatActivity() {
             }
         }
 
-        //사용자 정보 가져오기 (Logcat에서 확인가능, 한번 동의하면 그 뒤로 동의메시지 안뜸)
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.e(TAG, "사용자 정보 요청 실패", error)
-                Log.d("kakao_email", "사용자 정보 요청 실패")
-            }
-            else if (user != null) {
-                Log.i(TAG, "사용자 정보 요청 성공" +
-                        "\n닉네임: ${user.kakaoAccount?.profile?.nickname}" +
-                        "\n이메일: ${user.kakaoAccount?.email}")
-                Log.d("kakao_email", user.kakaoAccount?.email.toString())
-                val users = User(user.kakaoAccount?.email.toString(), false)
-                userDB?.userDao()?.insert(users)
-            }
-        }
-
         // 구글 로그인을 위해 구성되어야 하는 코드 (Id, Email request)
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
