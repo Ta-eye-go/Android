@@ -19,7 +19,8 @@ class DriverLogin : AppCompatActivity() {
                 // 엔터 눌렀을때 행동
                 if (busNm_bar.text.isNotEmpty()) { // 데이터를 입력했으면
                     val intent = Intent(this, DriverMain::class.java)
-                    intent.putExtra("busNm", busNm_bar.text)
+                    val busNm : String = busNm_bar.text.toString()
+                    intent.putExtra("busNm", busNm)
                     Toast.makeText(applicationContext, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     startActivity(intent)
                     finish()
@@ -33,7 +34,8 @@ class DriverLogin : AppCompatActivity() {
         btn_login.setOnClickListener {
             if (busNm_bar.text.isNotEmpty()) { // 데이터를 입력했으면
                 val intent = Intent(this, DriverMain::class.java)
-                intent.putExtra("busNm", busNm_bar.text)
+                val busNm : String = busNm_bar.text.toString()
+                intent.putExtra("busNm", busNm)
                 Toast.makeText(applicationContext, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 finish()

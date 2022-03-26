@@ -282,12 +282,12 @@ class AfterReservation : AppCompatActivity() {
                         val iObject = item.getJSONObject(i)
                         if (tmp > iObject.getInt("arrprevstationcnt")) {
                             tmp = iObject.getInt("arrprevstationcnt")
-                            if (prevSttnCnt!! < 3) {
-                                val database = Firebase.database
-                                val driverdata = database.getReference("Driver").child("boarding")
-                                val toDriver =  bordinglist(startSttnNm)   // 탑승정류장
-                                driverdata.setValue(toDriver)
-                            }
+//                            if (prevSttnCnt!! < 3) {
+//                                val database = Firebase.database
+//                                val driverdata = database.getReference("Driver").child("boarding")
+//                                val toDriver =  bordinglist(startSttnNm)   // 탑승정류장
+//                                driverdata.setValue(toDriver)
+//                            }
                             if (prevSttnCnt == 1 && iObject.getInt("arrprevstationcnt") > 1) {
                                 // 남은 정류장 수가 1이었는데 1보다 커진 경우(뒤 버스가 있는 경우) -> 버스에 탔다고 처리
                                 arrive = true

@@ -53,7 +53,8 @@ class DriverMain : AppCompatActivity() {
         database = Firebase.database.reference
         // DB
         driverDB = DriverDB.getInstance(this)
-        //driverDB?.driverDao()?.deleteAll()    // 기사용 DB 초기화
+        driverDB?.driverDao()?.deleteAll()    // 기사용 DB 초기화
+        val database1 = Firebase.database
 
         waitingNum.text = "$passengerWaiting"
         on_boardNum.text = "$passengerIn"
@@ -63,9 +64,9 @@ class DriverMain : AppCompatActivity() {
         rv_bookers.adapter = bookerAdapter
         rv_bookers.layoutManager = LinearLayoutManager(applicationContext)
 
-        // 기사용 서버 초기화
-        val database1 = Firebase.database
-        val driver = database1.getReference("Driver").child("87")
+        val driver1 = database1.getReference("Driver")
+        driver1.removeValue();
+        val driver = database1.getReference("Driver").child(driverNo)
         val boarding = database1.getReference("Driver").child("boarding")
         val onboard = database1.getReference("Driver").child("on board")
         val getoffi = database1.getReference("Driver").child("get off i")
@@ -93,10 +94,7 @@ class DriverMain : AppCompatActivity() {
             override fun onChildRemoved(p0: DataSnapshot) {
             }
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                Log.d("추가", "a")
-            }
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                Log.d("신규", "a")
+                Log.d("추가", driverNo)
                 val tmpbooklist = driverlist()
                 if (driverNo == p0.key.toString()) {
                     for (snapshot in p0.children) {
@@ -140,6 +138,7 @@ class DriverMain : AppCompatActivity() {
                 }
                 // 탑승완료
                 else if (p0.key.toString() == "on board") {
+                    Log.d("기사용_탑승완료1", "ㅇㅇ")
                     for (snapshot in p0.children){
                         if (snapshot.key == "startNodenm") {
                             val boardnm = snapshot.value.toString()
@@ -148,7 +147,7 @@ class DriverMain : AppCompatActivity() {
                                 for (index in driverlist4.indices){
                                     if (boardnm == driverlist4[index].startNodenm) {
                                         removeBookerInList(index, true)
-                                        Log.d("기사용_탑승완료", index.toString())
+                                        Log.d("기사용_탑승완료2", index.toString())
                                     }
                                 }
                             }
@@ -184,12 +183,16 @@ class DriverMain : AppCompatActivity() {
                     }
                 }
             }
+            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                Log.d("신규", driverNo)
+            }
             override fun onCancelled(p0: DatabaseError) {
             }
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
             }
         })
     }
+
 
     /*override fun onStart() {
         super.onStart()

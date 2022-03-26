@@ -28,6 +28,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.AuthErrorCause
@@ -42,6 +44,8 @@ import kotlinx.android.synthetic.main.alertdialog_item.view.*
 class LoginMain : AppCompatActivity() {
     // firebase 인증을 위한 변수
     var auth : FirebaseAuth ? = null
+    // 서버
+    private lateinit var database: DatabaseReference
     // 구글 로그인 연동에 필요한 변수
     var googleSignInClient : GoogleSignInClient ? = null
     var GOOGLE_LOGIN_CODE = 9001
@@ -57,7 +61,8 @@ class LoginMain : AppCompatActivity() {
 
         // firebaseauth를 사용하기 위한 인스턴스 get
         auth = FirebaseAuth.getInstance()
-
+        // 서버
+        val database = Firebase.database
         // 카카오 로그인 hash key 받는 함수, logcat에서 Hash 검색해서 찾기 필요
         val keyHash = Utility.getKeyHash(this)
         Log.d("Hash", keyHash)
@@ -67,6 +72,8 @@ class LoginMain : AppCompatActivity() {
 
         // 기사용 버튼
         bus_btn.setOnClickListener {
+            val driver = database.getReference("Driver")
+            driver.removeValue();
             val intent = Intent(this, DriverLogin::class.java)
             startActivity(intent)
         }
