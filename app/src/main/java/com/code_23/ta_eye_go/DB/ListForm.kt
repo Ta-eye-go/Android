@@ -41,3 +41,9 @@ class bordinglist(
 ){
     constructor(): this(null)
 }
+
+class getofflist(
+    var endNodenm: String?
+){
+    constructor(): this(null)
+}

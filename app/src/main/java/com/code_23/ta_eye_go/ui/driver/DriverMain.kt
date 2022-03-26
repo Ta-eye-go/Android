@@ -53,7 +53,6 @@ class DriverMain : AppCompatActivity() {
         database = Firebase.database.reference
         // DB
         driverDB = DriverDB.getInstance(this)
-
         //driverDB?.driverDao()?.deleteAll()    // 기사용 DB 초기화
 
         waitingNum.text = "$passengerWaiting"
@@ -63,6 +62,22 @@ class DriverMain : AppCompatActivity() {
         bookerAdapter = BookerAdapter(this)
         rv_bookers.adapter = bookerAdapter
         rv_bookers.layoutManager = LinearLayoutManager(applicationContext)
+
+        // 기사용 서버 초기화
+        val database1 = Firebase.database
+        val driver = database1.getReference("Driver").child("87")
+        val boarding = database1.getReference("Driver").child("boarding")
+        val onboard = database1.getReference("Driver").child("on board")
+        val getoffi = database1.getReference("Driver").child("get off i")
+        val getoff = database1.getReference("Driver").child("get off")
+        val todriver = driverlist("","","","")
+        val startNm =  bordinglist("")
+        val endNm =  getofflist("")
+        driver.setValue(todriver)
+        boarding.setValue(startNm)
+        onboard.setValue(startNm)
+        getoffi.setValue(endNm)
+        getoff.setValue(endNm)
 
         val driverlist = driverDB?.driverDao()?.getAll()
         if (driverlist != null){
@@ -78,93 +93,10 @@ class DriverMain : AppCompatActivity() {
             override fun onChildRemoved(p0: DataSnapshot) {
             }
             override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                Log.d("중복", "a")
-                val tmpbooklist = driverlist()
-                if (driverNo == p0.key.toString()) {
-                    for (snapshot in p0.children) {
-                        when (snapshot.key) {
-                            "startNodenm" -> tmpbooklist.startNodenm = snapshot.value.toString()
-                            "endNodenm" -> tmpbooklist.endNodenm = snapshot.value.toString()
-                            "guide_dog" -> tmpbooklist.guide_dog = snapshot.value.toString()
-                            "id" -> tmpbooklist.id = snapshot.value.toString()
-                        }
-                    }
-                    Log.d("기사용_추가", tmpbooklist.toString())
-                    Log.d("기사용_추가", tmpbooklist.id.toString())
-                    Log.d("기사용_추가", tmpbooklist.startNodenm.toString())
-                    Log.d("기사용_추가", tmpbooklist.endNodenm.toString())
-                    Log.d("기사용_추가", tmpbooklist.guide_dog)
-
-                    val Userbook = Driver(tmpbooklist.id.toString(),tmpbooklist.startNodenm.toString(),
-                        tmpbooklist.endNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
-                    driverDB?.driverDao()?.insert(Userbook)
-                    addBookerToList(tmpbooklist.startNodenm.toString(), tmpbooklist.endNodenm.toString(), tmpbooklist.guide_dog.toBoolean())
-                    newNoti()
-                }
-                // 탑승하기 1정거장 전
-                else if (p0.key.toString() == "boarding"){
-                    for (snapshot in p0.children) {
-                        if (snapshot.key == "startNodenm") {
-                            val boardingnm = snapshot.value.toString()
-                            val driverlist3 = driverDB?.driverDao()?.getAll()
-                            if (driverlist3 != null){
-                                for (index in driverlist3.indices){
-                                    if (boardingnm == driverlist3[index].startNodenm) {
-                                        oneSttnLeft(index)
-                                        Log.d("기사용_탑승임박", index.toString())
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                // 탑승완료
-                else if (p0.key.toString() == "on board") {
-                    for (snapshot in p0.children){
-                        if (snapshot.key == "startNodenm") {
-                            val boardnm = snapshot.value.toString()
-                            val driverlist4 = driverDB?.driverDao()?.getAll()
-                            if (driverlist4 != null){
-                                for (index in driverlist4.indices){
-                                    if (boardnm == driverlist4[index].startNodenm) {
-                                        removeBookerInList(index, true)
-                                        Log.d("기사용_탑승완료", index.toString())
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                // 하차 예정
-                else if (p0.key.toString() == "get off") {
-                    for (snapshot in p0.children){
-                        if (snapshot.key == "endSttnnNm") {
-                            val boardnm = snapshot.value.toString()
-                            val driverlist5 = driverDB?.driverDao()?.getAll()
-                            if (driverlist5 != null){
-                                for (index in driverlist5.indices){
-                                    if (boardnm == driverlist5[index].endNodenm) {
-                                        getOffNoti(boardnm, 1)
-                                        Log.d("기사용_하차알림", index.toString())
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-                // 하차
-                else if (p0.key.toString() == "get off") {
-                    for (snapshot in p0.children){
-                        if (snapshot.key == "endSttnnNm") {
-                            val boardendNodenm = snapshot.value.toString()
-                            driverDB?.driverDao()?.delete(boardendNodenm)
-                            getOff()
-                            Log.d("기사용_하차", boardendNodenm)
-                        }
-                    }
-                }
+                Log.d("추가", "a")
             }
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                Log.d("신규", "a")
                 val tmpbooklist = driverlist()
                 if (driverNo == p0.key.toString()) {
                     for (snapshot in p0.children) {
@@ -185,7 +117,9 @@ class DriverMain : AppCompatActivity() {
                         tmpbooklist.endNodenm.toString(),tmpbooklist.guide_dog.toBoolean())
                     driverDB?.driverDao()?.insert(Userbook)
                     addBookerToList(tmpbooklist.startNodenm.toString(), tmpbooklist.endNodenm.toString(), tmpbooklist.guide_dog.toBoolean())
-                    //newNoti()
+                    if (tmpbooklist.startNodenm != ""){
+                        newNoti()
+                    }
                 }
                 // 탑승하기 1정거장 전
                 else if (p0.key.toString() == "boarding"){
@@ -222,7 +156,7 @@ class DriverMain : AppCompatActivity() {
                     }
                 }
                 // 하차 예정
-                else if (p0.key.toString() == "get off") {
+                else if (p0.key.toString() == "get off i") {
                     for (snapshot in p0.children){
                         if (snapshot.key == "endSttnnNm") {
                             val boardnm = snapshot.value.toString()
