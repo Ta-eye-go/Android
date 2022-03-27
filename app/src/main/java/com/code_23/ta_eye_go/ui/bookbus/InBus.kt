@@ -266,21 +266,32 @@ class InBus : AppCompatActivity() {
                     e.printStackTrace()
                 }
             } else { // 이미 버스 차량번호를 알고 있을 때
+                // TODO : 버스가 단 한대만 다닐 경우
                 val urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
                 Log.d("url", urlAddress)
                 try {
                     val buf = parsing1(urlAddress)
 
                     val jsonObject = JSONObject(buf.toString())
-                    val response = jsonObject.getJSONObject("response").getJSONObject("body")
-                        .getJSONObject("items")
-                    val item = response.getJSONArray("item")
-                    for (i in 0 until item.length()) {
-                        val iObject = item.getJSONObject(i)
-                        if (iObject.getString("vehicleno") == "$vehicleNo") {
-                            nodeord = iObject.getInt("nodeord")
-                            Log.d("url", "nodeord")
-                            break
+                    val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
+                        .getInt("totalCount")
+
+                    // 결과가 하나일 경우
+                    if (totalCnt == 1) {
+                        val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                            .getJSONObject("items").getJSONObject("item")
+                        nodeord = response.getInt("nodeord")
+                    }
+                    else {
+                        val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                            .getJSONObject("items")
+                        val item = response.getJSONArray("item")
+                        for (i in 0 until item.length()) {
+                            val iObject = item.getJSONObject(i)
+                            if (iObject.getString("vehicleno") == "$vehicleNo") {
+                                nodeord = iObject.getInt("nodeord")
+                                break
+                            }
                         }
                     }
                 } catch (e: MalformedURLException) {
@@ -397,7 +408,7 @@ class InBus : AppCompatActivity() {
                 if (leftSttnCnt < 3) { // 남은 정류장이 1개일때 기사용 서버 알림
                     val database = Firebase.database
                     val driverdata = database.getReference("Driver").child("get off i")
-                    val toDriver =  bordinglist(endSttnnNm)   // 도착정류장
+                    val toDriver =  getofflist(endSttnnNm)   // 도착정류장
                     driverdata.setValue(toDriver)
                 }
             }
