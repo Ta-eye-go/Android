@@ -10,12 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.DataModelDB
-import com.code_23.ta_eye_go.DB.booklist
 import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.DB.getofflist
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_in_bus.*
@@ -79,16 +77,38 @@ class InBus : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
-                delay(500)
+                delay(1000)
                 startSttnNm = a?.get(0)?.startNodenm
                 endSttnnNm = a?.get(0)?.endNodenm
                 startSttnID = a?.get(0)?.startNodeID
                 endSttnID = a?.get(0)?.endNodeID
                 routeId = a?.get(0)?.routeID
-                delay(1300)
+                delay(2000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
+            }
+            // 버스 도착 정보와 버스 위치 정보의 싱크 오류 시 재 검색 (세 번까지 시도)
+            if (nodeord == null) {
+                delay(2000)
+                val thread = NetworkThread()
+                thread.start()
+                thread.join()
+            }
+            if (nodeord == null) {
+                delay(2000)
+                val thread = NetworkThread()
+                thread.start()
+                thread.join()
+            }
+            if (nodeord == null) {
+                delay(2000)
+                val thread = NetworkThread()
+                thread.start()
+                thread.join()
+            }
+            if (nodeord == null) {
+                numOfStations_text.text = "정류장 찾기 오류"
             }
         }
 
@@ -104,9 +124,8 @@ class InBus : AppCompatActivity() {
                 if (arrive) {
                     val database = Firebase.database
                     val driverdata = database.getReference("Driver").child("get off")
-                    val Todriver =  getofflist(endSttnnNm)   // 도착정류장
-                    driverdata.setValue(Todriver)
-                    // TODO : 버스 도착 후 처리
+                    val toDriver =  getofflist(endSttnnNm)   // 도착정류장
+                    driverdata.setValue(toDriver)
                     datamodelDB?.datamodelDao()?.deleteAll()
                     Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
                     val intent = Intent(this, MainActivity::class.java)
@@ -114,11 +133,11 @@ class InBus : AppCompatActivity() {
                     finish()
                 }
             }
-            if (arrive) { // TODO : 버스 도착 후 처리2
+            if (arrive) {
                 val database = Firebase.database
                 val driverdata = database.getReference("Driver").child("get off")
-                val Todriver =  getofflist(endSttnnNm)   // 도착정류장
-                driverdata.setValue(Todriver)
+                val toDriver =  getofflist(endSttnnNm)   // 도착정류장
+                driverdata.setValue(toDriver)
                 datamodelDB?.datamodelDao()?.deleteAll()
                 Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, MainActivity::class.java)
@@ -188,6 +207,7 @@ class InBus : AppCompatActivity() {
             // 탑승한 차량의 위치 정보
             if (vehicleNo == null) { // 탑승한 버스 차량 번호를 모를 때 (처음 돌렸을 경우)
                 var urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                Log.d("url", urlAddress)
 
                 try {
                     var buf = parsing1(urlAddress)
@@ -205,13 +225,16 @@ class InBus : AppCompatActivity() {
                     }
                     else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
                         urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&numOfRows=${totalCnt}&routeId=${routeId}&_type=json"
+                        Log.d("url", urlAddress)
                         buf = parsing1(urlAddress)
                         jsonObject = JSONObject(buf.toString())
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
                             .getJSONObject("items")
                         val item = response.getJSONArray("item")
+                        startSttnID?.let { Log.d("ur", it) }
                         for (i in 0 until item.length()) {
                             val iObject = item.getJSONObject(i)
+                            iObject.getString("nodeid").let { Log.d("ur", it) }
                             if (iObject.getString("nodeid") == startSttnID) {
                                 vehicleNo = iObject.getString("vehicleno")
                                 nodeord = iObject.getInt("nodeord")
@@ -232,7 +255,9 @@ class InBus : AppCompatActivity() {
                             }
                         }
                     }
-
+                    if (nodeord == null) {
+                        return
+                    }
                 } catch (e: MalformedURLException) {
                     e.printStackTrace()
                 } catch (e: IOException) {
@@ -242,6 +267,7 @@ class InBus : AppCompatActivity() {
                 }
             } else { // 이미 버스 차량번호를 알고 있을 때
                 val urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                Log.d("url", urlAddress)
                 try {
                     val buf = parsing1(urlAddress)
 
@@ -253,6 +279,7 @@ class InBus : AppCompatActivity() {
                         val iObject = item.getJSONObject(i)
                         if (iObject.getString("vehicleno") == "$vehicleNo") {
                             nodeord = iObject.getInt("nodeord")
+                            Log.d("url", "nodeord")
                             break
                         }
                     }
@@ -272,8 +299,8 @@ class InBus : AppCompatActivity() {
             val urlAddress2 =
                 "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
 
-            Log.d("asd1", urlAddress1)
-            Log.d("asd2", urlAddress2)
+            Log.d("url", urlAddress1)
+            Log.d("url", urlAddress2)
 
             try {
                 val buf1 = parsing1(urlAddress1)
@@ -305,10 +332,16 @@ class InBus : AppCompatActivity() {
             // 1. 도착 정류장 nodeord 구하기
             if (endNodeord == null) {
                 var pageNum = nodeord?.div(10)?.plus(1)
+                if (pageNum == null) {
+                    numOfStations_text.text = "오류 발생"
+                    return
+                }
 
                 while (true) {
                     val urlAddress =
                         "${addressGetNodeord}${key}&numOfRows=10&pageNo=${pageNum}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                    Log.d("url", urlAddress)
+
                     try {
                         val buf = parsing1(urlAddress)
                         val jsonObject = JSONObject(buf.toString())
@@ -346,10 +379,8 @@ class InBus : AppCompatActivity() {
                         e.printStackTrace()
                         break
                     }
-                    if (pageNum != null) {
-                        if (endNodeord != null) break
-                        else pageNum += 1
-                    }
+                    if (endNodeord != null) break
+                    else pageNum += 1
                 }
             }
             // 도착정류장의 nodeord가 있을 때
@@ -362,11 +393,12 @@ class InBus : AppCompatActivity() {
                     arrive = true
                 }
                 numOfStations_text.text = "$leftSttnCnt 정류장"
+
                 if (leftSttnCnt == 1) { // 남은 정류장이 1개일때 기사용 서버 알림
                     val database = Firebase.database
                     val driverdata = database.getReference("Driver").child("get off i")
-                    val Todriver =  getofflist(endSttnnNm)   // 도착정류장
-                    driverdata.setValue(Todriver)
+                    val toDriver =  bordinglist(endSttnnNm)   // 도착정류장
+                    driverdata.setValue(toDriver)
                 }
             }
         }

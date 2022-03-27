@@ -113,14 +113,17 @@ class Settings : AppCompatActivity(){
             email.text = "이메일 : ${user?.kakaoAccount?.email}"
         }
 
-        // 예약 테스트 용 입니다. 무시해주세요!!
         btn_yellow.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
         btn_blue.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         }
+
         // 안내견 유무 스위치
+        if (userDB?.userDao()?.userdata(Firebase.auth.currentUser?.email.toString()) == true) {
+            switch_dog.isChecked = true
+        }
         switch_dog.setOnCheckedChangeListener{CompoundButton, onSwitch ->
             val r = kotlinx.coroutines.Runnable {
                 try {

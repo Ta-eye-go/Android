@@ -14,14 +14,14 @@ class DriverLogin : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_driver_login)
 
-        busNm_bar.setOnKeyListener { v, keyCode, event ->
+        busNm_bar.setOnKeyListener { _, keyCode, event ->
             if (event.action == KeyEvent.ACTION_DOWN && keyCode == KEYCODE_ENTER) {
                 // 엔터 눌렀을때 행동
                 if (busNm_bar.text.isNotEmpty()) { // 데이터를 입력했으면
                     val intent = Intent(this, DriverMain::class.java)
                     val busNm : String = busNm_bar.text.toString()
                     intent.putExtra("busNm", busNm)
-                    Toast.makeText(applicationContext, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext, "${busNm_bar.text}번 로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                     startActivity(intent)
                     finish()
                 } else {
@@ -36,7 +36,7 @@ class DriverLogin : AppCompatActivity() {
                 val intent = Intent(this, DriverMain::class.java)
                 val busNm : String = busNm_bar.text.toString()
                 intent.putExtra("busNm", busNm)
-                Toast.makeText(applicationContext, "로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(applicationContext, "${busNm_bar.text}번 로그인이 완료되었습니다.", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
                 finish()
             } else {

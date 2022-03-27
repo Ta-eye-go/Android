@@ -77,7 +77,7 @@ class AfterReservation : AppCompatActivity() {
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
-            delay(1000)
+            delay(1500)
             reservationStatus()
             delay(1000)
             withContext(Main) {
@@ -88,6 +88,7 @@ class AfterReservation : AppCompatActivity() {
                 thread.join()
             }
             for(i in 0..100) {
+                // 1분 미만 남았을 때는 10초에 한번 업데이트
                 if (!arrive) {
                     withContext(Main) {
                         val thread = NetworkThread()
@@ -100,7 +101,12 @@ class AfterReservation : AppCompatActivity() {
                         turn()
                         break
                     }
-                    delay(20000) // 20초 기다리기
+                    if (arrTime!! < 60) { // 도착 예정 시간 1분 미만 시
+                        delay(10000)
+                    }
+                    else {
+                        delay(20000) // 20초 기다리기
+                    }
                 }
                 if (arrive) {
                     // TODO : 탑승 완료 후 처리 2
@@ -195,6 +201,7 @@ class AfterReservation : AppCompatActivity() {
             if (routeId == " ") {
                 var urlAddress =
                     "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
+                Log.d("url", urlAddress)
                 //Log.d("asd", urlAddress)
                 try {
                     var buf = parsing1(urlAddress)
@@ -251,6 +258,7 @@ class AfterReservation : AppCompatActivity() {
             // 버스 정보 받아오기
             val urlAddress2 =
                 "${address_busLc}${key}&cityCode=${citycode}&nodeId=${startSttnID}&routeId=${routeId}&_type=json"
+            Log.d("url", urlAddress2)
 
             try {
                 val buf = parsing1(urlAddress2)
@@ -303,10 +311,10 @@ class AfterReservation : AppCompatActivity() {
                     driverdata.setValue(toDriver)
                 }
                 if (arrTime!! < 60) { // 도착 예정 시간 1분 미만 시
-                    currentLocationText.text = "$prevSttnCnt 정거장 전\n 잠시 후 도착 예정입니다."
+                    currentLocationText.text = "$prevSttnCnt 정거장 전\n 잠시 후 도착 예정"
                 }
                 else {
-                    currentLocationText.text = "$prevSttnCnt 정거장 전\n ${arrTime?.div(60)} 분 후 도착 예정입니다."
+                    currentLocationText.text = "$prevSttnCnt 정거장 전\n ${arrTime?.div(60)} 분 후 도착 예정"
                 }
 
             } catch (e: MalformedURLException) {

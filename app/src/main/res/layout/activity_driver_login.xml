@@ -44,7 +44,7 @@
             <EditText
                 android:id="@+id/busNm_bar"
                 android:layout_width="300dp"
-                android:layout_height="wrap_content"
+                android:layout_height="60dp"
                 android:layout_below="@+id/text_login"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="80dp"

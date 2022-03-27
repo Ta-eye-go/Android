@@ -37,7 +37,6 @@ import java.io.IOException
 import java.net.MalformedURLException
 import kotlin.math.abs
 
-
 class MainActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
