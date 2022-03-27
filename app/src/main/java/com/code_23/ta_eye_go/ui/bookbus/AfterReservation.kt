@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
+import com.code_23.ta_eye_go.DB.DataModel
 import com.code_23.ta_eye_go.DB.DataModelDB
 import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.R
@@ -38,9 +39,10 @@ class AfterReservation : AppCompatActivity() {
     private var busNm : String? = "" // 탈 버스 번호
 
     private val citycode : Int = 23 // 도시코드 (인천 : 23)
-    private var routeId : String? = null // 버스의 노선 번호 ID
+    private var routeId : String? = " " // 버스의 노선 번호 ID
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
+    private var  endNodeID = "0"
 
     // 실시간 여부 확인용
     // var j = 0
@@ -120,6 +122,7 @@ class AfterReservation : AppCompatActivity() {
     }
 
     fun turn() {
+
         // 예약 후 화면 이동
         val intent = Intent(this, InBus::class.java)
         startActivity(intent)
@@ -197,7 +200,7 @@ class AfterReservation : AppCompatActivity() {
         @SuppressLint("SetTextI18n")
         override fun run() {
             // 타고자 하는 버스의 노선 id 받아오기 (노선은 한 번만 받아오도록 처리)
-            if (routeId == null) {
+            if (routeId == " ") {
                 var urlAddress =
                     "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
                 Log.d("url", urlAddress)
@@ -252,6 +255,24 @@ class AfterReservation : AppCompatActivity() {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
+                val a = datamodelDB?.datamodelDao()?.getAll()
+                if (a != null) {
+                    startSttnNm = a[0].startNodenm
+                    busNm = a[0].routeNo
+                    destination = a[0].endNodenm
+                    startSttnID = a[0].startNodeID
+                    endNodeID = a[0].endNodeID
+
+                    datamodelDB?.datamodelDao()?.deleteAll()    // 예약리스트(일회용) DB 초기화
+                    val datamodellist = DataModel(endNodeID,
+                        destination!!,routeId!!,busNm!!,startSttnID!!,startSttnNm!!)
+                    datamodelDB?.datamodelDao()?.insert(datamodellist)
+
+                    currentStation_text.text = startSttnNm
+                    busNum_text.text = busNm
+                    destination_text.text = destination
+                }
+
             }
 
             // 버스 정보 받아오기
