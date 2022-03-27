@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.BookerData
 import kotlinx.android.synthetic.main.bookers_item.view.*
+import kotlinx.coroutines.delay
 
 class BookerAdapter (private var activity: Activity) : RecyclerView.Adapter<BookerAdapter.BookerHolder>() {
 

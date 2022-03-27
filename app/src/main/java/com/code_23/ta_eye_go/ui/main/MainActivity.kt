@@ -74,7 +74,7 @@ class MainActivity : AppCompatActivity() {
         driverDB = DriverDB.getInstance(this)
 
         // 수정이가 넣으라고 한거 (한번 사용했으면 꺼두기, datamodelDB는 건들지말기)
-        userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
+        //userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
         datamodelDB?.datamodelDao()?.deleteAll()    // 예약리스트(일회용) DB 초기화
         //recordDB?.recordDao()?.deleteAll()    // 최근경로 DB 초기화
         //bookmarkDB?.bookmarkDao()?.deleteAll()    // 즐겨찾기 DB 초기화

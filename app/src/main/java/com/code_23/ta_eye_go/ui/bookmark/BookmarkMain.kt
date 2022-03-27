@@ -16,8 +16,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.DB.BookmarkDB
+import com.code_23.ta_eye_go.DB.DataModel
+import com.code_23.ta_eye_go.DB.DataModelDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
+import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
+import com.code_23.ta_eye_go.ui.bookbus.InBus
 import com.code_23.ta_eye_go.ui.driver.BookerAdapter
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bookmark.*
@@ -40,13 +44,14 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
 
     // BookmarkDB
     private var bookmarkDB : BookmarkDB? = null
+    private var datamodelDB : DataModelDB? = null
 
     override fun onClick(v: View?) { // 짧은 클릭 (예약 화면 이동)
         val favoriteItem = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)]
+        favoriteItemNm = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)].favoriteNm
 
         // 현재 정류장과 시작 정류장 일치 검사
         if (sttnId == favoriteItem.startSttnID) {
-            // TODO : 클릭 시 예약화면으로 이동하기
             confirmDialog()
         }
         else {
@@ -71,6 +76,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         sttnId = intent.getStringExtra("sttnId").toString()
 
         bookmarkDB = BookmarkDB.getInstance(this)
+        datamodelDB = DataModelDB.getInstance(this)
 
         bookmarkAdapter = BookmarkAdapter(this)
         rv_favorites.adapter = bookmarkAdapter
@@ -203,8 +209,18 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         alertDialog.show()
 
         view.btn_yes.setOnClickListener {
+            val favoriteItemList = bookmarkDB?.bookmarkDao()?.bookmarkdata(favoriteItemNm)
+            if (favoriteItemList != null) {
+                val datamodellist = DataModel(favoriteItemList[0].endNodeID,favoriteItemList[0].endNodenm," "
+                    ,favoriteItemList[0].routeID,favoriteItemList[0].startNodeID,
+                    favoriteItemList[0].startNodenm)
+                datamodelDB?.datamodelDao()?.insert(datamodellist)
+            }
             alertDialog.dismiss()
-            Toast.makeText(this@BookmarkMain, "예약 이동 미구현", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this@BookmarkMain, "승차 예약되었습니다. 승차 대기 화면으로 이동합니다.", Toast.LENGTH_SHORT).show()
+            // 예약 후 화면 이동
+            val intent = Intent(this, AfterReservation::class.java)
+            startActivity(intent)
         }
         view.btn_no.setOnClickListener {
             alertDialog.dismiss()

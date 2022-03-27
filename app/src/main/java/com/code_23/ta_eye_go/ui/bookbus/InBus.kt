@@ -339,7 +339,13 @@ class InBus : AppCompatActivity() {
                 }
             }
             // 도착정류장의 nodeord가 있을 때
-            if(endNodeord == null) numOfStations_text.text = "오류 발생"
+            if(endNodeord == null) {
+                numOfStations_text.text = "오류 발생"
+                val database = Firebase.database
+                val driverdata = database.getReference("Driver").child("get off i")
+                val Todriver =  bordinglist(endSttnnNm)   // 도착정류장
+                driverdata.setValue(Todriver)
+            }
             else {
                 leftSttnCnt = endNodeord!! - nodeord!!
                 if (leftSttnCnt <= 0) { // 남은 정류장이 0 이하가 되면

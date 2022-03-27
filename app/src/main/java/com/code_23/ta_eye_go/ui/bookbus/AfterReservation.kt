@@ -38,7 +38,7 @@ class AfterReservation : AppCompatActivity() {
     private var busNm : String? = "" // 탈 버스 번호
 
     private val citycode : Int = 23 // 도시코드 (인천 : 23)
-    private var routeId : String? = null // 버스의 노선 번호 ID
+    private var routeId : String? = " " // 버스의 노선 번호 ID
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
 
@@ -193,7 +193,7 @@ class AfterReservation : AppCompatActivity() {
         @SuppressLint("SetTextI18n")
         override fun run() {
             // 타고자 하는 버스의 노선 id 받아오기 (노선은 한 번만 받아오도록 처리)
-            if (routeId == null) {
+            if (routeId == " ") {
                 var urlAddress =
                     "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
                 //Log.d("asd", urlAddress)

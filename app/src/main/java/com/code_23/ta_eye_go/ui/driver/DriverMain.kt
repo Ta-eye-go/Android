@@ -145,9 +145,16 @@ class DriverMain : AppCompatActivity() {
                             val driverlist4 = driverDB?.driverDao()?.getAll()
                             if (driverlist4 != null){
                                 for (index in driverlist4.indices){
+                                    Log.d("기사용_탑승완료2", index.toString())
                                     if (boardnm == driverlist4[index].startNodenm) {
-                                        removeBookerInList(index, true)
-                                        Log.d("기사용_탑승완료2", index.toString())
+                                        Log.d("기사용_탑승완료4", index.toString())
+                                        if (index == 0){removeBookerInList(0, true)}
+                                        else {removeBookerInList(index, true)
+                                            Log.d("기사용_탑승완료3", index.toString())}
+
+                                    }
+                                    else {
+                                        Log.d("기사용_탑승완료5", index.toString())
                                     }
                                 }
                             }

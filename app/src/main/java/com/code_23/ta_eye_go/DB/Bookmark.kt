@@ -26,6 +26,10 @@ interface BookmarkDao {
     @Update
     fun updateBookmark(bookmark: Bookmark)
 
+    // 즐겨찾기DB에서 별칭의 데이터를 가져와줌
+    @Query("SELECT * FROM bookmark where 별칭 = (:favoriteNm)")
+    fun bookmarkdata(favoriteNm: String): List<Bookmark>
+
     @Query("DELETE from bookmark where 별칭 = (:favoriteNm)")
     fun delete(favoriteNm: String)
 
@@ -33,7 +37,7 @@ interface BookmarkDao {
     fun deleteAll()
 }
 
-@Database(entities = [Bookmark::class], version = 6)
+@Database(entities = [Bookmark::class], version = 7)
 abstract class BookmarkDB: RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
 
