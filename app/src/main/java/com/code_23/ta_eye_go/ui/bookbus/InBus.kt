@@ -266,7 +266,6 @@ class InBus : AppCompatActivity() {
                     e.printStackTrace()
                 }
             } else { // 이미 버스 차량번호를 알고 있을 때
-                // TODO : 버스가 단 한대만 다닐 경우
                 val urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
                 Log.d("url", urlAddress)
                 try {

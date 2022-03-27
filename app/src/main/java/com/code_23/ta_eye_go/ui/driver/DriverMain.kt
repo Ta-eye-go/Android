@@ -157,7 +157,7 @@ class DriverMain : AppCompatActivity() {
                 // 하차 예정
                 else if (p0.key.toString() == "get off i") {
                     for (snapshot in p0.children){
-                        if (snapshot.key == "endSttnnNm") {
+                        if (snapshot.key == "endNodenm") {
                             val boardnm = snapshot.value.toString()
                             val driverlist5 = driverDB?.driverDao()?.getAll()
                             if (driverlist5 != null){
@@ -174,7 +174,7 @@ class DriverMain : AppCompatActivity() {
                 // 하차
                 else if (p0.key.toString() == "get off") {
                     for (snapshot in p0.children){
-                        if (snapshot.key == "endSttnnNm") {
+                        if (snapshot.key == "endNodenm") {
                             val boardendNodenm = snapshot.value.toString()
                             driverDB?.driverDao()?.delete(boardendNodenm)
                             getOff()
