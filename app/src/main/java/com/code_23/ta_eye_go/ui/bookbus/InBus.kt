@@ -394,7 +394,7 @@ class InBus : AppCompatActivity() {
                 }
                 numOfStations_text.text = "$leftSttnCnt 정류장"
 
-                if (leftSttnCnt == 1) { // 남은 정류장이 1개일때 기사용 서버 알림
+                if (leftSttnCnt < 3) { // 남은 정류장이 1개일때 기사용 서버 알림
                     val database = Firebase.database
                     val driverdata = database.getReference("Driver").child("get off i")
                     val toDriver =  bordinglist(endSttnnNm)   // 도착정류장

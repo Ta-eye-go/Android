@@ -15,15 +15,16 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.code_23.ta_eye_go.DB.BookmarkDB
-import com.code_23.ta_eye_go.DB.DataModel
-import com.code_23.ta_eye_go.DB.DataModelDB
+import com.code_23.ta_eye_go.DB.*
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
 import com.code_23.ta_eye_go.ui.bookbus.InBus
 import com.code_23.ta_eye_go.ui.driver.BookerAdapter
 import com.code_23.ta_eye_go.ui.main.MainActivity
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
 import kotlinx.android.synthetic.main.activity_driver_main.*
@@ -45,6 +46,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     // BookmarkDB
     private var bookmarkDB : BookmarkDB? = null
     private var datamodelDB : DataModelDB? = null
+    private var userDB : UserDB? = null
 
     override fun onClick(v: View?) { // 짧은 클릭 (예약 화면 이동)
         val favoriteItem = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)]
@@ -77,6 +79,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
 
         bookmarkDB = BookmarkDB.getInstance(this)
         datamodelDB = DataModelDB.getInstance(this)
+        userDB = UserDB.getInstance(this)
 
         bookmarkAdapter = BookmarkAdapter(this)
         rv_favorites.adapter = bookmarkAdapter
@@ -209,12 +212,20 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         alertDialog.show()
 
         view.btn_yes.setOnClickListener {
+            // 서버
+            val database = Firebase.database
             val favoriteItemList = bookmarkDB?.bookmarkDao()?.bookmarkdata(favoriteItemNm)
+            val email = Firebase.auth.currentUser?.email.toString()
+            val dog = userDB?.userDao()?.userdata(email)
             if (favoriteItemList != null) {
                 val datamodellist = DataModel(favoriteItemList[0].endNodeID,favoriteItemList[0].endNodenm," "
                     ,favoriteItemList[0].routeID,favoriteItemList[0].startNodeID,
                     favoriteItemList[0].startNodenm)
                 datamodelDB?.datamodelDao()?.insert(datamodellist)
+                // 기사용 서버에 데이터 전송
+                val driverdata = database.getReference("Driver").child(favoriteItemList[0].routeID)
+                val Todriver = booklist(Firebase.auth.currentUser!!.uid,favoriteItemList[0].startNodenm,favoriteItemList[0].endNodenm,dog)    // 현재정류장, 도착정류장, 안내견유무
+                driverdata.setValue(Todriver)
             }
             alertDialog.dismiss()
             Toast.makeText(this@BookmarkMain, "승차 예약되었습니다. 승차 대기 화면으로 이동합니다.", Toast.LENGTH_SHORT).show()

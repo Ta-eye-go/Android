@@ -182,7 +182,6 @@ class AfterReservation : AppCompatActivity() {
 
         view.btn_yes.setOnClickListener {
             datamodelDB?.datamodelDao()?.deleteAll()
-
             alertDialog.dismiss()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

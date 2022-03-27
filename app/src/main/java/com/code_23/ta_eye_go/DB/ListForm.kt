@@ -22,7 +22,7 @@ class booklist(
     var id: String?,
     var startNodenm: String?,
     var endNodenm: String?,
-    var guide_dog: Any
+    var guide_dog: Boolean?
 ){
     constructor(): this(null,null,null,false)
 }

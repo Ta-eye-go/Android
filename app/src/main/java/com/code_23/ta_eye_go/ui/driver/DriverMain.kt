@@ -80,13 +80,6 @@ class DriverMain : AppCompatActivity() {
         getoffi.setValue(endNm)
         getoff.setValue(endNm)
 
-//        val driverlist = driverDB?.driverDao()?.getAll()
-//        if (driverlist != null){
-//            for (index in driverlist.indices){
-//                BookerToList(driverlist[index].startNodenm, driverlist[index].endNodenm,driverlist[index].guide_dog)
-//            }
-//        }
-
         // 기사용 서버 실시간 데이터 확인
         val database = Firebase.database
         val driverdata = database.getReference("Driver")
