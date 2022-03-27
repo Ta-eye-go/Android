@@ -80,12 +80,12 @@ class DriverMain : AppCompatActivity() {
         getoffi.setValue(endNm)
         getoff.setValue(endNm)
 
-        val driverlist = driverDB?.driverDao()?.getAll()
-        if (driverlist != null){
-            for (index in driverlist.indices){
-                BookerToList(driverlist[index].startNodenm, driverlist[index].endNodenm,driverlist[index].guide_dog)
-            }
-        }
+//        val driverlist = driverDB?.driverDao()?.getAll()
+//        if (driverlist != null){
+//            for (index in driverlist.indices){
+//                BookerToList(driverlist[index].startNodenm, driverlist[index].endNodenm,driverlist[index].guide_dog)
+//            }
+//        }
 
         // 기사용 서버 실시간 데이터 확인
         val database = Firebase.database
@@ -189,6 +189,17 @@ class DriverMain : AppCompatActivity() {
                         }
                     }
                 }
+                // 예약취소
+//                else if (p0.key.toString() == "cancel") {
+//                    for (snapshot in p0.children){
+//                        if (snapshot.key == "startNodenm") {
+//                            val boardendNodenm = snapshot.value.toString()
+//                            driverDB?.driverDao()?.delete(boardendNodenm)
+//                            getOff()
+//                            Log.d("기사용_예약취소", boardendNodenm)
+//                        }
+//                    }
+//                }
             }
             override fun onChildAdded(p0: DataSnapshot, p1: String?) {
                 Log.d("신규", driverNo)
@@ -198,6 +209,12 @@ class DriverMain : AppCompatActivity() {
             override fun onChildMoved(p0: DataSnapshot, p1: String?) {
             }
         })
+        val driverlist = driverDB?.driverDao()?.getAll()
+        if (driverlist != null){
+            for (index in driverlist.indices){
+                BookerToList(driverlist[index].startNodenm, driverlist[index].endNodenm,driverlist[index].guide_dog)
+            }
+        }
     }
 
 

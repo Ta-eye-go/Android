@@ -63,7 +63,6 @@ class AfterReservation : AppCompatActivity() {
         datamodelDB = DataModelDB.getInstance(this)
 
         cancel_button.setOnClickListener {
-            // 화면 이동만 일단 해둠...
             confirmDialog()
         }
 
@@ -173,11 +172,11 @@ class AfterReservation : AppCompatActivity() {
 
         view.menu_name.text = ""
         view.menu_content.text = "취소하시겠습니까?"
-
         alertDialog.show()
 
         view.btn_yes.setOnClickListener {
             datamodelDB?.datamodelDao()?.deleteAll()
+
             alertDialog.dismiss()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)

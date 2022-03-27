@@ -12,6 +12,7 @@ import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.DataModelDB
 import com.code_23.ta_eye_go.DB.booklist
 import com.code_23.ta_eye_go.DB.bordinglist
+import com.code_23.ta_eye_go.DB.getofflist
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.firebase.auth.ktx.auth
@@ -101,6 +102,10 @@ class InBus : AppCompatActivity() {
                     }
                 }
                 if (arrive) {
+                    val database = Firebase.database
+                    val driverdata = database.getReference("Driver").child("get off")
+                    val Todriver =  getofflist(endSttnnNm)   // 도착정류장
+                    driverdata.setValue(Todriver)
                     // TODO : 버스 도착 후 처리
                     datamodelDB?.datamodelDao()?.deleteAll()
                     Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
@@ -110,6 +115,10 @@ class InBus : AppCompatActivity() {
                 }
             }
             if (arrive) { // TODO : 버스 도착 후 처리2
+                val database = Firebase.database
+                val driverdata = database.getReference("Driver").child("get off")
+                val Todriver =  getofflist(endSttnnNm)   // 도착정류장
+                driverdata.setValue(Todriver)
                 datamodelDB?.datamodelDao()?.deleteAll()
                 Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
                 val intent = Intent(this, MainActivity::class.java)
@@ -137,6 +146,11 @@ class InBus : AppCompatActivity() {
         alertDialog.show()
 
         view.btn_yes.setOnClickListener {
+            datamodelDB?.datamodelDao()?.deleteAll()
+            val database = Firebase.database
+            val driverdata = database.getReference("Driver").child("get off i")
+            val Todriver =  getofflist(endSttnnNm)   // 도착정류장
+            driverdata.setValue(Todriver)
             alertDialog.dismiss()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
@@ -341,10 +355,6 @@ class InBus : AppCompatActivity() {
             // 도착정류장의 nodeord가 있을 때
             if(endNodeord == null) {
                 numOfStations_text.text = "오류 발생"
-                val database = Firebase.database
-                val driverdata = database.getReference("Driver").child("get off i")
-                val Todriver =  bordinglist(endSttnnNm)   // 도착정류장
-                driverdata.setValue(Todriver)
             }
             else {
                 leftSttnCnt = endNodeord!! - nodeord!!
@@ -355,7 +365,7 @@ class InBus : AppCompatActivity() {
                 if (leftSttnCnt == 1) { // 남은 정류장이 1개일때 기사용 서버 알림
                     val database = Firebase.database
                     val driverdata = database.getReference("Driver").child("get off i")
-                    val Todriver =  bordinglist(endSttnnNm)   // 도착정류장
+                    val Todriver =  getofflist(endSttnnNm)   // 도착정류장
                     driverdata.setValue(Todriver)
                 }
             }
