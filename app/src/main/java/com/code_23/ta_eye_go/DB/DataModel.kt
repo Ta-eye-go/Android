@@ -7,13 +7,13 @@ import androidx.room.*
 data class DataModel (
     @ColumnInfo(name = "도착정류장ID") val endNodeID: String,
     @ColumnInfo(name = "도착정류장") val endNodenm: String,
-    @ColumnInfo(name = "노선번호ID") val routeID: String,
+    @ColumnInfo(name = "노선번호ID") val routeID: String?,
     @ColumnInfo(name = "노선번호") val routeNo: String,
     @ColumnInfo(name = "현재정류장ID") val startNodeID: String,
     @ColumnInfo(name = "현재정류장") val startNodenm: String
 
 ){
-    constructor(): this( "","","","","","")
+    constructor(): this( "","",null,"","","")
 }
 
 @Dao
@@ -28,7 +28,7 @@ interface DataModelDao {
     fun deleteAll()
 }
 
-@Database(entities = [DataModel::class], version = 3)
+@Database(entities = [DataModel::class], version = 4)
 abstract class DataModelDB: RoomDatabase() {
     abstract fun datamodelDao(): DataModelDao
 

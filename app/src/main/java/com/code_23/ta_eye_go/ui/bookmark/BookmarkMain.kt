@@ -218,7 +218,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             val email = Firebase.auth.currentUser?.email.toString()
             val dog = userDB?.userDao()?.userdata(email)
             if (favoriteItemList != null) {
-                val datamodellist = DataModel(favoriteItemList[0].endNodeID,favoriteItemList[0].endNodenm," "
+                val datamodellist = DataModel(favoriteItemList[0].endNodeID,favoriteItemList[0].endNodenm,null
                     ,favoriteItemList[0].routeID,favoriteItemList[0].startNodeID,
                     favoriteItemList[0].startNodenm)
                 datamodelDB?.datamodelDao()?.insert(datamodellist)
