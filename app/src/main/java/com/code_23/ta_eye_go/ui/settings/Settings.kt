@@ -104,14 +104,14 @@ class Settings : AppCompatActivity(){
             finish()
         }
 
-        //카카오톡 로그인 정보
-        val nickname = findViewById<TextView>(R.id.nickname_txt)
-        val email = findViewById<TextView>(R.id.email_txt)
-
-        UserApiClient.instance.me { user, error ->
-            nickname.text = "닉네임: ${user?.kakaoAccount?.profile?.nickname}"
-            email.text = "이메일 : ${user?.kakaoAccount?.email}"
-        }
+//        //카카오톡 로그인 정보
+//        val nickname = findViewById<TextView>(R.id.nickname_txt)
+//        val email = findViewById<TextView>(R.id.email_txt)
+//
+//        UserApiClient.instance.me { user, error ->
+//            nickname.text = "닉네임: ${user?.kakaoAccount?.profile?.nickname}"
+//            email.text = "이메일 : ${user?.kakaoAccount?.email}"
+//        }
 
         btn_yellow.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

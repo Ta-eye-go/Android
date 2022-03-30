@@ -44,12 +44,6 @@ class BookmarkNew : AppCompatActivity(), View.OnClickListener {
         rv_recentRoutes.layoutManager = LinearLayoutManager(applicationContext)
         recentRouteAdapter.setOnItemClickListener(this)
 
-        //신규추가 버튼 눌렀을때, 신규추가 챗봇 이동
-        Newline_Btn.setOnClickListener {
-            val intent = Intent(this, BookmarkAdd::class.java)
-            startActivity(intent)
-        }
-
         back_btn.setOnClickListener {
             val intent = Intent(this, BookmarkMain::class.java)
             startActivity(intent)
