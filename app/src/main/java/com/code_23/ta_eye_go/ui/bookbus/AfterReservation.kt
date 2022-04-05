@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.DB.DataModel
 import com.code_23.ta_eye_go.DB.DataModelDB
+import com.code_23.ta_eye_go.DB.RecordDB
 import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
@@ -39,7 +40,7 @@ class AfterReservation : AppCompatActivity() {
     private var busNm : String? = "" // 탈 버스 번호
 
     private val citycode : Int = 23 // 도시코드 (인천 : 23)
-    private var routeId : String? = " " // 버스의 노선 번호 ID
+    private var routeId : String? = null // 버스의 노선 번호 ID
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
     private var  endNodeID = "0"
@@ -56,6 +57,7 @@ class AfterReservation : AppCompatActivity() {
     private val address_busLc = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
     // Room DB
     private var datamodelDB : DataModelDB? = null
+    private var recordDB : RecordDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,11 +81,11 @@ class AfterReservation : AppCompatActivity() {
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
-            delay(1500)
+            delay(1700)
             reservationStatus()
             delay(1000)
             withContext(Main) {
-                delay(1000)
+                delay(1200)
                 reservationStatus()
                 val thread = NetworkThread()
                 thread.start()
@@ -200,7 +202,7 @@ class AfterReservation : AppCompatActivity() {
         @SuppressLint("SetTextI18n")
         override fun run() {
             // 타고자 하는 버스의 노선 id 받아오기 (노선은 한 번만 받아오도록 처리)
-            if (routeId == " ") {
+            if (routeId == null) {
                 var urlAddress =
                     "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
                 Log.d("url", urlAddress)

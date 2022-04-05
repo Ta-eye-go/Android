@@ -24,6 +24,10 @@ interface RecordDao {
         @Insert(onConflict = OnConflictStrategy.IGNORE) // 추가할 때 동일한 기록이면 무시하기
         fun insert(record: Record)
 
+        // 노선번호ID 찾아오기
+        @Query("SELECT 노선번호ID FROM record WHERE 노선번호 = (:routeNo)")
+        fun search(routeNo: String): String
+
         @Update
         fun updateRecord(record: Record)
 
@@ -31,7 +35,7 @@ interface RecordDao {
         fun deleteAll()
 }
 
-@Database(entities = [Record::class], version = 6)
+@Database(entities = [Record::class], version = 9)
 abstract class RecordDB: RoomDatabase() {
         abstract fun recordDao(): RecordDao
 

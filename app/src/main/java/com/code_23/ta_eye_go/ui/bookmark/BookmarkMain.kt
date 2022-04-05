@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.*
 import android.widget.Button
@@ -25,6 +26,7 @@ import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_bookmark.*
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
 import kotlinx.android.synthetic.main.activity_driver_main.*
@@ -34,6 +36,14 @@ import kotlinx.android.synthetic.main.bookmark_item.*
 import kotlinx.android.synthetic.main.menu_bar.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 import kotlinx.android.synthetic.main.menu_bar.view.menu_text
+import kotlinx.coroutines.*
+import org.json.JSONException
+import org.json.JSONObject
+import java.io.BufferedReader
+import java.io.IOException
+import java.io.InputStreamReader
+import java.net.MalformedURLException
+import java.net.URL
 
 class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateContextMenuListener {
 
@@ -43,10 +53,18 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     private var selectedView: View? = null
     private lateinit var favoriteItemNm : String
 
+
+    private val key = com.code_23.ta_eye_go.BuildConfig.TAGO_API_KEY
+    private val address_busLc = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
+    private val citycode : Int = 23 // 도시코드 (인천 : 23)
+    private var routeId : String? = null // 버스의 노선 번호 ID
+    private var resultCnt : Int = 2
+
     // BookmarkDB
     private var bookmarkDB : BookmarkDB? = null
     private var datamodelDB : DataModelDB? = null
     private var userDB : UserDB? = null
+    private var recordDB : RecordDB? = null
 
     override fun onClick(v: View?) { // 짧은 클릭 (예약 화면 이동)
         val favoriteItem = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)]
@@ -80,6 +98,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         bookmarkDB = BookmarkDB.getInstance(this)
         datamodelDB = DataModelDB.getInstance(this)
         userDB = UserDB.getInstance(this)
+        recordDB = RecordDB.getInstance(this)
 
         bookmarkAdapter = BookmarkAdapter(this)
         rv_favorites.adapter = bookmarkAdapter
@@ -206,35 +225,113 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             .setView(view)
             .create()
 
+        // 서버
+        val database = Firebase.database
+        val email = Firebase.auth.currentUser?.email.toString()
+        val favoriteItemList = bookmarkDB?.bookmarkDao()?.bookmarkdata(favoriteItemNm)
+        val dog = userDB?.userDao()?.userdata(email)
+        if (favoriteItemList != null) {
+            routeId = recordDB?.recordDao()?.search(favoriteItemList[0].routeID)
+            Log.d("노선id", routeId.toString())
+            // 운행 미운행 확인
+            CoroutineScope(Dispatchers.IO).launch {
+                withContext(Dispatchers.Main) {
+                    val thread = NetworkThread()
+                    thread.start()
+                    thread.join()
+                }
+            }
+        }
+
         view.menu_name.text = "<예약 확인>"
         view.menu_content.text = "예약하시겠습니까?"
 
         alertDialog.show()
 
         view.btn_yes.setOnClickListener {
-            // 서버
-            val database = Firebase.database
-            val favoriteItemList = bookmarkDB?.bookmarkDao()?.bookmarkdata(favoriteItemNm)
-            val email = Firebase.auth.currentUser?.email.toString()
-            val dog = userDB?.userDao()?.userdata(email)
             if (favoriteItemList != null) {
-                val datamodellist = DataModel(favoriteItemList[0].endNodeID,favoriteItemList[0].endNodenm," "
-                    ,favoriteItemList[0].routeID,favoriteItemList[0].startNodeID,
-                    favoriteItemList[0].startNodenm)
-                datamodelDB?.datamodelDao()?.insert(datamodellist)
-                // 기사용 서버에 데이터 전송
-                val driverdata = database.getReference("Driver").child(favoriteItemList[0].routeID)
-                val Todriver = booklist(Firebase.auth.currentUser!!.uid,favoriteItemList[0].startNodenm,favoriteItemList[0].endNodenm,dog)    // 현재정류장, 도착정류장, 안내견유무
-                driverdata.setValue(Todriver)
+                if (favoriteItemList != null) {
+                    routeId = recordDB?.recordDao()?.search(favoriteItemList[0].routeID)
+                    val datamodellist = DataModel(favoriteItemList[0].endNodeID, favoriteItemList[0].endNodenm, routeId, favoriteItemList[0].routeID, favoriteItemList[0].startNodeID, favoriteItemList[0].startNodenm)
+                    datamodelDB?.datamodelDao()?.insert(datamodellist)
+                }
+                Log.d("운행 미운행", resultCnt.toString())
+                if (resultCnt == 1) {
+                    // 기사용 서버에 데이터 전송
+                    val driverdata = database.getReference("Driver").child(favoriteItemList[0].routeID)
+                    val Todriver = booklist(Firebase.auth.currentUser!!.uid, favoriteItemList[0].startNodenm, favoriteItemList[0].endNodenm, dog)    // 현재정류장, 도착정류장, 안내견유무
+                    driverdata.setValue(Todriver)
+                    alertDialog.dismiss()
+                    Toast.makeText(this@BookmarkMain, "승차 예약되었습니다. 승차 대기 화면으로 이동합니다.", Toast.LENGTH_SHORT).show()
+                    // 예약 후 화면으로 이동
+                    val intent = Intent(this, AfterReservation::class.java)
+                    startActivity(intent)
+                } else{
+                    alertDialog.dismiss()
+                    Toast.makeText(this@BookmarkMain, "현재 운행하고 있는 버스가없습니다. 다른 버스를 예약해주세요.", Toast.LENGTH_SHORT).show()
+                }
             }
-            alertDialog.dismiss()
-            Toast.makeText(this@BookmarkMain, "승차 예약되었습니다. 승차 대기 화면으로 이동합니다.", Toast.LENGTH_SHORT).show()
-            // 예약 후 화면 이동
-            val intent = Intent(this, AfterReservation::class.java)
-            startActivity(intent)
         }
         view.btn_no.setOnClickListener {
             alertDialog.dismiss()
+        }
+    }
+
+    private fun parsing1(urlAddress: String?) : StringBuffer {
+        val url = URL(urlAddress)
+        val conn = url.openConnection()
+        val input = conn.getInputStream()
+        val isr = InputStreamReader(input)
+        val br = BufferedReader(isr)
+
+        var str: String?
+        val buf = StringBuffer()
+
+        do {
+            str = br.readLine()
+
+            if (str != null) {
+                buf.append(str)
+            }
+        } while (str != null)
+
+        return buf
+    }
+
+    // json 파싱...
+    inner class NetworkThread : Thread() {
+        @SuppressLint("SetTextI18n")
+        override fun run() {
+            // 버스 정보 받아오기
+            val urlAddress2 =
+                "${address_busLc}${key}&cityCode=${citycode}&nodeId=${sttnId}&routeId=${routeId}&_type=json"
+            Log.d("즐겨찾기 미운행url", urlAddress2)
+
+            try {
+                val buf = parsing1(urlAddress2)
+                val jsonObject = JSONObject(buf.toString())
+
+                val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
+                    .getInt("totalCount")
+                Log.d("운행 미운행2", totalCnt.toString())
+
+                if (totalCnt == 0) {
+                    resultCnt = 0
+                    Log.d("미운행", resultCnt.toString())
+                } else {
+                    resultCnt = 1
+                    Log.d("운행", resultCnt.toString())
+                }
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+                currentLocationText.text = "버스 정보 불러오기 오류"
+            } catch (e: IOException) {
+                e.printStackTrace()
+                currentLocationText.text = "버스 정보 불러오기 오류"
+            } catch (e: JSONException) {
+                e.printStackTrace()
+                currentLocationText.text = "현재 버스가 운행되지 않습니다."
+            }
         }
     }
 }
