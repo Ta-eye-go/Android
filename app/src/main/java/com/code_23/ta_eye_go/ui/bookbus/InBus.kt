@@ -14,6 +14,7 @@ import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.DB.getofflist
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
+import com.code_23.ta_eye_go.ui.pay.Pay
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_in_bus.*
@@ -128,7 +129,7 @@ class InBus : AppCompatActivity() {
                     driverdata.setValue(toDriver)
                     datamodelDB?.datamodelDao()?.deleteAll()
                     Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, MainActivity::class.java)
+                    val intent = Intent(this, Pay::class.java)
                     startActivity(intent)
                     finish()
                 }
@@ -140,7 +141,7 @@ class InBus : AppCompatActivity() {
                 driverdata.setValue(toDriver)
                 datamodelDB?.datamodelDao()?.deleteAll()
                 Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
-                val intent = Intent(this, MainActivity::class.java)
+                val intent = Intent(this, Pay::class.java)
                 startActivity(intent)
                 finish()
             }
@@ -171,7 +172,7 @@ class InBus : AppCompatActivity() {
             val Todriver =  getofflist(endSttnnNm)   // 도착정류장
             driverdata.setValue(Todriver)
             alertDialog.dismiss()
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Pay::class.java)
             startActivity(intent)
             finish()
         }
