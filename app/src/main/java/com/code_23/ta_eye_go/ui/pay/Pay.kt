@@ -1,10 +1,12 @@
 package com.code_23.ta_eye_go.ui.pay
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.R
+import com.code_23.ta_eye_go.ui.main.MainActivity
 import kr.co.bootpay.Bootpay
 import kr.co.bootpay.BootpayAnalytics
 import kr.co.bootpay.enums.UX
@@ -21,6 +23,10 @@ class Pay : AppCompatActivity() {
         BootpayAnalytics.init(this, application_id)
 
         goBootpayRequest()
+
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
     fun goBootpayRequest() {
         val bootUser = BootUser().setPhone("010-1234-5678")
