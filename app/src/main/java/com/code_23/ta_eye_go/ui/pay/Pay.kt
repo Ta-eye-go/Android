@@ -24,9 +24,7 @@ class Pay : AppCompatActivity() {
 
         goBootpayRequest()
 
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+
     }
     fun goBootpayRequest() {
         val bootUser = BootUser().setPhone("010-1234-5678")
@@ -67,5 +65,8 @@ class Pay : AppCompatActivity() {
                 Log.d("close", "close")
             }
             .request();
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
