@@ -23,8 +23,6 @@ class Pay : AppCompatActivity() {
         BootpayAnalytics.init(this, application_id)
 
         goBootpayRequest()
-
-
     }
     fun goBootpayRequest() {
         val bootUser = BootUser().setPhone("010-1234-5678")
@@ -49,24 +47,25 @@ class Pay : AppCompatActivity() {
                 else Bootpay.removePaymentWindow(); // 재고가 없어 중간에 결제창을 닫고 싶을 경우
                 Log.d("confirm", message);
             }
-            .onDone { message ->
+            .onDone { message -> // 결제완료시 호출, 아이템 지급 등 데이터 동기화 로직을 수행합니다
                 Log.d("done", message)
             }
-            .onReady { message ->
+            .onReady { message -> // 가상계좌 입금 계좌번호가 발급되면 호출되는 함수입니다.
                 Log.d("ready", message)
             }
-            .onCancel { message ->
+            .onCancel { message ->  // 결제 취소시 호출
                 Log.d("cancel", message)
             }
-            .onError{ message ->
+            .onError{ message ->    // 에러가 났을때 호출되는 부분
                 Log.d("error", message)
             }
-            .onClose { message ->
+            .onClose { message ->   //결제창이 닫힐때 실행되는 부분
                 Log.d("close", "close")
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             }
             .request();
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        finish()
+
     }
 }
