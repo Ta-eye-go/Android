@@ -40,6 +40,7 @@ import com.kakao.util.helper.Utility
 import kotlinx.android.synthetic.main.activity_login_main.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.alertdialog_item.view.*
+import kotlin.system.exitProcess
 
 class LoginMain : AppCompatActivity() {
     // firebase 인증을 위한 변수
@@ -193,7 +194,7 @@ class LoginMain : AppCompatActivity() {
     }
 
     fun googleLogin() {
-        var signInIntent = googleSignInClient?.signInIntent
+        val signInIntent = googleSignInClient?.signInIntent
         startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
     }
 
@@ -259,6 +260,7 @@ class LoginMain : AppCompatActivity() {
         view.btn_yes.setOnClickListener {
             alertDialog.dismiss()
             finishAffinity()
+            exitProcess(0)
         }
         view.btn_no.setOnClickListener {
             alertDialog.dismiss()

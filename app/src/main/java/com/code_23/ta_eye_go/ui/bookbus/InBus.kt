@@ -56,8 +56,8 @@ class InBus : AppCompatActivity() {
     var arrive = false
 
     private val key = BuildConfig.TAGO_API_KEY
-    private val addressMybusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
-    private val addressGetNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey="
+    private val addressMybusLc = "http://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치 목록조회
+    private val addressGetNodeord = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=" //노선별경유정류소목록 조회
 
     // Room DB
     private var datamodelDB : DataModelDB? = null
@@ -78,7 +78,7 @@ class InBus : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
-                delay(1000)
+                delay(2000)
                 startSttnNm = a?.get(0)?.startNodenm
                 endSttnnNm = a?.get(0)?.endNodenm
                 startSttnID = a?.get(0)?.startNodeID

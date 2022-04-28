@@ -51,10 +51,9 @@ class AfterReservation : AppCompatActivity() {
     // 도착 여부 확인용
     var arrive = false
     private val key = com.code_23.ta_eye_go.BuildConfig.TAGO_API_KEY
-//    private val address_getRoute = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
-//    private val address_busLc = "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
-    private val address_getRoute = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
-    private val address_busLc = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
+    private val addressGetRoute = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
+    private val addressBusLoc = "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
+
     // Room DB
     private var datamodelDB : DataModelDB? = null
     private var recordDB : RecordDB? = null
@@ -86,7 +85,6 @@ class AfterReservation : AppCompatActivity() {
             delay(1000)
             withContext(Main) {
                 delay(1200)
-                reservationStatus()
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -124,7 +122,6 @@ class AfterReservation : AppCompatActivity() {
     }
 
     fun turn() {
-
         // 예약 후 화면 이동
         val intent = Intent(this, InBus::class.java)
         startActivity(intent)
@@ -147,7 +144,7 @@ class AfterReservation : AppCompatActivity() {
             currentStation_text.text = startSttnNm
             busNum_text.text = busNm
             destination_text.text = destination
-        }else{
+        } else{
             Log.d("realtime db", "수정이한테 연락바람")
         }
     }
@@ -204,7 +201,7 @@ class AfterReservation : AppCompatActivity() {
             // 타고자 하는 버스의 노선 id 받아오기 (노선은 한 번만 받아오도록 처리)
             if (routeId == null) {
                 var urlAddress =
-                    "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
+                    "${addressGetRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
                 Log.d("url", urlAddress)
                 //Log.d("asd", urlAddress)
                 try {
@@ -221,7 +218,7 @@ class AfterReservation : AppCompatActivity() {
                         routeId = response.getString("routeid")
                     }
                     else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
-                        urlAddress = "${address_getRoute}${key}&numOfRows=${totalCnt}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
+                        urlAddress = "${addressGetRoute}${key}&numOfRows=${totalCnt}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
                         buf = parsing1(urlAddress)
                         jsonObject = JSONObject(buf.toString())
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
@@ -279,7 +276,7 @@ class AfterReservation : AppCompatActivity() {
 
             // 버스 정보 받아오기
             val urlAddress2 =
-                "${address_busLc}${key}&cityCode=${citycode}&nodeId=${startSttnID}&routeId=${routeId}&_type=json"
+                "${addressBusLoc}${key}&cityCode=${citycode}&nodeId=${startSttnID}&routeId=${routeId}&_type=json"
             Log.d("url", urlAddress2)
 
             try {
