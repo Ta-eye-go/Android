@@ -60,6 +60,7 @@ class Settings : AppCompatActivity(){
 
             UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
                 if (error != null) {
+                    userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
                     // 구글 로그아웃
                     FirebaseAuth.getInstance().signOut()
                     googleSignInClient?.signOut()
@@ -77,6 +78,7 @@ class Settings : AppCompatActivity(){
                             Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
                             //Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
                         }else {
+                            userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
                             Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
                             //Toast.makeText(this, "로그아웃 성공", Toast.LENGTH_SHORT).show()
                         }

@@ -78,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         driverDB = DriverDB.getInstance(this)
 
         // 수정이가 넣으라고 한거 (한번 사용했으면 꺼두기, datamodelDB는 건들지말기)
-        //userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
         datamodelDB?.datamodelDao()?.deleteAll()    // 예약리스트(일회용) DB 초기화
         //recordDB?.recordDao()?.deleteAll()    // 최근경로 DB 초기화
         //bookmarkDB?.bookmarkDao()?.deleteAll()    // 즐겨찾기 DB 초기화
@@ -86,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         initVariables()
         fetchLocation()
+
+
 
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
@@ -95,6 +96,8 @@ class MainActivity : AppCompatActivity() {
             // 카카오 유저
             if (kakaoemail != "0") {
                 val userdata = userDB?.userDao()?.userdata(kakaoemail)!!
+                val uid = database.getReference("uid")
+                uid.setValue("Kakao")
                 val bookdata = database.getReference("data").child("Kakao")
                 val currentLoc = ListForm(citycode,"","", userdata,kakaoemail,"","",sttnId,currentStation)
                 bookdata.setValue(currentLoc)
@@ -136,24 +139,27 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             fetchCurrentStation()
         }
-        //사용자 정보 가져오기 (Logcat에서 확인가능, 한번 동의하면 그 뒤로 동의메시지 안뜸)
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.e(ContentValues.TAG, "사용자 정보 요청 실패", error)
-                Log.d("kakao_email2", user?.kakaoAccount?.email.toString())
-            }
-            else if (user != null) {
-                Log.d("kakao_email", user.kakaoAccount?.email.toString())
-                kakaoemail = user.kakaoAccount?.email.toString()
-                val users = User(user.kakaoAccount?.email.toString(), false)
-                userDB?.userDao()?.insert(users)
-            }
-        }
+
         // 로그인한 유저 DB등록
         val r = Runnable {
             try {
-                val users = User(Firebase.auth.currentUser?.email.toString(), false)
-                userDB?.userDao()?.insert(users)
+                //사용자 정보 가져오기 (Logcat에서 확인가능, 한번 동의하면 그 뒤로 동의메시지 안뜸)
+                UserApiClient.instance.me { user, error ->
+                    if (error != null) {
+                        Log.e(ContentValues.TAG, "사용자 정보 요청 실패", error)
+                        Log.d("kakao_email2", user?.kakaoAccount?.email.toString())
+                    }
+                    else if (user != null) {
+                        Log.d("kakao_email", user.kakaoAccount?.email.toString())
+                        kakaoemail = user.kakaoAccount?.email.toString()
+                        val users = User(user.kakaoAccount?.email.toString(), false)
+                        userDB?.userDao()?.insert(users)
+                    }
+                    else {
+                        val users = User(Firebase.auth.currentUser?.email.toString(), false)
+                        userDB?.userDao()?.insert(users)
+                    }
+                }
             } catch (e: Exception) {
                 Log.d("tag", "Error - $e")
             }
