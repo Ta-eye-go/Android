@@ -43,7 +43,7 @@ class AfterReservation : AppCompatActivity() {
     private var routeId : String? = null // 버스의 노선 번호 ID
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
-    private var  endNodeID = "0"
+    private var endNodeID = "0"
 
     // 실시간 여부 확인용
     // var j = 0
@@ -98,7 +98,6 @@ class AfterReservation : AppCompatActivity() {
                         thread.join()
                     }
                     if (arrive) {
-                        // TODO : 탑승 완료 후 처리 1
                         currentLocationText.text = "탑승이 완료되었습니다."
                         turn()
                         break
@@ -111,7 +110,6 @@ class AfterReservation : AppCompatActivity() {
                     }
                 }
                 if (arrive) {
-                    // TODO : 탑승 완료 후 처리 2
                     currentLocationText.text = "탑승이 완료되었습니다."
                     turn()
                     break
@@ -344,7 +342,7 @@ class AfterReservation : AppCompatActivity() {
                 currentLocationText.text = "버스 정보 불러오기 오류"
             } catch (e: JSONException) {
                 e.printStackTrace()
-                if (prevSttnCnt == 1) {
+                if (prevSttnCnt!! < 2) {
                     // 남은 정류장이 1이다가 목록이 없을 때(뒤 버스가 없는 경우) -> 버스에 탔다고 처리
                     arrive = true
                 }
