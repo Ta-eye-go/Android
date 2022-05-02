@@ -13,7 +13,6 @@ import com.code_23.ta_eye_go.DB.DataModelDB
 import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.DB.getofflist
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.code_23.ta_eye_go.ui.pay.Pay
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -97,13 +96,13 @@ class InBus : AppCompatActivity() {
                 thread.join()
             }
             if (nodeord == null) {
-                delay(2000)
+                delay(3000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
             }
             if (nodeord == null) {
-                delay(2000)
+                delay(3000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -169,8 +168,8 @@ class InBus : AppCompatActivity() {
             datamodelDB?.datamodelDao()?.deleteAll()
             val database = Firebase.database
             val driverdata = database.getReference("Driver").child("get off i")
-            val Todriver =  getofflist(endSttnnNm)   // 도착정류장
-            driverdata.setValue(Todriver)
+            val toDriver =  getofflist(endSttnnNm)   // 도착정류장
+            driverdata.setValue(toDriver)
             alertDialog.dismiss()
             val intent = Intent(this, Pay::class.java)
             startActivity(intent)

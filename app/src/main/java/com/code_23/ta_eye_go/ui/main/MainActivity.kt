@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
     var routeID: String? = null
     var nextSttnNm: String? = null
 
-    var sttnNo: String? = "새로고침을 눌러주세요"
+    var sttnNo: String? = null
     private val key = BuildConfig.TAGO_API_KEY
     private val addressCrntSttn = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
     private val addressBusList = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey="
@@ -145,19 +145,21 @@ class MainActivity : AppCompatActivity() {
             try {
                 //사용자 정보 가져오기 (Logcat에서 확인가능, 한번 동의하면 그 뒤로 동의메시지 안뜸)
                 UserApiClient.instance.me { user, error ->
-                    if (error != null) {
-                        Log.e(ContentValues.TAG, "사용자 정보 요청 실패", error)
-                        Log.d("kakao_email2", user?.kakaoAccount?.email.toString())
-                    }
-                    else if (user != null) {
-                        Log.d("kakao_email", user.kakaoAccount?.email.toString())
-                        kakaoemail = user.kakaoAccount?.email.toString()
-                        val users = User(user.kakaoAccount?.email.toString(), false)
-                        userDB?.userDao()?.insert(users)
-                    }
-                    else {
-                        val users = User(Firebase.auth.currentUser?.email.toString(), false)
-                        userDB?.userDao()?.insert(users)
+                    when {
+                        error != null -> {
+                            Log.e(ContentValues.TAG, "사용자 정보 요청 실패", error)
+                            Log.d("kakao_email2", user?.kakaoAccount?.email.toString())
+                        }
+                        user != null -> {
+                            Log.d("kakao_email", user.kakaoAccount?.email.toString())
+                            kakaoemail = user.kakaoAccount?.email.toString()
+                            val users = User(user.kakaoAccount?.email.toString(), false)
+                            userDB?.userDao()?.insert(users)
+                        }
+                        else -> {
+                            val users = User(Firebase.auth.currentUser?.email.toString(), false)
+                            userDB?.userDao()?.insert(users)
+                        }
                     }
                 }
             } catch (e: Exception) {
@@ -221,25 +223,29 @@ class MainActivity : AppCompatActivity() {
         }
         else {
             fetchLocation()
-            currentStation = "정류장 불러오기 오류"
+            currentStation = "위치 불러오기 오류"
         }
 
-
-        // 다음 정류장 (방면) 표시
-        if (nextSttnNm == null) { // api 정류소별경유노선에 잦은 오류: 오류시 정류장 번호로 대체
-            currentLocationText.text = currentStation
-            nextStationText.text = "(${sttnNo})"
+        if(currentStation == "위치 불러오기 오류") {
+            currentLocationText.text = "위치 불러오기 오류"
+            nextStationText.text = "(새로고침을 눌러주세요)"
+            Toast.makeText(this,"위치를 불러오지 못했습니다. 새로고침을 눌러주세요", Toast.LENGTH_SHORT).show()
+        }
+        else if (currentStation == null) {
+            currentLocationText.text = "해당 정류장을"
+            nextStationText.text = "찾을 수 없습니다."
         }
         else {
-            currentLocationText.text = currentStation
-            nextStationText.text = "(${nextSttnNm} 방면)"
+            // 다음 정류장 (방면) 표시
+            if (nextSttnNm == null) { // api 정류소별경유노선에 잦은 오류: 오류시 정류장 번호로 대체
+                currentLocationText.text = currentStation
+                if (sttnNo == null) nextStationText.text = "(${sttnId})"
+                else nextStationText.text = "(${sttnNo})"
+            } else {
+                currentLocationText.text = currentStation
+                nextStationText.text = "(${nextSttnNm} 방면)"
+            }
         }
-
-        // Talkback 사용자를 위해 toast를 띄워 현재 정류장을 읽도록 함
-        if(currentStation == "정류장 불러오기 오류") {
-            Toast.makeText(this,"정류장을 불러오지 못했습니다. 새로고침을 눌러주세요", Toast.LENGTH_SHORT).show()
-        }
-
 
     }
 
@@ -283,6 +289,7 @@ class MainActivity : AppCompatActivity() {
         override fun run() {
             // 현재 정류장
             val urlAddress = "${addressCrntSttn}${key}&gpsLati=${lati}&gpsLong=${long}&_type=json"
+            Log.d("url", urlAddress)
 
             try {
                 val buf = parsing1(urlAddress)
@@ -292,9 +299,9 @@ class MainActivity : AppCompatActivity() {
                 val item = response.getJSONArray("item")
                 val iObject = item.getJSONObject(0)
                 currentStation = iObject.getString("nodenm")
-                sttnNo = iObject.getString("nodeno")
                 sttnId = iObject.getString("nodeid")
                 citycode = iObject.getString("citycode")
+                sttnNo = iObject.getString("nodeno")
 
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
