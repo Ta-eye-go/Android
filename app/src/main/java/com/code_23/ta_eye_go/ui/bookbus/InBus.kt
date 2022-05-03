@@ -49,7 +49,7 @@ class InBus : AppCompatActivity() {
     private var onBoardSttnNm : String? = ""
 
     // 도착 여부 확인용
-    var arrive = false
+    var arrived = false
 
     private val key = BuildConfig.TAGO_API_KEY
     private val addressMybusLc = "http://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치 목록조회
@@ -73,14 +73,14 @@ class InBus : AppCompatActivity() {
         driverdata.setValue(toDriver)
 
         refreshBtn.setOnClickListener {
-            if (!arrive) {
+            if (!arrived) {
                 CoroutineScope(Dispatchers.IO).launch {
                     withContext(Main){
                         val thread = NetworkThread()
                         thread.start()
                         thread.join()
                     }
-                    if (arrive) {
+                    if (arrived) {
                         val database = Firebase.database
                         val driverdata = database.getReference("Driver").child("get off")
                         val toDriver =  getofflist(endSttnnNm)   // 도착정류장
@@ -89,7 +89,7 @@ class InBus : AppCompatActivity() {
                         moveToPay()
                     }
                     delay(1000)
-                    if (arrive) {
+                    if (arrived) {
                         val database = Firebase.database
                         val driverdata = database.getReference("Driver").child("get off")
                         val toDriver =  getofflist(endSttnnNm)   // 도착정류장
@@ -142,52 +142,50 @@ class InBus : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
-                delay(1200)
+                delay(5000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
-                if (nodeord == null) {
-                    numOfStations_text.text = "정류장 찾기 오류"
-                }
-            }
-            for (i in 0..100) {
-                if (!arrive) {
-                    CoroutineScope(Dispatchers.IO).launch {
-                        withContext(Main){
-                            val thread = NetworkThread()
-                            thread.start()
-                            thread.join()
+
+                for (i in 0..100)  {
+                    if (!arrived) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            withContext(Main) {
+                                val thread = NetworkThread()
+                                thread.start()
+                                thread.join()
+                            }
+                        }
+                        if (arrived) {
+                            val database = Firebase.database
+                            val driverdata = database.getReference("Driver").child("get off")
+                            val toDriver = getofflist(endSttnnNm)   // 도착정류장
+                            driverdata.setValue(toDriver)
+                            datamodelDB?.datamodelDao()?.deleteAll()
+                            break
                         }
                     }
-                    if (arrive) {
+                    if (arrived) {
                         val database = Firebase.database
                         val driverdata = database.getReference("Driver").child("get off")
-                        val toDriver =  getofflist(endSttnnNm)   // 도착정류장
+                        val toDriver = getofflist(endSttnnNm)   // 도착정류장
                         driverdata.setValue(toDriver)
                         datamodelDB?.datamodelDao()?.deleteAll()
                         break
                     }
+                    delay(1000)
+                    if (arrived) {
+                        val database = Firebase.database
+                        val driverdata = database.getReference("Driver").child("get off")
+                        val toDriver = getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(toDriver)
+                        datamodelDB?.datamodelDao()?.deleteAll()
+                        break
+                    }
+                    delay(19000)
                 }
-                if (arrive) {
-                    val database = Firebase.database
-                    val driverdata = database.getReference("Driver").child("get off")
-                    val toDriver =  getofflist(endSttnnNm)   // 도착정류장
-                    driverdata.setValue(toDriver)
-                    datamodelDB?.datamodelDao()?.deleteAll()
-                    break
-                }
-                delay(1000)
-                if (arrive) {
-                    val database = Firebase.database
-                    val driverdata = database.getReference("Driver").child("get off")
-                    val toDriver =  getofflist(endSttnnNm)   // 도착정류장
-                    driverdata.setValue(toDriver)
-                    datamodelDB?.datamodelDao()?.deleteAll()
-                    break
-                }
-                delay(19000)
+                if (arrived) moveToPay()
             }
-            if (arrive) moveToPay()
         }
     }
 
@@ -390,7 +388,6 @@ class InBus : AppCompatActivity() {
             if (endNodeord == null) {
                 var pageNum = nodeord?.div(10)?.plus(1)
                 if (pageNum == null) {
-                    numOfStations_text.text = "오류 발생"
                     return
                 }
 
@@ -442,7 +439,7 @@ class InBus : AppCompatActivity() {
             }
             leftSttnCnt = endNodeord!! - nodeord!!
             if (leftSttnCnt <= 0) { // 남은 정류장이 0 이하가 되면
-                arrive = true
+                arrived = true
             }
             numOfStations_text.text = "$leftSttnCnt 정류장"
 
