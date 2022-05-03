@@ -10,13 +10,13 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_messages"
-            android:importantForAccessibility="no"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/mic_btn"
             android:layout_below="@id/chat_menu"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="13dp"
+            android:importantForAccessibility="no"
             tools:itemCount="20"
             tools:listitem="@layout/message_item" />
 

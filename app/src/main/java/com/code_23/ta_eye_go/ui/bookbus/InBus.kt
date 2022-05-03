@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.DataModelDB
@@ -99,6 +100,7 @@ class InBus : AppCompatActivity() {
                     }
                 }
             }
+            Toast.makeText(applicationContext, "현재 ${leftSttnCnt}정류장 남았습니다.", Toast.LENGTH_LONG).show()
         }
 
         getoffBtn.setOnClickListener {

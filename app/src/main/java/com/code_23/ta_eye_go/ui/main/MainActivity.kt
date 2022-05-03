@@ -229,11 +229,12 @@ class MainActivity : AppCompatActivity() {
         if(currentStation == "위치 불러오기 오류") {
             currentLocationText.text = "위치 불러오기 오류"
             nextStationText.text = "(새로고침을 눌러주세요)"
-            Toast.makeText(this,"위치를 불러오지 못했습니다. 새로고침을 눌러주세요", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this,"위치를 불러오지 못했습니다. 새로고침을 눌러주세요.", Toast.LENGTH_SHORT).show()
         }
         else if (currentStation == null) {
-            currentLocationText.text = "해당 정류장을"
+            currentLocationText.text = "해당 위치 정류장을"
             nextStationText.text = "찾을 수 없습니다."
+            Toast.makeText(this,"해당 위치에서 정류장을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
         }
         else {
             // 다음 정류장 (방면) 표시
@@ -245,6 +246,7 @@ class MainActivity : AppCompatActivity() {
                 currentLocationText.text = currentStation
                 nextStationText.text = "(${nextSttnNm} 방면)"
             }
+            Toast.makeText(applicationContext, "현재 정류장은 ${currentStation}입니다.", Toast.LENGTH_LONG).show()
         }
 
     }

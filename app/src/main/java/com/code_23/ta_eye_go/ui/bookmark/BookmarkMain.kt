@@ -243,7 +243,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             }
         }
 
-        view.menu_name.text = "<예약 확인>"
+        view.menu_name.text = ""
         view.menu_content.text = "예약하시겠습니까?"
 
         alertDialog.show()
@@ -268,7 +268,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
                     startActivity(intent)
                 } else{
                     alertDialog.dismiss()
-                    Toast.makeText(this@BookmarkMain, "현재 운행하고 있는 버스가없습니다. 다른 버스를 예약해주세요.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@BookmarkMain, "현재 운행하고 있는 버스가 없습니다. 다른 버스를 예약해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
