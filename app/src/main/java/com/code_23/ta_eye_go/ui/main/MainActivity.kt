@@ -36,19 +36,24 @@ import org.json.JSONException
 import java.io.IOException
 import java.net.MalformedURLException
 import kotlin.math.abs
+import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private var lati: Double? = null
     private var long: Double? = null
-    private var citycode: String = "23" // 도시코드
+    private var citycode: String? = null // 도시코드
     var currentStation: String? = null  // 현재정류장
     var sttnId: String? = null  // 현재정류장 id
+    var routeID: String? = null
+    var nextSttnNm: String? = null
 
-    var sttnNo: String? = "새로고침을 눌러주세요"
+    var sttnNo: String? = null
     private val key = BuildConfig.TAGO_API_KEY
-    private val address = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
+    private val addressCrntSttn = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList?serviceKey="
+    private val addressBusList = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList?serviceKey="
+    private val addressStopList = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey="
 
     // firebase DB
     val database = Firebase.database
@@ -73,7 +78,6 @@ class MainActivity : AppCompatActivity() {
         driverDB = DriverDB.getInstance(this)
 
         // 수정이가 넣으라고 한거 (한번 사용했으면 꺼두기, datamodelDB는 건들지말기)
-        //userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
         datamodelDB?.datamodelDao()?.deleteAll()    // 예약리스트(일회용) DB 초기화
         //recordDB?.recordDao()?.deleteAll()    // 최근경로 DB 초기화
         //bookmarkDB?.bookmarkDao()?.deleteAll()    // 즐겨찾기 DB 초기화
@@ -81,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         initVariables()
         fetchLocation()
+
+
 
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
@@ -90,6 +96,8 @@ class MainActivity : AppCompatActivity() {
             // 카카오 유저
             if (kakaoemail != "0") {
                 val userdata = userDB?.userDao()?.userdata(kakaoemail)!!
+                val uid = database.getReference("uid")
+                uid.setValue("Kakao")
                 val bookdata = database.getReference("data").child("Kakao")
                 val currentLoc = ListForm(citycode,"","", userdata,kakaoemail,"","",sttnId,currentStation)
                 bookdata.setValue(currentLoc)
@@ -131,24 +139,29 @@ class MainActivity : AppCompatActivity() {
             fetchLocation()
             fetchCurrentStation()
         }
-        //사용자 정보 가져오기 (Logcat에서 확인가능, 한번 동의하면 그 뒤로 동의메시지 안뜸)
-        UserApiClient.instance.me { user, error ->
-            if (error != null) {
-                Log.e(ContentValues.TAG, "사용자 정보 요청 실패", error)
-                Log.d("kakao_email2", user?.kakaoAccount?.email.toString())
-            }
-            else if (user != null) {
-                Log.d("kakao_email", user.kakaoAccount?.email.toString())
-                kakaoemail = user.kakaoAccount?.email.toString()
-                val users = User(user.kakaoAccount?.email.toString(), false)
-                userDB?.userDao()?.insert(users)
-            }
-        }
+
         // 로그인한 유저 DB등록
         val r = Runnable {
             try {
-                val users = User(Firebase.auth.currentUser?.email.toString(), false)
-                userDB?.userDao()?.insert(users)
+                //사용자 정보 가져오기 (Logcat에서 확인가능, 한번 동의하면 그 뒤로 동의메시지 안뜸)
+                UserApiClient.instance.me { user, error ->
+                    when {
+                        error != null -> {
+                            Log.e(ContentValues.TAG, "사용자 정보 요청 실패", error)
+                            Log.d("kakao_email2", user?.kakaoAccount?.email.toString())
+                        }
+                        user != null -> {
+                            Log.d("kakao_email", user.kakaoAccount?.email.toString())
+                            kakaoemail = user.kakaoAccount?.email.toString()
+                            val users = User(user.kakaoAccount?.email.toString(), false)
+                            userDB?.userDao()?.insert(users)
+                        }
+                        else -> {
+                            val users = User(Firebase.auth.currentUser?.email.toString(), false)
+                            userDB?.userDao()?.insert(users)
+                        }
+                    }
+                }
             } catch (e: Exception) {
                 Log.d("tag", "Error - $e")
             }
@@ -180,6 +193,7 @@ class MainActivity : AppCompatActivity() {
         view.btn_yes.setOnClickListener {
             alertDialog.dismiss()
             finishAffinity()
+            exitProcess(0)
         }
         view.btn_no.setOnClickListener {
             alertDialog.dismiss()
@@ -209,16 +223,32 @@ class MainActivity : AppCompatActivity() {
         }
         else {
             fetchLocation()
-            currentStation = "정류장 불러오기 오류"
+            currentStation = "위치 불러오기 오류"
         }
 
-        // api 정류소별경유노선 목록조회에 오류가 있어 임시로 정류장 번호 표시
-        currentLocationText.text = "${currentStation}\n (${sttnNo})"
-
-        // Talkback 사용자를 위해 toast를 띄워 현재 정류장을 읽도록 함
-        if(currentStation == "정류장 불러오기 오류") {
-            Toast.makeText(this,"정류장을 불러오지 못했습니다. 새로고침을 눌러주세요", Toast.LENGTH_SHORT).show()
+        if(currentStation == "위치 불러오기 오류") {
+            currentLocationText.text = "위치 불러오기 오류"
+            nextStationText.text = "(새로고침을 눌러주세요)"
+            Toast.makeText(this,"위치를 불러오지 못했습니다. 새로고침을 눌러주세요.", Toast.LENGTH_SHORT).show()
         }
+        else if (currentStation == null) {
+            currentLocationText.text = "해당 위치 정류장을"
+            nextStationText.text = "찾을 수 없습니다."
+            Toast.makeText(this,"해당 위치에서 정류장을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show()
+        }
+        else {
+            // 다음 정류장 (방면) 표시
+            if (nextSttnNm == null) { // api 정류소별경유노선에 잦은 오류: 오류시 정류장 번호로 대체
+                currentLocationText.text = currentStation
+                if (sttnNo == null) nextStationText.text = "(${sttnId})"
+                else nextStationText.text = "(${sttnNo})"
+            } else {
+                currentLocationText.text = currentStation
+                nextStationText.text = "(${nextSttnNm} 방면)"
+            }
+            Toast.makeText(applicationContext, "현재 정류장은 ${currentStation}입니다.", Toast.LENGTH_LONG).show()
+        }
+
     }
 
     private fun fetchLocation() {
@@ -236,37 +266,117 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun parsing1(urlAddress: String?) : StringBuffer {
+        val url = URL(urlAddress)
+        val conn = url.openConnection()
+        val input = conn.getInputStream()
+        val isr = InputStreamReader(input)
+        val br = BufferedReader(isr)
+
+        var str: String?
+        val buf = StringBuffer()
+
+        do {
+            str = br.readLine()
+
+            if (str != null) {
+                buf.append(str)
+            }
+        } while (str != null)
+
+        return buf
+    }
+
     inner class NetworkThread : Thread() {
         override fun run() {
             // 현재 정류장
-            val urlAddress = "${address}${key}&gpsLati=${lati}&gpsLong=${long}&_type=json"
+            val urlAddress = "${addressCrntSttn}${key}&gpsLati=${lati}&gpsLong=${long}&_type=json"
+            Log.d("url", urlAddress)
 
             try {
-                val url = URL(urlAddress)
-                val conn = url.openConnection()
-                val input = conn.getInputStream()
-                val isr = InputStreamReader(input)
-                val br = BufferedReader(isr)
-
-                var str: String?
-                val buf = StringBuffer()
-
-                do {
-                    str = br.readLine()
-                    if (str != null) {
-                        buf.append(str)
-                    }
-                } while (str != null)
-
+                val buf = parsing1(urlAddress)
                 val jsonObject = JSONObject(buf.toString())
                 val response = jsonObject.getJSONObject("response").getJSONObject("body")
                     .getJSONObject("items")
                 val item = response.getJSONArray("item")
                 val iObject = item.getJSONObject(0)
                 currentStation = iObject.getString("nodenm")
-                sttnNo = iObject.getString("nodeno")
                 sttnId = iObject.getString("nodeid")
+                citycode = iObject.getString("citycode")
+                sttnNo = iObject.getString("nodeno")
 
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+
+            var urlAddress2 = "${addressBusList}${key}&cityCode=${citycode}&nodeid=${sttnId}&_type=json"
+            Log.d("url", urlAddress2)
+
+            try {
+                val buf = parsing1(urlAddress2)
+
+                var jsonObject = JSONObject(buf.toString())
+                var totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
+                    .getInt("totalCount")
+
+                routeID = if (totalCnt == 1) { // 결과가 하나일 경우
+                    val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                        .getJSONObject("items").getJSONObject("item")
+                    response.getString("routeid")
+                } else { // 결과가 두 개 이상 (array)
+                    val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                        .getJSONObject("items")
+                    val item = response.getJSONArray("item")
+                    val iObject = item.getJSONObject(0)
+                    iObject.getString("routeid")
+                }
+
+                urlAddress2 = "${addressStopList}${key}&pageNo=1&numOfRows=100&cityCode=${citycode}&routeId=${routeID}&_type=json"
+
+                val buf2 = parsing1(urlAddress2)
+                jsonObject = JSONObject(buf2.toString())
+                totalCnt = jsonObject.getJSONObject("response").getJSONObject("body").getInt("totalCount")
+
+                var pageNum = 1
+                while (totalCnt > 0) {
+                    totalCnt -= 100
+                    var response = jsonObject.getJSONObject("response").getJSONObject("body")
+                        .getJSONObject("items")
+                    var item = response.getJSONArray("item")
+
+                    for (i in 0 until item.length()) {
+                        var iObject = item.getJSONObject(i)
+                        if (iObject.getString("nodeid") == sttnId) {
+                            if (i == item.length() - 1) {
+                                urlAddress2 = "${addressStopList}${key}&pageNo=${++pageNum}&numOfRows=100&cityCode=${citycode}&routeId=${routeID}&_type=json"
+                                val buf3 = parsing1(urlAddress2)
+                                jsonObject = JSONObject(buf3.toString())
+                                response = jsonObject.getJSONObject("response").getJSONObject("body")
+                                    .getJSONObject("items")
+                                item = response.getJSONArray("item")
+                                iObject = item.getJSONObject(0)
+                                nextSttnNm = iObject.getString("nodenm")
+                                break
+                            }
+                            else {
+                                nextSttnNm = item.getJSONObject(i+1).getString("nodenm")
+                                break
+                            }
+                        }
+                    }
+                    if (nextSttnNm != null) {
+                        break
+                    }
+                    if (totalCnt > 0) {
+                        urlAddress2 = "${addressStopList}${key}&pageNo=${++pageNum}&numOfRows=100&cityCode=${citycode}&routeId=${routeID}&_type=json"
+                        val buf3 = parsing1(urlAddress2)
+                        jsonObject = JSONObject(buf3.toString())
+                    }
+                }
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
             } catch (e: IOException) {

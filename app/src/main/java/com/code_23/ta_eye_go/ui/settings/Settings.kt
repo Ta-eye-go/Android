@@ -5,16 +5,12 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.code_23.ta_eye_go.DB.User
 import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.ui.bookbus.AfterReservation
-import com.code_23.ta_eye_go.ui.bookbus.InBus
 import com.code_23.ta_eye_go.ui.login.LoginMain
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -36,7 +32,6 @@ class Settings : AppCompatActivity(){
     var googleSignInClient : GoogleSignInClient?= null
     // UserDB
     private var userDB : UserDB? = null
-    private var userList = listOf<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,11 +55,12 @@ class Settings : AppCompatActivity(){
 
             UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
                 if (error != null) {
+                    userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
                     // 구글 로그아웃
                     FirebaseAuth.getInstance().signOut()
                     googleSignInClient?.signOut()
 
-                    var logoutIntent = Intent(this, LoginMain::class.java)
+                    val logoutIntent = Intent(this, LoginMain::class.java)
                     logoutIntent.flags =
                         Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(logoutIntent)
@@ -77,6 +73,7 @@ class Settings : AppCompatActivity(){
                             Log.e(TAG, "로그아웃 실패. SDK에서 토큰 삭제됨", error)
                             //Toast.makeText(this, "로그아웃 실패 $error", Toast.LENGTH_SHORT).show()
                         }else {
+                            userDB?.userDao()?.deleteAll()    // 유저 DB 초기화
                             Log.i(TAG, "로그아웃 성공. SDK에서 토큰 삭제됨")
                             //Toast.makeText(this, "로그아웃 성공", Toast.LENGTH_SHORT).show()
                         }

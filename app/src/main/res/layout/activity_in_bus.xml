@@ -7,16 +7,11 @@
         android:layout_height="match_parent"
         android:background="@drawable/background">
 
-        <include
-            android:id="@+id/chat_menu"
-            layout="@layout/menu_bar"
-            />
-
         <RelativeLayout
             android:id="@+id/currentStation_box"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:layout_marginTop="120dp"
+            android:layout_marginTop="100dp"
             android:background="@drawable/text_bar_2">
 
             <TextView
@@ -110,18 +105,20 @@
 
         </RelativeLayout>
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/refreshBtn"
+            android:contentDescription="@string/refresh"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_below="@id/numOfStations_box"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
-            android:src="@drawable/refresh_yellow"
-            app:tint="@color/colorPrimary" />
+            android:background="@drawable/refresh_yellow"
+            android:backgroundTint="@color/colorPrimary" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/getoffBtn"
+            android:contentDescription="@string/getoff"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_below="@id/numOfStations_box"
@@ -130,7 +127,7 @@
             android:layout_marginEnd="16dp"
             android:background="@drawable/circle"
             android:backgroundTint="@color/red"
-            android:text="도중하차"
+            android:text="@string/getoff"
             android:textColor="@color/white"
             android:textSize="27sp" />
 

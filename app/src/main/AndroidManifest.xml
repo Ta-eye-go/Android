@@ -6,6 +6,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".ui.login.GlobalApplication"
@@ -98,8 +99,7 @@
             android:label=" "/>
         <activity
             android:name=".ui.bookbus.ChatbotMainActivity"
-            android:label=" "
-            />
+            android:label=" " />
         <activity
             android:name=".ui.driver.DriverMain"
             android:label=" "/>
@@ -113,5 +113,8 @@
         </activity>
         <activity
             android:name=".ui.driver.DriverLogin" />
+        <activity
+            android:name=".ui.pay.Pay"
+            android:label="결제"/>
     </application>
 </manifest>

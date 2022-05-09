@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.DB.DataModel
 import com.code_23.ta_eye_go.DB.DataModelDB
+import com.code_23.ta_eye_go.DB.RecordDB
 import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
@@ -39,23 +40,23 @@ class AfterReservation : AppCompatActivity() {
     private var busNm : String? = "" // 탈 버스 번호
 
     private val citycode : Int = 23 // 도시코드 (인천 : 23)
-    private var routeId : String? = " " // 버스의 노선 번호 ID
+    private var routeId : String? = null // 버스의 노선 번호 ID
     private var prevSttnCnt : Int? = 0 // 남은 정류장 수
     private var arrTime : Int? = 0 // 도착 예정 시간
-    private var  endNodeID = "0"
+    private var endNodeID = "0"
 
     // 실시간 여부 확인용
     // var j = 0
 
     // 도착 여부 확인용
-    var arrive = false
+    var arrived = false
     private val key = com.code_23.ta_eye_go.BuildConfig.TAGO_API_KEY
-//    private val address_getRoute = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
-//    private val address_busLc = "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
-    private val address_getRoute = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
-    private val address_busLc = "http://openapi.tago.go.kr/openapi/service/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
+    private val addressGetRoute = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteNoList?serviceKey=" //노선정보항목조회
+    private val addressBusLoc = "http://apis.data.go.kr/1613000/ArvlInfoInqireService/getSttnAcctoSpcifyRouteBusArvlPrearngeInfoList?serviceKey=" //정류소별특정노선버스도착예정정보목록조회
+
     // Room DB
     private var datamodelDB : DataModelDB? = null
+    private var recordDB : RecordDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -79,26 +80,24 @@ class AfterReservation : AppCompatActivity() {
         // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
-            delay(1500)
+            delay(2000)
             reservationStatus()
             delay(1000)
             withContext(Main) {
-                delay(1000)
-                reservationStatus()
+                delay(1200)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
             }
             for(i in 0..100) {
                 // 1분 미만 남았을 때는 10초에 한번 업데이트
-                if (!arrive) {
+                if (!arrived) {
                     withContext(Main) {
                         val thread = NetworkThread()
                         thread.start()
                         thread.join()
                     }
-                    if (arrive) {
-                        // TODO : 탑승 완료 후 처리 1
+                    if (arrived) {
                         currentLocationText.text = "탑승이 완료되었습니다."
                         turn()
                         break
@@ -110,8 +109,7 @@ class AfterReservation : AppCompatActivity() {
                         delay(20000) // 20초 기다리기
                     }
                 }
-                if (arrive) {
-                    // TODO : 탑승 완료 후 처리 2
+                if (arrived) {
                     currentLocationText.text = "탑승이 완료되었습니다."
                     turn()
                     break
@@ -122,7 +120,6 @@ class AfterReservation : AppCompatActivity() {
     }
 
     fun turn() {
-
         // 예약 후 화면 이동
         val intent = Intent(this, InBus::class.java)
         startActivity(intent)
@@ -145,7 +142,7 @@ class AfterReservation : AppCompatActivity() {
             currentStation_text.text = startSttnNm
             busNum_text.text = busNm
             destination_text.text = destination
-        }else{
+        } else{
             Log.d("realtime db", "수정이한테 연락바람")
         }
     }
@@ -200,9 +197,9 @@ class AfterReservation : AppCompatActivity() {
         @SuppressLint("SetTextI18n")
         override fun run() {
             // 타고자 하는 버스의 노선 id 받아오기 (노선은 한 번만 받아오도록 처리)
-            if (routeId == " ") {
+            if (routeId == null) {
                 var urlAddress =
-                    "${address_getRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
+                    "${addressGetRoute}${key}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
                 Log.d("url", urlAddress)
                 //Log.d("asd", urlAddress)
                 try {
@@ -219,7 +216,7 @@ class AfterReservation : AppCompatActivity() {
                         routeId = response.getString("routeid")
                     }
                     else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
-                        urlAddress = "${address_getRoute}${key}&numOfRows=${totalCnt}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
+                        urlAddress = "${addressGetRoute}${key}&numOfRows=${totalCnt}&cityCode=${citycode}&routeNo=${busNm}&_type=json"
                         buf = parsing1(urlAddress)
                         jsonObject = JSONObject(buf.toString())
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
@@ -277,7 +274,7 @@ class AfterReservation : AppCompatActivity() {
 
             // 버스 정보 받아오기
             val urlAddress2 =
-                "${address_busLc}${key}&cityCode=${citycode}&nodeId=${startSttnID}&routeId=${routeId}&_type=json"
+                "${addressBusLoc}${key}&cityCode=${citycode}&nodeId=${startSttnID}&routeId=${routeId}&_type=json"
             Log.d("url", urlAddress2)
 
             try {
@@ -293,7 +290,7 @@ class AfterReservation : AppCompatActivity() {
                         .getJSONObject("items").getJSONObject("item")
                     if (prevSttnCnt == 1 && response.getInt("arrprevstationcnt") > 1) {
                         // 남은 정류장 수가 1이었는데 1보다 커진 경우 -> 버스에 탔다고 처리
-                        arrive = true
+                        arrived = true
                     }
                     prevSttnCnt = response.getInt("arrprevstationcnt")
                     arrTime = response.getInt("arrtime")
@@ -317,7 +314,7 @@ class AfterReservation : AppCompatActivity() {
 //                            }
                             if (prevSttnCnt == 1 && iObject.getInt("arrprevstationcnt") > 1) {
                                 // 남은 정류장 수가 1이었는데 1보다 커진 경우(뒤 버스가 있는 경우) -> 버스에 탔다고 처리
-                                arrive = true
+                                arrived = true
                             }
                             prevSttnCnt = iObject.getInt("arrprevstationcnt")
                             arrTime = iObject.getInt("arrtime")
@@ -345,9 +342,9 @@ class AfterReservation : AppCompatActivity() {
                 currentLocationText.text = "버스 정보 불러오기 오류"
             } catch (e: JSONException) {
                 e.printStackTrace()
-                if (prevSttnCnt == 1) {
-                    // 남은 정류장이 1이다가 목록이 없을 때(뒤 버스가 없는 경우) -> 버스에 탔다고 처리
-                    arrive = true
+                if (prevSttnCnt == 1 || prevSttnCnt ==  2) {
+                    // 남은 정류장이 1 혹은 2이다가 목록이 없을 때(뒤 버스가 없는 경우) -> 버스에 탔다고 처리
+                    arrived = true
                 }
                 currentLocationText.text = "현재 버스가 운행되지 않습니다."
             }

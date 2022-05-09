@@ -13,10 +13,11 @@ import com.code_23.ta_eye_go.DB.DataModelDB
 import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.DB.getofflist
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.ui.main.MainActivity
+import com.code_23.ta_eye_go.ui.pay.Pay
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.activity_in_bus.*
+import kotlinx.android.synthetic.main.activity_in_bus.currentStation_text
 import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
@@ -28,11 +29,8 @@ import java.io.InputStreamReader
 import java.net.MalformedURLException
 import java.net.URL
 
-class InBus : AppCompatActivity() {
 
-    // 참고 : 경유 정류장을 지날 때는 버스 위치가 안뜸
-    //        출발 정류장에 버스가 없는 경우 실행이 안될 수 있으니 테스트 시 유의 바람
-    //        실시간 적용을 아직 안한 상태 (적용 예정) => 도착 후에 새로고침 한 번 더 눌러줘야 제대로 작동합니다!
+class InBus : AppCompatActivity() {
 
     // 이전 단계에서 받아와야 하는 변수들(3개)
     private var startSttnID : String? = "" // 출발 정류장 id
@@ -52,11 +50,11 @@ class InBus : AppCompatActivity() {
     private var onBoardSttnNm : String? = ""
 
     // 도착 여부 확인용
-    var arrive = false
+    var arrived = false
 
     private val key = BuildConfig.TAGO_API_KEY
-    private val addressMybusLc = "http://openapi.tago.go.kr/openapi/service/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치목록조회
-    private val addressGetNodeord = "http://openapi.tago.go.kr/openapi/service/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey="
+    private val addressMybusLc = "http://apis.data.go.kr/1613000/BusLcInfoInqireService/getRouteAcctoBusLcList?serviceKey=" //노선별버스위치 목록조회
+    private val addressGetNodeord = "http://apis.data.go.kr/1613000/BusRouteInfoInqireService/getRouteAcctoThrghSttnList?serviceKey=" //노선별경유정류소목록 조회
 
     // Room DB
     private var datamodelDB : DataModelDB? = null
@@ -75,9 +73,43 @@ class InBus : AppCompatActivity() {
         val toDriver =  bordinglist(onBoardSttnNm)   // 탑승정류장
         driverdata.setValue(toDriver)
 
+        refreshBtn.setOnClickListener {
+            if (!arrived) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    withContext(Main){
+                        val thread = NetworkThread()
+                        thread.start()
+                        thread.join()
+                    }
+                    if (arrived) {
+                        val database = Firebase.database
+                        val driverdata = database.getReference("Driver").child("get off")
+                        val toDriver =  getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(toDriver)
+                        datamodelDB?.datamodelDao()?.deleteAll()
+                        moveToPay()
+                    }
+                    delay(1000)
+                    if (arrived) {
+                        val database = Firebase.database
+                        val driverdata = database.getReference("Driver").child("get off")
+                        val toDriver =  getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(toDriver)
+                        datamodelDB?.datamodelDao()?.deleteAll()
+                        moveToPay()
+                    }
+                }
+            }
+            Toast.makeText(applicationContext, "현재 ${leftSttnCnt}정류장 남았습니다.", Toast.LENGTH_LONG).show()
+        }
+
+        getoffBtn.setOnClickListener {
+            confirmDialog()
+        }
+
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
-                delay(1000)
+                delay(2000)
                 startSttnNm = a?.get(0)?.startNodenm
                 endSttnnNm = a?.get(0)?.endNodenm
                 startSttnID = a?.get(0)?.startNodeID
@@ -96,59 +128,74 @@ class InBus : AppCompatActivity() {
                 thread.join()
             }
             if (nodeord == null) {
-                delay(2000)
+                delay(3000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
             }
             if (nodeord == null) {
-                delay(2000)
+                delay(4000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
             }
-            if (nodeord == null) {
-                numOfStations_text.text = "정류장 찾기 오류"
-            }
+
         }
 
-        refreshBtn.setOnClickListener {
-            if (!arrive) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    withContext(Main){
-                        val thread = NetworkThread()
-                        thread.start()
-                        thread.join()
+        CoroutineScope(Dispatchers.IO).launch {
+            withContext(Main) {
+                delay(5000)
+                val thread = NetworkThread()
+                thread.start()
+                thread.join()
+
+                for (i in 0..100)  {
+                    if (!arrived) {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            withContext(Main) {
+                                val thread = NetworkThread()
+                                thread.start()
+                                thread.join()
+                            }
+                        }
+                        if (arrived) {
+                            val database = Firebase.database
+                            val driverdata = database.getReference("Driver").child("get off")
+                            val toDriver = getofflist(endSttnnNm)   // 도착정류장
+                            driverdata.setValue(toDriver)
+                            datamodelDB?.datamodelDao()?.deleteAll()
+                            break
+                        }
                     }
+                    if (arrived) {
+                        val database = Firebase.database
+                        val driverdata = database.getReference("Driver").child("get off")
+                        val toDriver = getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(toDriver)
+                        datamodelDB?.datamodelDao()?.deleteAll()
+                        break
+                    }
+                    delay(1000)
+                    if (arrived) {
+                        val database = Firebase.database
+                        val driverdata = database.getReference("Driver").child("get off")
+                        val toDriver = getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(toDriver)
+                        datamodelDB?.datamodelDao()?.deleteAll()
+                        break
+                    }
+                    delay(19000)
                 }
-                if (arrive) {
-                    val database = Firebase.database
-                    val driverdata = database.getReference("Driver").child("get off")
-                    val toDriver =  getofflist(endSttnnNm)   // 도착정류장
-                    driverdata.setValue(toDriver)
-                    datamodelDB?.datamodelDao()?.deleteAll()
-                    Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
-            }
-            if (arrive) {
-                val database = Firebase.database
-                val driverdata = database.getReference("Driver").child("get off")
-                val toDriver =  getofflist(endSttnnNm)   // 도착정류장
-                driverdata.setValue(toDriver)
-                datamodelDB?.datamodelDao()?.deleteAll()
-                Toast.makeText(applicationContext, "정류장에 도착했습니다.", Toast.LENGTH_LONG).show()
-                val intent = Intent(this, MainActivity::class.java)
-                startActivity(intent)
-                finish()
+                if (arrived) moveToPay()
             }
         }
+    }
 
-        getoffBtn.setOnClickListener {
-            confirmDialog()
-        }
+    private fun moveToPay() {
+        // 예약 후 화면 이동
+        val intent = Intent(this, Pay::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun confirmDialog() {
@@ -171,7 +218,7 @@ class InBus : AppCompatActivity() {
             val Todriver =  getofflist(endSttnnNm)   // 도착정류장
             driverdata.setValue(Todriver)
             alertDialog.dismiss()
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, Pay::class.java)
             startActivity(intent)
             finish()
         }
@@ -343,7 +390,6 @@ class InBus : AppCompatActivity() {
             if (endNodeord == null) {
                 var pageNum = nodeord?.div(10)?.plus(1)
                 if (pageNum == null) {
-                    numOfStations_text.text = "오류 발생"
                     return
                 }
 
@@ -393,23 +439,17 @@ class InBus : AppCompatActivity() {
                     else pageNum += 1
                 }
             }
-            // 도착정류장의 nodeord가 있을 때
-            if(endNodeord == null) {
-                numOfStations_text.text = "오류 발생"
+            leftSttnCnt = endNodeord!! - nodeord!!
+            if (leftSttnCnt <= 0) { // 남은 정류장이 0 이하가 되면
+                arrived = true
             }
-            else {
-                leftSttnCnt = endNodeord!! - nodeord!!
-                if (leftSttnCnt <= 0) { // 남은 정류장이 0 이하가 되면
-                    arrive = true
-                }
-                numOfStations_text.text = "$leftSttnCnt 정류장"
+            numOfStations_text.text = "$leftSttnCnt 정류장"
 
-                if (leftSttnCnt < 3) { // 남은 정류장이 1개일때 기사용 서버 알림
-                    val database = Firebase.database
-                    val driverdata = database.getReference("Driver").child("get off i")
-                    val toDriver =  getofflist(endSttnnNm)   // 도착정류장
-                    driverdata.setValue(toDriver)
-                }
+            if (leftSttnCnt < 3) { // 남은 정류장이 1개일때 기사용 서버 알림
+                val database = Firebase.database
+                val driverdata = database.getReference("Driver").child("get off i")
+                val toDriver =  getofflist(endSttnnNm)   // 도착정류장
+                driverdata.setValue(toDriver)
             }
         }
     }

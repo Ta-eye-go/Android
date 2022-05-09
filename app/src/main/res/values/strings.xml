@@ -48,6 +48,8 @@
     <string name="threeThirds">세 페이지 중 세 번째 페이지</string>
     <string name="newFavorites">즐겨찾기 신규추가</string>
     <string name="stationNm">정류장 이름</string>
-    <string name="threeSttnLeft">손님이 하차하는 정류장까지 세 정거장 남았습니다.</string>
+    <string name="threeSttnLeft">손님이 하차하는 정류장까지 두 정거장 남았습니다.</string>
     <string name="com_google_login_button">구글 계정으로 로그인</string>
+    <string name="refresh">새로고침</string>
+    <string name="getoff">도중하차</string>
 </resources>
