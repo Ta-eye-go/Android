@@ -253,7 +253,7 @@ class InBus : AppCompatActivity() {
         override fun run() {
             // 탑승한 차량의 위치 정보
             if (vehicleNo == null) { // 탑승한 버스 차량 번호를 모를 때 (처음 돌렸을 경우)
-                var urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+                var urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json&numOfRows=1000"
                 Log.d("url", urlAddress)
 
                 try {
@@ -270,25 +270,25 @@ class InBus : AppCompatActivity() {
                         vehicleNo = response.getString("vehicleno")
                         nodeord = response.getInt("nodeord")
                     }
-                    else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
-                        urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&numOfRows=${totalCnt}&routeId=${routeId}&_type=json"
-                        Log.d("url", urlAddress)
-                        buf = parsing1(urlAddress)
-                        jsonObject = JSONObject(buf.toString())
-                        val response = jsonObject.getJSONObject("response").getJSONObject("body")
-                            .getJSONObject("items")
-                        val item = response.getJSONArray("item")
-                        startSttnID?.let { Log.d("ur", it) }
-                        for (i in 0 until item.length()) {
-                            val iObject = item.getJSONObject(i)
-                            iObject.getString("nodeid").let { Log.d("ur", it) }
-                            if (iObject.getString("nodeid") == startSttnID) {
-                                vehicleNo = iObject.getString("vehicleno")
-                                nodeord = iObject.getInt("nodeord")
-                                break
-                            }
-                        }
-                    }
+//                    else if (totalCnt > 10) { // 결과가 10개 이상 (2 페이지 이상)
+//                        urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&numOfRows=${totalCnt}&routeId=${routeId}&_type=json"
+//                        Log.d("url", urlAddress)
+//                        buf = parsing1(urlAddress)
+//                        jsonObject = JSONObject(buf.toString())
+//                        val response = jsonObject.getJSONObject("response").getJSONObject("body")
+//                            .getJSONObject("items")
+//                        val item = response.getJSONArray("item")
+//                        startSttnID?.let { Log.d("ur", it) }
+//                        for (i in 0 until item.length()) {
+//                            val iObject = item.getJSONObject(i)
+//                            iObject.getString("nodeid").let { Log.d("ur", it) }
+//                            if (iObject.getString("nodeid") == startSttnID) {
+//                                vehicleNo = iObject.getString("vehicleno")
+//                                nodeord = iObject.getInt("nodeord")
+//                                break
+//                            }
+//                        }
+//                    }
                     else {
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
                             .getJSONObject("items")
@@ -351,29 +351,36 @@ class InBus : AppCompatActivity() {
 
             // 현재 정류장의 다음 정류장 조회
             // nodeord는 현재 정류장, nodeord+1은 다음 정류장임을 이용한다.
-            val urlAddress1 =
-                "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord}&cityCode=${citycode}&routeId=${routeId}&_type=json"
-            val urlAddress2 =
-                "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+            val urlAddress_ =
+                "${addressGetNodeord}${key}&numOfRows=300&cityCode=${citycode}&routeId=${routeId}&_type=json"
+//            val urlAddress2 =
+//                "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
 
-            Log.d("url", urlAddress1)
-            Log.d("url", urlAddress2)
+            Log.d("url", urlAddress_)
+//            Log.d("url", urlAddress2)
 
             try {
-                val buf1 = parsing1(urlAddress1)
-                val buf2 = parsing1(urlAddress2)
+                val buf = parsing1(urlAddress_)
+//                val buf2 = parsing1(urlAddress2)
 
-                val jsonObject1 = JSONObject(buf1.toString())
-                val jsonObject2 = JSONObject(buf2.toString())
+                val jsonObject = JSONObject(buf.toString())
+//                val jsonObject2 = JSONObject(buf2.toString())
 
-                val response1 = jsonObject1.getJSONObject("response").getJSONObject("body")
-                    .getJSONObject("items").getJSONObject("item")
-                val response2 = jsonObject2.getJSONObject("response").getJSONObject("body")
-                    .getJSONObject("items").getJSONObject("item")
-
-                thisStation = response1.getString("nodenm")
-                nextStation = response2.getString("nodenm")
-
+                val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                    .getJSONObject("items")
+//                val response2 = jsonObject2.getJSONObject("response").getJSONObject("body")
+//                    .getJSONObject("items").getJSONObject("item")
+                val item = response.getJSONArray("item")
+                for (i in 0 until item.length()) {
+                    val iObject = item.getJSONObject(i)
+                    if(iObject.getString("nodeord")=="$nodeord"){
+                        thisStation = iObject.getString("nodenm")
+                        val iObject2 = item.getJSONObject(i+1)
+                        nextStation = iObject2.getString("nodenm")
+                    }
+                    if(iObject.getString("nodeid") == "$endSttnID")
+                        endNodeord = iObject.getInt("nodeord")
+                }
                 currentStation_text.text = thisStation
                 nextStation_text.text = nextStation
 
@@ -387,58 +394,58 @@ class InBus : AppCompatActivity() {
 
             // 남은 정류장 수 계산하기
             // 1. 도착 정류장 nodeord 구하기
-            if (endNodeord == null) {
-                var pageNum = nodeord?.div(10)?.plus(1)
-                if (pageNum == null) {
-                    return
-                }
-
-                while (true) {
-                    val urlAddress =
-                        "${addressGetNodeord}${key}&numOfRows=10&pageNo=${pageNum}&cityCode=${citycode}&routeId=${routeId}&_type=json"
-                    Log.d("url", urlAddress)
-
-                    try {
-                        val buf = parsing1(urlAddress)
-                        val jsonObject = JSONObject(buf.toString())
-
-                        // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기
-                        val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
-                            .getInt("totalCount")
-                        // 결과가 하나일 경우
-                        if (totalCnt == 1) {
-                            val response = jsonObject.getJSONObject("response").getJSONObject("body")
-                                .getJSONObject("items").getJSONObject("item")
-                            if (response.getString("nodeid") == endSttnID) {
-                                endNodeord = response.getInt("nodeord")
-                                break
-                            }
-                        } else {
-                            val response = jsonObject.getJSONObject("response").getJSONObject("body")
-                                .getJSONObject("items")
-                            val item = response.getJSONArray("item")
-                            for (i in 0 until item.length()) {
-                                val iObject = item.getJSONObject(i)
-                                if (iObject.getString("nodeid") == endSttnID) {
-                                    endNodeord = iObject.getInt("nodeord")
-                                    break
-                                }
-                            }
-                        }
-                    } catch (e: MalformedURLException) {
-                        e.printStackTrace()
-                        break
-                    } catch (e: IOException) {
-                        e.printStackTrace()
-                        break
-                    } catch (e: JSONException) {
-                        e.printStackTrace()
-                        break
-                    }
-                    if (endNodeord != null) break
-                    else pageNum += 1
-                }
-            }
+//            if (endNodeord == null) {
+//                var pageNum = nodeord?.div(10)?.plus(1)
+//                if (pageNum == null) {
+//                    return
+//                }
+//
+//                while (true) {
+//                    val urlAddress =
+//                        "${addressGetNodeord}${key}&numOfRows=10&pageNo=${pageNum}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+//                    Log.d("url", urlAddress)
+//
+//                    try {
+//                        val buf = parsing1(urlAddress)
+//                        val jsonObject = JSONObject(buf.toString())
+//
+//                        // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기
+//                        val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
+//                            .getInt("totalCount")
+//                        // 결과가 하나일 경우
+//                        if (totalCnt == 1) {
+//                            val response = jsonObject.getJSONObject("response").getJSONObject("body")
+//                                .getJSONObject("items").getJSONObject("item")
+//                            if (response.getString("nodeid") == endSttnID) {
+//                                endNodeord = response.getInt("nodeord")
+//                                break
+//                            }
+//                        } else {
+//                            val response = jsonObject.getJSONObject("response").getJSONObject("body")
+//                                .getJSONObject("items")
+//                            val item = response.getJSONArray("item")
+//                            for (i in 0 until item.length()) {
+//                                val iObject = item.getJSONObject(i)
+//                                if (iObject.getString("nodeid") == endSttnID) {
+//                                    endNodeord = iObject.getInt("nodeord")
+//                                    break
+//                                }
+//                            }
+//                        }
+//                    } catch (e: MalformedURLException) {
+//                        e.printStackTrace()
+//                        break
+//                    } catch (e: IOException) {
+//                        e.printStackTrace()
+//                        break
+//                    } catch (e: JSONException) {
+//                        e.printStackTrace()
+//                        break
+//                    }
+//                    if (endNodeord != null) break
+//                    else pageNum += 1
+//                }
+//            }
             leftSttnCnt = endNodeord!! - nodeord!!
             if (leftSttnCnt <= 0) { // 남은 정류장이 0 이하가 되면
                 arrived = true
