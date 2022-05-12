@@ -23,8 +23,8 @@ interface BookmarkDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE) // 추가할 때 동일한 기록이면 무시하기
     fun insert(bookmark: Bookmark)
 
-    @Update
-    fun updateBookmark(bookmark: Bookmark)
+    @Query("UPDATE bookmark SET 별칭 = (:new_favoriteNm) where 별칭 = (:favoriteNm)")
+    fun updateBookmark(favoriteNm: String, new_favoriteNm: String)
 
     // 즐겨찾기DB에서 별칭의 데이터를 가져와줌
     @Query("SELECT * FROM bookmark where 별칭 = (:favoriteNm)")
@@ -37,7 +37,7 @@ interface BookmarkDao {
     fun deleteAll()
 }
 
-@Database(entities = [Bookmark::class], version = 7)
+@Database(entities = [Bookmark::class], version = 10)
 abstract class BookmarkDB: RoomDatabase() {
     abstract fun bookmarkDao(): BookmarkDao
 

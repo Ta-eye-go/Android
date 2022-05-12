@@ -66,6 +66,8 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     private var userDB : UserDB? = null
     private var recordDB : RecordDB? = null
 
+    private  var kakaoemail : String = "0"
+
     override fun onClick(v: View?) { // 짧은 클릭 (예약 화면 이동)
         val favoriteItem = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)]
         favoriteItemNm = favoriteItems[rv_favorites.getChildAdapterPosition(v!!)].favoriteNm
@@ -105,6 +107,11 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         rv_favorites.layoutManager = LinearLayoutManager(applicationContext)
         bookmarkAdapter.setOnItemClickListener(this)
         bookmarkAdapter.setOnCreateContextMenuListener(this)
+
+//        val bookmark = Bookmark("감811", "2차풍림아이원",
+//            "ICB168000584", "마전지구버스차고지" , "ICB168001345" , "78")
+//        bookmarkDB?.bookmarkDao()?.insert(bookmark)
+
 
         // + -> 신규추가 버튼 누를시 이동
         NewBtn.setOnClickListener {
@@ -146,6 +153,10 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     { result ->
         if (result.resultCode == Activity.RESULT_OK) {
             bookmark_name.text = result.data?.getStringExtra("Data")
+
+            Log.d("즐찾 별칭 수정", favoriteItemNm)
+            bookmarkDB?.bookmarkDao()?.updateBookmark(favoriteItemNm, bookmark_name.text.toString())
+
         }
     }
 
@@ -157,7 +168,9 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
             }
 
             R.id.menu_edit_name -> { //별칭수정
+                val selected = favoriteItems[rv_favorites.getChildAdapterPosition(selectedView!!)]
                 val intent = Intent(this,BookmarkEditName::class.java)
+                intent.putExtra("selected", selected)
                 resultLauncher.launch(intent)
             }
 
@@ -230,6 +243,7 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         val email = Firebase.auth.currentUser?.email.toString()
         val favoriteItemList = bookmarkDB?.bookmarkDao()?.bookmarkdata(favoriteItemNm)
         val dog = userDB?.userDao()?.userdata(email)
+
         if (favoriteItemList != null) {
             routeId = recordDB?.recordDao()?.search(favoriteItemList[0].routeID)
             Log.d("노선id", routeId.toString())

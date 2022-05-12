@@ -15,7 +15,7 @@
         <RelativeLayout
             android:id="@+id/currentLocationBox"
             android:layout_width="match_parent"
-            android:layout_height="140dp"
+            android:layout_height="120dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="122.5dp"
             android:background="@drawable/letterbox_yellow"
@@ -25,7 +25,7 @@
             <TextView
                 android:id="@+id/currentLocationText"
                 android:layout_width="380dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_centerInParent="true"
                 android:text="버스정보를&#10; 불러오고 있습니다..."
                 android:textAlignment="center"
@@ -40,7 +40,7 @@
             android:layout_height="70dp"
             android:layout_below="@+id/currentLocationBox"
             android:layout_marginStart="260dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="5dp"
             android:background="@drawable/text_bar"
             android:backgroundTint="@color/red"
             android:text="예약 취소"
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/cancel_button"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="0dp">
 
             <TextView
                 android:id="@+id/currentStation"
@@ -67,7 +67,7 @@
             <TextView
                 android:id="@+id/currentStation_text"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="120dp"
                 android:layout_below="@+id/currentStation"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
@@ -85,7 +85,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/currentStation_bar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="00dp">
 
             <TextView
                 android:id="@+id/busNum"
@@ -99,7 +99,7 @@
             <TextView
                 android:id="@+id/busNum_text"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="120dp"
                 android:layout_below="@+id/busNum"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
@@ -116,7 +116,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/busNum_bar"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp">
+            android:layout_marginTop="0dp">
 
             <TextView
                 android:id="@+id/destination"
@@ -130,7 +130,7 @@
             <TextView
                 android:id="@+id/destination_text"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="120dp"
                 android:layout_below="@+id/destination"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
