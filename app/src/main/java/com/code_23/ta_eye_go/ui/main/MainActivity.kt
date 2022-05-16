@@ -86,8 +86,6 @@ class MainActivity : AppCompatActivity() {
         initVariables()
         fetchLocation()
 
-
-
         // 예약 창 이동
         bookBusBtn.setOnClickListener {
             // 예약 초기 데이터 리스트 realtime DB로 전송

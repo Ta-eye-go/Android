@@ -12,12 +12,11 @@ import kotlinx.android.synthetic.main.activity_bookmark_edit_name.*
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.bus_end
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.bus_number
 import kotlinx.android.synthetic.main.activity_bookmark_edit_name.bus_start
-import kotlinx.android.synthetic.main.bookmark_item.*
 import kotlinx.android.synthetic.main.menu_bar.view.*
 
 class BookmarkEditName : AppCompatActivity() {
 
-    lateinit var selected: Favorite
+    private lateinit var selected: Favorite
 
     // BookmarkDB
     private var bookmarkDB : BookmarkDB? = null

@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.DataModelDB
@@ -48,7 +47,7 @@ class InBus : AppCompatActivity() {
     private var startSttnNm : String? = "" // 출발(현재) 정류장 이름
     private var endSttnnNm : String? = "" // 도착 정류장 이름
     private var onBoardSttnNm : String? = ""
-    private var startNodeord : Int? = null
+
     // 도착 여부 확인용
     var arrived = false
 
@@ -69,7 +68,7 @@ class InBus : AppCompatActivity() {
 
         // 탑승 예정 데이터 서버로 전송
         val database = Firebase.database
-        val driverdata = database.getReference("Driver").child("on board")
+        var driverdata = database.getReference("Driver").child("on board")
         val toDriver =  bordinglist(onBoardSttnNm)   // 탑승정류장
         driverdata.setValue(toDriver)
 
@@ -82,25 +81,22 @@ class InBus : AppCompatActivity() {
                         thread.join()
                     }
                     if (arrived) {
-                        val database = Firebase.database
-                        val driverdata = database.getReference("Driver").child("get off")
-                        val toDriver =  getofflist(endSttnnNm)   // 도착정류장
-                        driverdata.setValue(toDriver)
+                        driverdata = database.getReference("Driver").child("get off")
+                        val arrive =  getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(arrive)
                         datamodelDB?.datamodelDao()?.deleteAll()
                         moveToPay()
                     }
                     delay(1000)
                     if (arrived) {
-                        val database = Firebase.database
-                        val driverdata = database.getReference("Driver").child("get off")
-                        val toDriver =  getofflist(endSttnnNm)   // 도착정류장
-                        driverdata.setValue(toDriver)
+                        driverdata = database.getReference("Driver").child("get off")
+                        val arrive =  getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(arrive)
                         datamodelDB?.datamodelDao()?.deleteAll()
                         moveToPay()
                     }
                 }
             }
-            Toast.makeText(applicationContext, "현재 ${leftSttnCnt}정류장 남았습니다.", Toast.LENGTH_LONG).show()
         }
 
         getoffBtn.setOnClickListener {
@@ -109,13 +105,17 @@ class InBus : AppCompatActivity() {
 
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
-                delay(2000)
+                delay(1500)
                 startSttnNm = a?.get(0)?.startNodenm
                 endSttnnNm = a?.get(0)?.endNodenm
                 startSttnID = a?.get(0)?.startNodeID
                 endSttnID = a?.get(0)?.endNodeID
                 routeId = a?.get(0)?.routeID
-                delay(2000)
+                val thread2 = NetworkThread2()
+                thread2.start()
+                thread2.join()
+
+                delay(1000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -139,7 +139,6 @@ class InBus : AppCompatActivity() {
                 thread.start()
                 thread.join()
             }
-
         }
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -158,29 +157,19 @@ class InBus : AppCompatActivity() {
                                 thread.join()
                             }
                         }
-                        if (arrived) {
-                            val database = Firebase.database
-                            val driverdata = database.getReference("Driver").child("get off")
-                            val toDriver = getofflist(endSttnnNm)   // 도착정류장
-                            driverdata.setValue(toDriver)
-                            datamodelDB?.datamodelDao()?.deleteAll()
-                            break
-                        }
                     }
                     if (arrived) {
-                        val database = Firebase.database
-                        val driverdata = database.getReference("Driver").child("get off")
-                        val toDriver = getofflist(endSttnnNm)   // 도착정류장
-                        driverdata.setValue(toDriver)
+                        driverdata = database.getReference("Driver").child("get off")
+                        val arrive =  getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(arrive)
                         datamodelDB?.datamodelDao()?.deleteAll()
                         break
                     }
                     delay(1000)
                     if (arrived) {
-                        val database = Firebase.database
-                        val driverdata = database.getReference("Driver").child("get off")
-                        val toDriver = getofflist(endSttnnNm)   // 도착정류장
-                        driverdata.setValue(toDriver)
+                        driverdata = database.getReference("Driver").child("get off")
+                        val arrive =  getofflist(endSttnnNm)   // 도착정류장
+                        driverdata.setValue(arrive)
                         datamodelDB?.datamodelDao()?.deleteAll()
                         break
                     }
@@ -189,6 +178,9 @@ class InBus : AppCompatActivity() {
                 if (arrived) moveToPay()
             }
         }
+    }
+
+    override fun onBackPressed() {
     }
 
     private fun moveToPay() {
@@ -215,8 +207,8 @@ class InBus : AppCompatActivity() {
             datamodelDB?.datamodelDao()?.deleteAll()
             val database = Firebase.database
             val driverdata = database.getReference("Driver").child("get off i")
-            val Todriver =  getofflist(endSttnnNm)   // 도착정류장
-            driverdata.setValue(Todriver)
+            val getoff =  getofflist(endSttnnNm)   // 도착정류장
+            driverdata.setValue(getoff)
             alertDialog.dismiss()
             val intent = Intent(this, Pay::class.java)
             startActivity(intent)
@@ -248,30 +240,60 @@ class InBus : AppCompatActivity() {
         return buf
     }
 
+    // 초기 화면
+    inner class NetworkThread2 : Thread() {
+        @SuppressLint("SetTextI18n")
+        override fun run() {
+            val urlAddress = "${addressGetNodeord}${key}&numOfRows=1000&cityCode=${citycode}&routeId=${routeId}&_type=json"
+            Log.d("url", urlAddress)
+
+            try {
+                val buf = parsing1(urlAddress)
+                val jsonObject = JSONObject(buf.toString())
+                val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                    .getJSONObject("items")
+                val item = response.getJSONArray("item")
+                var sttnCnt = 0
+                for (i in 0 until item.length()) {
+                    val iObject = item.getJSONObject(i)
+                    if (iObject.getString("nodeid") == startSttnID) {
+                        currentStation_text.text = onBoardSttnNm
+                        sttnCnt = iObject.getInt("nodeord")
+                        nextStation_text.text = item.getJSONObject(i+1).getString("nodenm")
+                        continue
+                    }
+                    if (iObject.getString("nodeid") == endSttnID) {
+                        endNodeord = iObject.getInt("nodeord")
+                        sttnCnt = iObject.getInt("nodeord") - sttnCnt
+                        numOfStations_text.text = "$sttnCnt 정류장"
+                        break
+                    }
+                }
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     inner class NetworkThread : Thread() {
         @SuppressLint("SetTextI18n")
         override fun run() {
-            val urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&_type=json"   // 버스 위치
-
-            // 버스 노선 불러 놓기
-            val urlAddress1 = "${addressGetNodeord}${key}&numOfRows=300&cityCode=${citycode}&routeId=${routeId}&_type=json"
-            Log.d("url", urlAddress1)
-            val buf1 = parsing1(urlAddress1)
-            val jsonObject1 = JSONObject(buf1.toString())
-            val response1 = jsonObject1.getJSONObject("response").getJSONObject("body")
-                .getJSONObject("items")
-            val item1 = response1.getJSONArray("item")
-
             // 탑승한 차량의 위치 정보
             if (vehicleNo == null) { // 탑승한 버스 차량 번호를 모를 때 (처음 돌렸을 경우)
+                val urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&numOfRows=1000&_type=json"
+                Log.d("url", urlAddress)
+
                 try {
-                    Log.d("url", urlAddress)
-                    var buf = parsing1(urlAddress)
-                    var jsonObject = JSONObject(buf.toString())
+                    val buf = parsing1(urlAddress)
+                    val jsonObject = JSONObject(buf.toString())
+
                     // 결과가 하나 있을 때는 Array로 처리하면 오류가 나기 때문에 구분해주기
                     val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
                         .getInt("totalCount")
-
                     // 결과가 하나일 경우
                     if (totalCnt == 1) {
                         val response = jsonObject.getJSONObject("response").getJSONObject("body")
@@ -293,29 +315,6 @@ class InBus : AppCompatActivity() {
                         }
                     }
                     if (nodeord == null) {
-                        Log.d("isnull", "널널")
-                        try{
-                            for (i in 0 until item1.length()) {
-                                val iObject1 = item1.getJSONObject(i)
-                                if (iObject1.getString("nodeid") == "$startSttnID") {
-                                    startNodeord = iObject1.getInt("nodeord")
-                                    val iObject2 = item1.getJSONObject(i + 1)
-                                    nextStation_text.text = iObject2.getString("nodenm")
-                                }
-                                if (iObject1.getString("nodeid") == "$endSttnID")
-                                    endNodeord = iObject1.getInt("nodeord")
-
-                            }
-                            leftSttnCnt = endNodeord!! - startNodeord!!
-                            numOfStations_text.text = "$leftSttnCnt 정류장"
-                        } catch (e: MalformedURLException) {
-                            e.printStackTrace()
-                        } catch (e: IOException) {
-                            e.printStackTrace()
-                        } catch (e: JSONException) {
-                            e.printStackTrace()
-                        }
-
                         return
                     }
                 } catch (e: MalformedURLException) {
@@ -325,10 +324,13 @@ class InBus : AppCompatActivity() {
                 } catch (e: JSONException) {
                     e.printStackTrace()
                 }
+
             } else { // 이미 버스 차량번호를 알고 있을 때
+                val urlAddress = "${addressMybusLc}${key}&cityCode=${citycode}&routeId=${routeId}&numOfRows=1000&_type=json"
+                Log.d("url", urlAddress)
                 try {
-                    Log.d("url", urlAddress)
                     val buf = parsing1(urlAddress)
+
                     val jsonObject = JSONObject(buf.toString())
                     val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
                         .getInt("totalCount")
@@ -362,19 +364,39 @@ class InBus : AppCompatActivity() {
 
             // 현재 정류장의 다음 정류장 조회
             // nodeord는 현재 정류장, nodeord+1은 다음 정류장임을 이용한다.
-            // 1. 도착 정류장 nodeord 구하기
-            for (i in 0 until item1.length()) {
-                val iObject1 = item1.getJSONObject(i)
-                if(iObject1.getString("nodeord")=="$nodeord"){
-                    thisStation = iObject1.getString("nodenm")
-                    val iObject2 = item1.getJSONObject(i+1)
-                    nextStation = iObject2.getString("nodenm")
-                }
-                if(iObject1.getString("nodeid") == "$endSttnID")
-                    endNodeord = iObject1.getInt("nodeord")
+            val urlAddress1 =
+                "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+            val urlAddress2 =
+                "${addressGetNodeord}${key}&numOfRows=1&pageNo=${nodeord?.plus(1)}&cityCode=${citycode}&routeId=${routeId}&_type=json"
+
+            Log.d("url", urlAddress1)
+            Log.d("url", urlAddress2)
+
+            try {
+                val buf1 = parsing1(urlAddress1)
+                val buf2 = parsing1(urlAddress2)
+
+                val jsonObject1 = JSONObject(buf1.toString())
+                val jsonObject2 = JSONObject(buf2.toString())
+
+                val response1 = jsonObject1.getJSONObject("response").getJSONObject("body")
+                    .getJSONObject("items").getJSONObject("item")
+                val response2 = jsonObject2.getJSONObject("response").getJSONObject("body")
+                    .getJSONObject("items").getJSONObject("item")
+
+                thisStation = response1.getString("nodenm")
+                nextStation = response2.getString("nodenm")
+
+                currentStation_text.text = thisStation
+                nextStation_text.text = nextStation
+
+            } catch (e: MalformedURLException) {
+                e.printStackTrace()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            } catch (e: JSONException) {
+                e.printStackTrace()
             }
-            currentStation_text.text = thisStation
-            nextStation_text.text = nextStation
 
             // 남은 정류장 수 계산하기
             leftSttnCnt = endNodeord!! - nodeord!!

@@ -70,9 +70,7 @@ class AfterReservation : AppCompatActivity() {
         }
 
         back_btn.setOnClickListener {
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+            confirmDialog()
         }
 
         // coroutines을 이용한 실시간 업데이트 처리
@@ -82,9 +80,8 @@ class AfterReservation : AppCompatActivity() {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
             delay(2000)
             reservationStatus()
-            delay(1000)
             withContext(Main) {
-                delay(1200)
+                delay(1500)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -124,6 +121,10 @@ class AfterReservation : AppCompatActivity() {
         val intent = Intent(this, InBus::class.java)
         startActivity(intent)
         finish()
+    }
+
+    override fun onBackPressed() {
+        confirmDialog()
     }
 
     override fun onStop() {
@@ -291,6 +292,7 @@ class AfterReservation : AppCompatActivity() {
                     if (prevSttnCnt == 1 && response.getInt("arrprevstationcnt") > 1) {
                         // 남은 정류장 수가 1이었는데 1보다 커진 경우 -> 버스에 탔다고 처리
                         arrived = true
+                        Log.d("arr", "1")
                     }
                     prevSttnCnt = response.getInt("arrprevstationcnt")
                     arrTime = response.getInt("arrtime")
@@ -315,6 +317,7 @@ class AfterReservation : AppCompatActivity() {
                             if (prevSttnCnt == 1 && iObject.getInt("arrprevstationcnt") > 1) {
                                 // 남은 정류장 수가 1이었는데 1보다 커진 경우(뒤 버스가 있는 경우) -> 버스에 탔다고 처리
                                 arrived = true
+                                Log.d("arr", "2")
                             }
                             prevSttnCnt = iObject.getInt("arrprevstationcnt")
                             arrTime = iObject.getInt("arrtime")
@@ -345,10 +348,10 @@ class AfterReservation : AppCompatActivity() {
                 if (prevSttnCnt == 1 || prevSttnCnt ==  2) {
                     // 남은 정류장이 1 혹은 2이다가 목록이 없을 때(뒤 버스가 없는 경우) -> 버스에 탔다고 처리
                     arrived = true
+                    Log.d("arr", "3")
                 }
                 currentLocationText.text = "현재 버스가 운행되지 않습니다."
             }
         }
     }
 }
-

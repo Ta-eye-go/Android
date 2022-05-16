@@ -79,7 +79,7 @@ class BookmarkNew : AppCompatActivity(), View.OnClickListener {
             .setView(view)
             .create()
 
-        view.menu_name.text = "<즐겨찾기 확인>"
+        view.menu_name.text = ""
         view.menu_content.text = "추가하시겠습니까?"
 
         alertDialog.show()
