@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,7 +12,6 @@ import com.code_23.ta_eye_go.DB.RecordDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
 import com.code_23.ta_eye_go.data.ReservationData
-import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_bookmark_new.*
 import kotlinx.android.synthetic.main.activity_bookmark_new.bookmark_menu
 import kotlinx.android.synthetic.main.alertdialog_item.view.*

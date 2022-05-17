@@ -10,7 +10,6 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
 import android.util.Log
-import android.view.accessibility.AccessibilityEvent
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.code_23.ta_eye_go.DB.*
@@ -218,80 +217,85 @@ class ChatbotMainActivity : AppCompatActivity(), TextToSpeech.OnInitListener {
 //            val v : View? = rv_messages.findViewHolderForAdapterPosition(rv_messages.size-1)?.itemView
 //            v?.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             speakOut(botReply)  // bot의 응답 TTS
-            if (botReply.contains("예약이 확정")){    // 예약이 확정, 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
-                val database = Firebase.database
-                var aaa = " "
-                UserApiClient.instance.me { user, error ->
-                    if (user != null) {
-                        Log.d("gogo6", user.kakaoAccount?.email.toString())
-                        aaa = "Kakao"
-                    }
-                    else {
-                        Log.d("gogo1", "놉")
-                        aaa = Firebase.auth.currentUser!!.uid
-                    }
-                    val bookdata = database.getReference("data").child(aaa)
-//                datamodelDB?.datamodelDao()?.deleteAll()
-                    // realtime database 해당 유저 예약 기록 가져오기
-                    bookdata.addValueEventListener(object: ValueEventListener {
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            Log.d("gogo1", "realtime db 값 오류")
-                            for (item in snapshot.children){
-                                Log.d("예약확정_data1", item.toString())
-                                val values = item.value.toString()
-                                // realtime db 값 필터링
-                                val str1_values = values.replace("[","")
-                                val str2_values = str1_values.replace("]","")
-                                list.add(str2_values)
-                                Log.d("예약확정_data2", str2_values)
-                            }
-                            Log.d("예약확정_data3", list.toString())
-                            val recordlist = Record(list[1],list[2],list[5],list[6],list[7],list[8])
-                            val datamodellist = DataModel(list[1],list[2],list[5],list[6],list[7],list[8])    // 예약 후 화면에서 사용할 변수
-                            // 기사용 서버에 데이터 전송
-                            val driverdata = database.getReference("Driver").child(list[6])
-                            val Todriver = booklist(list[4],list[8],list[2],list[3].toBoolean())    // 현재정류장, 도착정류장, 안내견유무
-                            driverdata.setValue(Todriver)
-                            // 로그인한 유저 DB등록
-                            val r = Runnable {
-                                try {
-                                    recordDB?.recordDao()?.insert(recordlist)
-                                    datamodelDB?.datamodelDao()?.insert(datamodellist)
-                                } catch (e: Exception) {
-                                    Log.d("tag", "Error - $e")
+            when {
+                botReply.contains("예약이 확정") -> {    // 예약이 확정, 챗봇으로 예약확정시 예약 데이터를 서버에서 가져옴
+                    val database = Firebase.database
+                    var aaa: String
+                    UserApiClient.instance.me { user, error ->
+                        if (user != null) {
+                            Log.d("gogo6", user.kakaoAccount?.email.toString())
+                            aaa = "Kakao"
+                        } else {
+                            Log.d("gogo1", "놉")
+                            aaa = Firebase.auth.currentUser!!.uid
+                        }
+                        val bookdata = database.getReference("data").child(aaa)
+        //                datamodelDB?.datamodelDao()?.deleteAll()
+                        // realtime database 해당 유저 예약 기록 가져오기
+                        bookdata.addValueEventListener(object: ValueEventListener {
+                            override fun onDataChange(snapshot: DataSnapshot) {
+                                Log.d("gogo1", "realtime db 값 오류")
+                                for (item in snapshot.children){
+                                    Log.d("예약확정_data1", item.toString())
+                                    val values = item.value.toString()
+                                    // realtime db 값 필터링
+                                    val str1_values = values.replace("[","")
+                                    val str2_values = str1_values.replace("]","")
+                                    list.add(str2_values)
+                                    Log.d("예약확정_data2", str2_values)
                                 }
-                            }
-                            val thread = Thread(r)
-                            thread.start()
-                            Log.d("예약확정_data4", recordlist.toString())
-                            Log.d("예약확정_data5", recordDB?.recordDao()?.getAll().toString())
-                            Log.d("예약확정_data6", datamodelDB?.datamodelDao()?.getAll().toString())
+                                Log.d("예약확정_data3", list.toString())
+                                val recordlist = Record(list[1],list[2],list[5],list[6],list[7],list[8])
+                                val datamodellist = DataModel(list[1],list[2],list[5],list[6],list[7],list[8])    // 예약 후 화면에서 사용할 변수
+                                // 기사용 서버에 데이터 전송
+                                val driverdata = database.getReference("Driver").child(list[6])
+                                val Todriver = booklist(list[4],list[8],list[2],list[3].toBoolean())    // 현재정류장, 도착정류장, 안내견유무
+                                driverdata.setValue(Todriver)
+                                // 로그인한 유저 DB등록
+                                val r = Runnable {
+                                    try {
+                                        recordDB?.recordDao()?.insert(recordlist)
+                                        datamodelDB?.datamodelDao()?.insert(datamodellist)
+                                    } catch (e: Exception) {
+                                        Log.d("tag", "Error - $e")
+                                    }
+                                }
+                                val thread = Thread(r)
+                                thread.start()
+                                Log.d("예약확정_data4", recordlist.toString())
+                                Log.d("예약확정_data5", recordDB?.recordDao()?.getAll().toString())
+                                Log.d("예약확정_data6", datamodelDB?.datamodelDao()?.getAll().toString())
 
-                        }
-                        override fun onCancelled(error: DatabaseError) {
-                            Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
-                        }
-                    })
+                            }
+
+                            override fun onCancelled(error: DatabaseError) {
+                                Log.w(ContentValues.TAG, "Failed to read value.", error.toException())
+                            }
+                        })
+                    }
+                    // 예약 후 화면 이동
+                    val intent = Intent(this, AfterReservation::class.java)
+                    startActivity(intent)
+                    finish()
                 }
-                // 예약 후 화면 이동
-                val intent = Intent(this, AfterReservation::class.java)
-                startActivity(intent)
-                finish()
-            } else if (botReply.contains("설정창")){
-                // 설정 화면 이동
-                val intent = Intent(this, Settings::class.java)
-                startActivity(intent)
-                finish()
-            } else if (botReply.contains("즐겨찾기 리스트 화면")){
-                // 즐겨찾기 화면 이동
-                val intent = Intent(this, BookmarkMain::class.java)
-                startActivity(intent)
-                finish()
-            } else if (botReply.contains("최근 경로 리스트 화면")){
-                // 즐겨찾기 화면 이동
-                val intent = Intent(this, BookmarkNew::class.java)
-                startActivity(intent)
-                finish()
+                botReply.contains("설정창") -> {
+                    // 설정 화면 이동
+                    val intent = Intent(this, Settings::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                botReply.contains("즐겨찾기 리스트 화면") -> {
+                    // 즐겨찾기 화면 이동
+                    val intent = Intent(this, BookmarkMain::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+                botReply.contains("최근 경로 리스트 화면") -> {
+                    // 즐겨찾기 화면 이동
+                    val intent = Intent(this, BookmarkNew::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
         } else {
             Toast.makeText(this, "something went wrong", Toast.LENGTH_SHORT).show()

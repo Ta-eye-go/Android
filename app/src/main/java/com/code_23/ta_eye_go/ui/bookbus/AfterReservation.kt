@@ -9,7 +9,6 @@ import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.DB.DataModel
 import com.code_23.ta_eye_go.DB.DataModelDB
-import com.code_23.ta_eye_go.DB.RecordDB
 import com.code_23.ta_eye_go.DB.bordinglist
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
@@ -56,7 +55,7 @@ class AfterReservation : AppCompatActivity() {
 
     // Room DB
     private var datamodelDB : DataModelDB? = null
-    private var recordDB : RecordDB? = null
+    // private var recordDB : RecordDB? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,13 +74,12 @@ class AfterReservation : AppCompatActivity() {
 
         // coroutines을 이용한 실시간 업데이트 처리
         // 참고 : delay(1000) => 1초 지연
-        // 주의 : delay 안에 수를 너무 작게하면 api 일일 접근 횟수(1000회)를 초과하니 주의! 10000 이하로는 추천하지 않음
         CoroutineScope(Dispatchers.IO).launch {
             // 서버에서 값을 받아오는 시간을 벌기 위해 의도적으로 딜레이 추가
-            delay(2000)
+            delay(2300)
             reservationStatus()
             withContext(Main) {
-                delay(1500)
+                delay(1000)
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
@@ -303,26 +301,22 @@ class AfterReservation : AppCompatActivity() {
                         .getJSONObject("items")
                     val item = response.getJSONArray("item")
                     // 도착 예정 시간이 더 적은 버스 고르기
-                    var tmp = 999
+                    var tmpCnt = 9999
+                    var tmpArr = 9999
                     for (i in 0 until item.length()) {
                         val iObject = item.getJSONObject(i)
-                        if (tmp > iObject.getInt("arrprevstationcnt")) {
-                            tmp = iObject.getInt("arrprevstationcnt")
-//                            if (prevSttnCnt!! < 3) {
-//                                val database = Firebase.database
-//                                val driverdata = database.getReference("Driver").child("boarding")
-//                                val toDriver =  bordinglist(startSttnNm)   // 탑승정류장
-//                                driverdata.setValue(toDriver)
-//                            }
-                            if (prevSttnCnt == 1 && iObject.getInt("arrprevstationcnt") > 1) {
-                                // 남은 정류장 수가 1이었는데 1보다 커진 경우(뒤 버스가 있는 경우) -> 버스에 탔다고 처리
-                                arrived = true
-                                Log.d("arr", "2")
-                            }
-                            prevSttnCnt = iObject.getInt("arrprevstationcnt")
-                            arrTime = iObject.getInt("arrtime")
+                        if (tmpCnt > iObject.getInt("arrprevstationcnt")) {
+                            tmpCnt = iObject.getInt("arrprevstationcnt")
+                            tmpArr = iObject.getInt("arrtime")
                         }
                     }
+                    if (prevSttnCnt == 1 && tmpCnt > 1) {
+                        // 남은 정류장 수가 1이었는데 1보다 커진 경우(뒤 버스가 있는 경우) -> 버스에 탔다고 처리
+                        arrived = true
+                        Log.d("arr", "2")
+                    }
+                    prevSttnCnt = tmpCnt
+                    arrTime = tmpArr
                 }
                 if (prevSttnCnt!! < 3) {
                     val database = Firebase.database

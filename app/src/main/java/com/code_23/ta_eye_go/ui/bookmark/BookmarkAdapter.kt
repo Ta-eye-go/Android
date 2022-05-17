@@ -33,7 +33,7 @@ class BookmarkAdapter(private var activity: Activity) : RecyclerView.Adapter<Boo
         view.setOnCreateContextMenuListener(onCreateContextMenu)
 
         // 클릭 이벤트
-        view.setOnTouchListener { view, motionEvent ->
+        view.setOnTouchListener { _, motionEvent ->
             if (motionEvent.action == MotionEvent.ACTION_DOWN) {
                 view.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#D6D7D7"))
             } else if (motionEvent.action == MotionEvent.ACTION_CANCEL || motionEvent.action == MotionEvent.ACTION_UP) {

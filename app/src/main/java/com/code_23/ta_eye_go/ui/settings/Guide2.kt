@@ -4,9 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MotionEvent
-import androidx.constraintlayout.widget.Guideline
 import com.code_23.ta_eye_go.R
-import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_guide2.*
 import kotlinx.android.synthetic.main.activity_guide2.next_page
 import kotlinx.android.synthetic.main.menu_bar.*

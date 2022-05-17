@@ -4,9 +4,6 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.graphics.Color
 import android.media.MediaPlayer
-import android.media.Ringtone
-import android.media.RingtoneManager
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -65,7 +62,7 @@ class DriverMain : AppCompatActivity() {
         rv_bookers.layoutManager = LinearLayoutManager(applicationContext)
 
         val driver1 = database1.getReference("Driver")
-        driver1.removeValue();
+        driver1.removeValue()
         val driver = database1.getReference("Driver").child(driverNo)
         val boarding = database1.getReference("Driver").child("boarding")
         val onboard = database1.getReference("Driver").child("on board")

@@ -11,11 +11,8 @@ import android.view.View
 import android.widget.Toast
 import com.code_23.ta_eye_go.DB.Bookmark
 import com.code_23.ta_eye_go.DB.BookmarkDB
-import com.code_23.ta_eye_go.DB.User
-import com.code_23.ta_eye_go.DB.UserDB
 import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.data.Favorite
-import com.code_23.ta_eye_go.ui.main.MainActivity
 import kotlinx.android.synthetic.main.activity_add_name.*
 import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.android.synthetic.main.menu_bar.*

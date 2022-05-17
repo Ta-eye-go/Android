@@ -3,9 +3,8 @@ package com.code_23.ta_eye_go.ui.pay
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.code_23.ta_eye_go.R
 import com.code_23.ta_eye_go.ui.main.MainActivity
 import kr.co.bootpay.Bootpay
 import kr.co.bootpay.BootpayAnalytics
@@ -21,7 +20,7 @@ class Pay : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         BootpayAnalytics.init(this, application_id)
-
+        Toast.makeText(this,"하차 완료, 결제 화면으로 이동합니다.", Toast.LENGTH_SHORT).show()
         goBootpayRequest()
     }
     fun goBootpayRequest() {
@@ -43,9 +42,9 @@ class Pay : AppCompatActivity() {
 //            .addItem("마우's 스", 1, "ITEM_CODE_MOUSE", 100) // 주문정보에 담길 상품정보, 통계를 위해 사용
 //            .addItem("키보드", 1, "ITEM_CODE_KEYBOARD", 200, "패션", "여성상의", "블라우스") // 주문정보에 담길 상품정보, 통계를 위해 사용
             .onConfirm { message ->
-                if (0 < stuck) Bootpay.confirm(message); // 재고가 있을 경우.
-                else Bootpay.removePaymentWindow(); // 재고가 없어 중간에 결제창을 닫고 싶을 경우
-                Log.d("confirm", message);
+                if (0 < stuck) Bootpay.confirm(message) // 재고가 있을 경우.
+                else Bootpay.removePaymentWindow() // 재고가 없어 중간에 결제창을 닫고 싶을 경우
+                Log.d("confirm", message)
             }
             .onDone { message -> // 결제완료시 호출, 아이템 지급 등 데이터 동기화 로직을 수행합니다
                 Log.d("done", message)
@@ -59,13 +58,13 @@ class Pay : AppCompatActivity() {
             .onError{ message ->    // 에러가 났을때 호출되는 부분
                 Log.d("error", message)
             }
-            .onClose { message ->   //결제창이 닫힐때 실행되는 부분
+            .onClose {     //결제창이 닫힐때 실행되는 부분
                 Log.d("close", "close")
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
             }
-            .request();
+            .request()
 
     }
 }

@@ -36,11 +36,6 @@
             android:label=" "
             android:exported="false" />
         <activity
-            android:name=".ui.bookmark.BookmarkAdd"
-            android:label=" "
-            android:exported="false">
-        </activity>
-        <activity
             android:name=".ui.bookmark.BookmarkEditName"
             android:label=" "
             android:exported="false"

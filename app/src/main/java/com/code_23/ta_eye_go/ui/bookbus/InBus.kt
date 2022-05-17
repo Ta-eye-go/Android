@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.BuildConfig
 import com.code_23.ta_eye_go.DB.DataModelDB
@@ -103,6 +104,7 @@ class InBus : AppCompatActivity() {
             confirmDialog()
         }
 
+        Toast.makeText(this,"탑승 완료, 탑승 후 화면으로 이동합니다.", Toast.LENGTH_SHORT).show()
         CoroutineScope(Dispatchers.IO).launch {
             withContext(Main) {
                 delay(1500)
