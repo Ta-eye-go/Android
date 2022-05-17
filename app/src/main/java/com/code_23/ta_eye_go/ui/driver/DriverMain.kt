@@ -138,12 +138,11 @@ class DriverMain : AppCompatActivity() {
                                     Log.d("기사용_탑승완료2", index.toString())
                                     if (boardnm == driverlist4[index].startNodenm) {
                                         Log.d("기사용_탑승완료4", index.toString())
-                                        CoroutineScope(Dispatchers.IO).launch {
-                                            delay(1000)
-                                        }
-                                        if (index == 0){removeBookerInList(0, true)}
-                                        else {removeBookerInList(index, true)
-                                            Log.d("기사용_탑승완료3", index.toString())}
+                                        removeBookerInList(0, true)
+//                                        if (index == 0){removeBookerInList(0, true)
+//                                            Log.d("기사용_탑승완료3.1", index.toString())}
+//                                        else {removeBookerInList(index, true)
+//                                            Log.d("기사용_탑승완료3.2", index.toString())}
                                     }
                                     else {
                                         Log.d("기사용_탑승완료5", index.toString())
@@ -208,42 +207,6 @@ class DriverMain : AppCompatActivity() {
             }
         }
     }
-
-
-    /*override fun onStart() {
-        super.onStart()
-         //테스트 용
-        CoroutineScope(Dispatchers.IO).launch {
-            withContext(Dispatchers.Main) {
-
-                delay(10000)
-                // 신규 예약
-                addBookerToList("인천대입구","인천대정문",true)
-                delay(6000)
-                addBookerToList("송도더샾마스터뷰23단지","해양경찰청",false)
-
-                // 1 정거장 전 => 글씨 빨강색으로 변화
-                delay(10000)
-                oneSttnLeft(0)
-
-                // 예약을 취소한 경우
-                delay(9000)
-                removeBookerInList(1, false)
-
-                // 버스에 탑승한 경우
-                delay(13000)
-                removeBookerInList(0, true)
-
-                // 세 정거장 전(하차 알림)
-                delay(10000)
-                getOffNoti("인천대입구", 1) // 승객 탑승 후에는 항목이 없어지기 때문에 서버에 저장된 값을 받아와야 함
-
-                // 하차 (도중 하차, 정상 하차 모두)
-                delay(13000)
-                getOff()
-            }
-        }
-    }*/
 
     @SuppressLint("NotifyDataSetChanged")
     private fun BookerToList(startSttnNm : String, endSttnNm : String, guideDog: Boolean) {
