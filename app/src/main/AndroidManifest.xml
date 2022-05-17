@@ -77,7 +77,7 @@
         </activity> <!-- 카카오톡 sdk 로그인 개발환경 함수 -->
         <activity
             android:name=".ui.main.MainActivity"
-            android:label=""
+            android:label="메인 화면"
             android:exported="true" /> <!-- <intent-filter> -->
         <!-- <action android:name="android.intent.action.MAIN" /> -->
         <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
@@ -85,10 +85,10 @@
         <!-- </activity> -->
         <activity
             android:name=".ui.settings.Settings"
-            android:label="설정"/>
+            android:label="설정 화면"/>
         <activity
             android:name=".ui.bookmark.BookmarkMain"
-            android:label="즐겨찾기"/>
+            android:label="즐겨찾기 화면"/>
         <activity
             android:name=".ui.bookbus.AfterReservation"
             android:label=" "/>

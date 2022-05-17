@@ -118,7 +118,7 @@ class DriverMain : AppCompatActivity() {
                             if (driverlist3 != null){
                                 for (index in driverlist3.indices){
                                     if (boardingnm == driverlist3[index].startNodenm) {
-                                        oneSttnLeft(index)
+                                        twoSttnLeft(index)
                                         Log.d("기사용_탑승임박", index.toString())
                                     }
                                 }
@@ -249,7 +249,7 @@ class DriverMain : AppCompatActivity() {
         }
     }
 
-    private fun oneSttnLeft(position: Int) {
+    private fun twoSttnLeft(position: Int) {
         val v : View? = rv_bookers.findViewHolderForAdapterPosition(position)?.itemView
         v?.booker_station?.setTextColor(Color.parseColor("#FFFE0000"))
     }

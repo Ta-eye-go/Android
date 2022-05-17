@@ -26,9 +26,10 @@
                 android:id="@+id/currentLocationText"
                 android:layout_width="380dp"
                 android:layout_height="130dp"
+                android:textAlignment="center"
+                android:gravity="center"
                 android:layout_centerInParent="true"
                 android:text="버스정보를&#10; 불러오고 있습니다..."
-                android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 app:autoSizeTextType="uniform" />
         </RelativeLayout>
