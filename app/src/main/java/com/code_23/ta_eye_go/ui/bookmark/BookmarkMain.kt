@@ -194,10 +194,6 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
     override fun onContextItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             //각각 선택했을때 할 작업 설정
-            R.id.menu_edit_list -> { //목록편집
-                startActivity(Intent(this, BookmarkEditList::class.java))
-            }
-
             R.id.menu_edit_name -> { //별칭수정
                 val selected = favoriteItems[rv_favorites.getChildAdapterPosition(selectedView!!)]
                 val intent = Intent(this,BookmarkEditName::class.java)

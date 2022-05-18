@@ -22,7 +22,7 @@
             android:text="샘플 메시지입니다."
             android:maxWidth="250dp"
             android:textColor="@color/colorPrimary"
-            android:textSize="20sp"
+            android:textSize="22sp"
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp"
             android:background="@drawable/letterbox_yellow"
@@ -59,7 +59,7 @@
             android:importantForAccessibility="no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/letterbox_yellow"
             android:backgroundTint="@color/white"
             android:maxWidth="250dp"
@@ -67,7 +67,7 @@
             android:paddingVertical="10dp"
             android:text="Super ultra mega awesome long message which is going to help us take over the world."
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -78,11 +78,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="70dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@null"
         android:importantForAccessibility="no"
         android:text="@string/taeyego_bot"
         android:textColor="@color/white"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/bot_profile" />
 
