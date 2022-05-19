@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="360dp"
     android:layout_height="130dp"
     android:layout_marginStart="25dp"
@@ -30,7 +29,8 @@
             app:layout_constraintStart_toStartOf="parent"
             app:tint="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/star_yellow" />
+            app:srcCompat="@drawable/star_yellow"
+            android:contentDescription="@string/star" />
 
         <TextView
             android:id="@+id/bus_number"
@@ -133,7 +133,7 @@
             app:layout_constraintHorizontal_bias="0.947"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="메뉴바"
+            android:contentDescription="@string/menu"
             app:srcCompat="@drawable/menu" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
