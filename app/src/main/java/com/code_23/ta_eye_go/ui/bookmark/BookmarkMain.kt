@@ -122,9 +122,9 @@ class BookmarkMain : AppCompatActivity(), View.OnClickListener, View.OnCreateCon
         bookmarkAdapter.setOnItemClickListener(this)
         bookmarkAdapter.setOnCreateContextMenuListener(this)
 
-//        val bookmark = Bookmark("감811", "2차풍림아이원",
-//            "ICB168000584", "마전지구버스차고지" , "ICB168001345" , "78")
-//        bookmarkDB?.bookmarkDao()?.insert(bookmark)
+        val bookmark = Bookmark("감811", "2차풍림아이원",
+            "ICB168000584", "마전지구버스차고지" , "ICB168001345" , "78")
+        bookmarkDB?.bookmarkDao()?.insert(bookmark)
 
         // + -> 신규추가 버튼 누를시 이동
         NewBtn.setOnClickListener {
