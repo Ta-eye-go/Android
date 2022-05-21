@@ -26,10 +26,10 @@
                 android:id="@+id/currentLocationText"
                 android:layout_width="380dp"
                 android:layout_height="130dp"
-                android:textAlignment="center"
-                android:gravity="center"
                 android:layout_centerInParent="true"
+                android:gravity="center"
                 android:text="버스정보를&#10; 불러오고 있습니다..."
+                android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 app:autoSizeTextType="uniform" />
         </RelativeLayout>
@@ -67,7 +67,7 @@
             <TextView
                 android:id="@+id/currentStation_text"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="110dp"
                 android:layout_below="@+id/currentStation"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
@@ -99,7 +99,7 @@
             <TextView
                 android:id="@+id/busNum_text"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="110dp"
                 android:layout_below="@+id/busNum"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"
@@ -130,7 +130,7 @@
             <TextView
                 android:id="@+id/destination_text"
                 android:layout_width="match_parent"
-                android:layout_height="130dp"
+                android:layout_height="110dp"
                 android:layout_below="@+id/destination"
                 android:layout_marginTop="0dp"
                 android:background="@drawable/text_bar"

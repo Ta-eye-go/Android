@@ -14,7 +14,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="130dp"
+            android:layout_marginTop="100dp"
             android:text="버스 번호 입력"
             android:textColor="@color/white"
             android:textSize="50sp"
@@ -51,10 +51,10 @@
                 android:background="@color/white"
                 android:gravity="center"
                 android:hint="버스 번호를 입력하세요"
+                android:importantForAutofill="no"
                 android:textColor="@color/black"
                 android:textColorHint="@color/grey"
-                android:importantForAutofill="no"
-                android:textSize="30sp" />
+                android:textSize="25sp" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_login"
@@ -63,12 +63,11 @@
                 android:layout_below="@+id/busNm_bar"
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:text="확인"
                 android:backgroundTint="@color/yellow"
+                android:text="확인"
                 android:textColor="@color/black"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                />
+                android:textStyle="bold" />
 
         </RelativeLayout>
     </RelativeLayout>

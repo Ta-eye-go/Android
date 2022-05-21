@@ -313,14 +313,14 @@ class MainActivity : AppCompatActivity() {
                 e.printStackTrace()
             }
 
-            var urlAddress2 = "${addressBusList}${key}&cityCode=${citycode}&nodeid=${sttnId}&_type=json"
+            var urlAddress2 = "${addressBusList}${key}&numOfRows=1000&cityCode=${citycode}&nodeid=${sttnId}&_type=json"
             Log.d("url", urlAddress2)
 
             try {
-                val buf = parsing1(urlAddress2)
+                var buf = parsing1(urlAddress2)
 
                 var jsonObject = JSONObject(buf.toString())
-                var totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
+                val totalCnt = jsonObject.getJSONObject("response").getJSONObject("body")
                     .getInt("totalCount")
 
                 routeID = if (totalCnt == 1) { // 결과가 하나일 경우
@@ -331,50 +331,22 @@ class MainActivity : AppCompatActivity() {
                     val response = jsonObject.getJSONObject("response").getJSONObject("body")
                         .getJSONObject("items")
                     val item = response.getJSONArray("item")
-                    val iObject = item.getJSONObject(0)
+                    val iObject = item.getJSONObject(totalCnt-1)
                     iObject.getString("routeid")
                 }
 
-                urlAddress2 = "${addressStopList}${key}&pageNo=1&numOfRows=100&cityCode=${citycode}&routeId=${routeID}&_type=json"
+                urlAddress2 = "${addressStopList}${key}&pageNo=1&numOfRows=1000&cityCode=${citycode}&routeId=${routeID}&_type=json"
+                buf = parsing1(urlAddress2)
+                jsonObject = JSONObject(buf.toString())
 
-                val buf2 = parsing1(urlAddress2)
-                jsonObject = JSONObject(buf2.toString())
-                totalCnt = jsonObject.getJSONObject("response").getJSONObject("body").getInt("totalCount")
-
-                var pageNum = 1
-                while (totalCnt > 0) {
-                    totalCnt -= 100
-                    var response = jsonObject.getJSONObject("response").getJSONObject("body")
-                        .getJSONObject("items")
-                    var item = response.getJSONArray("item")
-
-                    for (i in 0 until item.length()) {
-                        var iObject = item.getJSONObject(i)
-                        if (iObject.getString("nodeid") == sttnId) {
-                            if (i == item.length() - 1) {
-                                urlAddress2 = "${addressStopList}${key}&pageNo=${++pageNum}&numOfRows=100&cityCode=${citycode}&routeId=${routeID}&_type=json"
-                                val buf3 = parsing1(urlAddress2)
-                                jsonObject = JSONObject(buf3.toString())
-                                response = jsonObject.getJSONObject("response").getJSONObject("body")
-                                    .getJSONObject("items")
-                                item = response.getJSONArray("item")
-                                iObject = item.getJSONObject(0)
-                                nextSttnNm = iObject.getString("nodenm")
-                                break
-                            }
-                            else {
-                                nextSttnNm = item.getJSONObject(i+1).getString("nodenm")
-                                break
-                            }
-                        }
-                    }
-                    if (nextSttnNm != null) {
+                val response = jsonObject.getJSONObject("response").getJSONObject("body")
+                    .getJSONObject("items")
+                val item = response.getJSONArray("item")
+                for (i in 0 until item.length()) {
+                    val iObject = item.getJSONObject(i)
+                    if (iObject.getString("nodeid") == sttnId) {
+                        nextSttnNm = item.getJSONObject(i+1).getString("nodenm")
                         break
-                    }
-                    if (totalCnt > 0) {
-                        urlAddress2 = "${addressStopList}${key}&pageNo=${++pageNum}&numOfRows=100&cityCode=${citycode}&routeId=${routeID}&_type=json"
-                        val buf3 = parsing1(urlAddress2)
-                        jsonObject = JSONObject(buf3.toString())
                     }
                 }
             } catch (e: MalformedURLException) {

@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.accessibility.AccessibilityEvent
 import androidx.appcompat.app.AppCompatActivity
 import com.code_23.ta_eye_go.DB.DataModel
 import com.code_23.ta_eye_go.DB.DataModelDB
@@ -83,6 +84,7 @@ class AfterReservation : AppCompatActivity() {
                 val thread = NetworkThread()
                 thread.start()
                 thread.join()
+                currentLocationText.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_FOCUSED)
             }
             for(i in 0..100) {
                 // 1분 미만 남았을 때는 10초에 한번 업데이트
