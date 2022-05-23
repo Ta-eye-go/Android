@@ -300,7 +300,7 @@ class DriverMain : AppCompatActivity() {
             .create()
 
         view.start_station.text = reservations[position].startSttn
-
+0
         alertDialog.show()
         ringtonePlay()
 

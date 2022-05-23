@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import com.code_23.ta_eye_go.BuildConfig
@@ -24,7 +26,9 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.user.UserApiClient
+import kotlinx.android.synthetic.main.activity_after_reservation.*
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.currentLocationText
 import kotlinx.android.synthetic.main.alertdialog_item.view.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.Main
@@ -82,6 +86,17 @@ class MainActivity : AppCompatActivity() {
         //recordDB?.recordDao()?.deleteAll()    // 최근경로 DB 초기화
         //bookmarkDB?.bookmarkDao()?.deleteAll()    // 즐겨찾기 DB 초기화
         driverDB?.driverDao()?.deleteAll()    // 기사용 DB 초기화
+
+//        currentLocationText.isFocusable = false
+//        currentLocationText.isFocusableInTouchMode = false
+//        refreshBtn.isFocusable = false
+//        refreshBtn.isFocusableInTouchMode = false
+//        nextStationText.isFocusable = false
+//        nextStationText.isFocusableInTouchMode = false
+
+        currentLocationText.importantForAccessibility = 2
+        nextStationText.importantForAccessibility = 2
+        refreshBtn.importantForAccessibility = 2
 
         initVariables()
         fetchLocation()
@@ -204,6 +219,10 @@ class MainActivity : AppCompatActivity() {
             delay(500)
             withContext(Main) {
                 fetchCurrentStation()
+                delay(100)
+                currentLocationText.importantForAccessibility = 1
+                nextStationText.importantForAccessibility = 1
+                refreshBtn.importantForAccessibility = 1
             }
         }
     }
@@ -248,7 +267,6 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "현재 정류장은 ${currentStation}입니다.", Toast.LENGTH_LONG).show()
             }
         }
-
     }
 
     private fun fetchLocation() {

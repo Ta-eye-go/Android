@@ -12,7 +12,6 @@
     <!-- 피그마에서 크기 참조 후 해당px * (160/440) 한 값이 dp입니다.
     소숫점 첫째짜리까지 표현해줍시다! 버튼 크기는 dp로 통일해 주세요. -->
 
-
     <ImageView
         android:id="@+id/settingBtn"
         android:layout_width="130dp"
@@ -43,13 +42,14 @@
 
     <ImageView
         android:id="@+id/bookBusBtn"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_width="match_parent"
         android:layout_height="400dp"
         android:contentDescription="@string/BookBusButton"
         android:src="@drawable/book_yellow"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.594" />
@@ -68,6 +68,8 @@
 
         <TextView
             android:id="@+id/currentLocationText"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="310dp"
             android:layout_height="60dp"
             android:layout_marginStart="15dp"
@@ -83,6 +85,8 @@
 
         <TextView
             android:id="@+id/nextStationText"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="310dp"
             android:layout_height="60dp"
             android:layout_below="@id/currentLocationText"
@@ -99,6 +103,8 @@
 
         <ImageView
             android:id="@+id/refreshBtn"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_alignParentEnd="true"

@@ -29,8 +29,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:tint="@color/colorPrimary"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/star_yellow"
-            android:contentDescription="@string/star" />
+            app:srcCompat="@drawable/star_yellow" />
 
         <TextView
             android:id="@+id/bus_number"
@@ -67,15 +66,14 @@
         <TextView
             android:id="@+id/bookmark_name"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="27dp"
+            android:layout_marginTop="25dp"
             android:gravity="start"
             android:text="신나는 하굣길"
             android:singleLine="true"
             android:textColor="@color/white"
-            app:autoSizeMaxTextSize="28sp"
-            app:autoSizeMinTextSize="33sp"
+            app:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.103"
             app:layout_constraintStart_toEndOf="@+id/line"
