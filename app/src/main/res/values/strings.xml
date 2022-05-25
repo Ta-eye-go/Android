@@ -24,6 +24,8 @@
     <string name="theme">테마 선택</string>
     <string name="yellow">노랑</string>
     <string name="blue">파랑</string>
+    <string name="yellowTheme">노랑 테마</string>
+    <string name="blueTheme">파랑 테마</string>
     <string name="explain">간단 사용 설명서</string>
     <string name="logout">로그아웃</string>
     <string name="next_page">다음 페이지로 이동</string>
@@ -41,7 +43,7 @@
     <string name="busNum">버스 번호</string>
     <string name="endSttn">도착 정류장</string>
     <string name="settings">설정</string>
-    <string name="mic_btn">마이크 버튼</string>
+    <string name="mic_btn">마이크</string>
     <string name="back_btn">이전 화면으로 이동</string>
     <string name="oneThird">세 페이지 중 첫 번째 페이지</string>
     <string name="twoThirds">세 페이지 중 두 번째 페이지</string>

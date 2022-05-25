@@ -4,16 +4,16 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="52dp"
         android:layout_marginTop="51dp"
         android:background="@color/black">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/back_btn"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="1dp"
             android:background="@drawable/arrow"
             android:backgroundTint="@color/white"
             android:contentDescription="@string/back_btn" />
@@ -26,7 +26,7 @@
             android:layout_centerHorizontal="true"
             android:gravity="center"
             android:textColor="@color/white"
-            android:textSize="30sp" />
+            android:textSize="32sp" />
 
     </RelativeLayout>
 </layout>

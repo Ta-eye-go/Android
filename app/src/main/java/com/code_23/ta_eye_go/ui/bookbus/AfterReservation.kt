@@ -335,10 +335,8 @@ class AfterReservation : AppCompatActivity() {
 
             } catch (e: MalformedURLException) {
                 e.printStackTrace()
-                currentLocationText.text = "버스 정보 불러오기 오류"
             } catch (e: IOException) {
                 e.printStackTrace()
-                currentLocationText.text = "버스 정보 불러오기 오류"
             } catch (e: JSONException) {
                 e.printStackTrace()
                 if (prevSttnCnt == 1 || prevSttnCnt ==  2) {
@@ -346,7 +344,7 @@ class AfterReservation : AppCompatActivity() {
                     arrived = true
                     Log.d("arr", "3")
                 }
-                currentLocationText.text = "현재 버스가 운행되지 않습니다."
+                else currentLocationText.text = "현재 버스가 운행되지 않습니다."
             }
         }
     }

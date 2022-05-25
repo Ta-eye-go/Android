@@ -280,6 +280,7 @@ class MainActivity : AppCompatActivity() {
         fusedLocationProviderClient.lastLocation.addOnSuccessListener {
             lati = it.latitude
             long = abs(it.longitude)
+            Log.d("url", "$lati $long")
             // Toast.makeText(applicationContext, "${Lati}, ${Long}", Toast.LENGTH_LONG).show()
         }
     }
